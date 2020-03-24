@@ -107,8 +107,10 @@ enum AttrTypes_t {
 	ATTR_SPECIAL = 34,
 	ATTR_IMBUINGSLOTS = 35,
 	ATTR_OPENCONTAINER = 36,
+	ATTR_UNMOVEABLEDITEM = 37,
+	ATTR_WRAPCONTAINER = 38,
 
-	ATTR_CUSTOM_ATTRIBUTES = 37
+	ATTR_CUSTOM_ATTRIBUTES = 39
 };
 
 enum Attr_ReadValue {
@@ -892,9 +894,6 @@ class Item : virtual public Thing
 		bool isMagicField() const {
 			return items[id].isMagicField();
 		}
-		bool isWrapContainer() const {
-			return items[id].wrapContainer;
-		}
 		bool isMoveable() const {
 			return items[id].moveable;
 		}
@@ -911,7 +910,7 @@ class Item : virtual public Thing
 			return items[id].rotatable && items[id].rotateTo;
 		}
 		bool isWrapable() const {
-			return items[id].wrapable && items[id].wrapableTo;
+			return items[id].wrapableTo;
 		}
 		bool hasWalkStack() const {
 			return items[id].walkStack;
