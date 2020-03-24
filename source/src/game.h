@@ -610,9 +610,9 @@ class Game
 		uint32_t lastStageSkill = 0;
 		bool stagesSkillEnabled = false;
 		bool useLastStageSkill = false;
-		uint32_t lastStageSkill = 0;
-		bool stagesSkillEnabled = false;
-		bool useLastStageSkill = false;
+		uint32_t lastStageMl = 0;
+		bool stagesMlEnabled = false;
+		bool useLastStageMl = false;
 };
 
 #endif
