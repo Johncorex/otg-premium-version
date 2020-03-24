@@ -123,6 +123,8 @@ void Game::setGameState(GameState_t newState)
 	switch (newState) {
 		case GAME_STATE_INIT: {
 			loadExperienceStages();
+			loadSkillStages();
+			loadMagicLevelStages();
 
 			groups.load();
 			g_chat->load();
@@ -5225,7 +5227,7 @@ void Game::loadPlayersRecord()
 	}
 }
 
-uint64_t Game::getExperienceStage(uint32_t level)
+double Game::getExperienceStage(uint32_t level)
 {
 	if (!stagesEnabled) {
 		return g_config.getNumber(ConfigManager::RATE_EXPERIENCE);
@@ -5251,7 +5253,8 @@ bool Game::loadExperienceStages()
 		if (strcasecmp(stageNode.name(), "config") == 0) {
 			stagesEnabled = stageNode.attribute("enabled").as_bool();
 		} else {
-			uint32_t minLevel, maxLevel, multiplier;
+			uint32_t minLevel, maxLevel;
+			double multiplier;
 
 			pugi::xml_attribute minLevelAttribute = stageNode.attribute("minlevel");
 			if (minLevelAttribute) {
@@ -5271,7 +5274,7 @@ bool Game::loadExperienceStages()
 
 			pugi::xml_attribute multiplierAttribute = stageNode.attribute("multiplier");
 			if (multiplierAttribute) {
-				multiplier = pugi::cast<uint32_t>(multiplierAttribute.value());
+				multiplier = pugi::cast<double>(multiplierAttribute.value());
 			} else {
 				multiplier = 1;
 			}
@@ -5286,6 +5289,143 @@ bool Game::loadExperienceStages()
 		}
 	}
 	return true;
+}
+
+bool Game::loadSkillStages()
+{
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("data/XML/skillstages.xml");
+	if (!result) {
+		printXMLError("Error - Game::loadSkillStages", "data/XML/skillstages.xml", result);
+		return false;
+	}
+
+	for (auto stageNode : doc.child("skillstages").children()) {
+		if (strcasecmp(stageNode.name(), "skills") == 0) {
+			stagesSkillEnabled = stageNode.attribute("enabled").as_bool();
+			for (auto stage1 : stageNode.children()) {
+				uint32_t minLevel, maxLevel, multiplier;
+
+				pugi::xml_attribute minLevelAttribute = stage1.attribute("minskill");
+				if (minLevelAttribute) {
+					minLevel = pugi::cast<uint32_t>(minLevelAttribute.value());
+				}
+				else {
+					minLevel = 1;
+				}
+
+				pugi::xml_attribute maxLevelAttribute = stage1.attribute("maxskill");
+				if (maxLevelAttribute) {
+					maxLevel = pugi::cast<uint32_t>(maxLevelAttribute.value());
+				}
+				else {
+					maxLevel = 0;
+					lastStageSkill = minLevel;
+					useLastStageSkill = true;
+				}
+
+				pugi::xml_attribute multiplierAttribute = stage1.attribute("multiplier");
+				if (multiplierAttribute) {
+					multiplier = pugi::cast<uint32_t>(multiplierAttribute.value());
+				}
+				else {
+					multiplier = 1;
+				}
+
+				if (useLastStageSkill) {
+					stagesSkill[lastStageSkill] = multiplier;
+				}
+				else {
+					for (uint32_t i = minLevel; i <= maxLevel; ++i) {
+						stagesSkill[i] = multiplier;
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+
+uint64_t Game::getSkillStage(uint32_t level)
+{
+	if (!stagesSkillEnabled) {
+		return g_config.getNumber(ConfigManager::RATE_SKILL);
+	}
+
+	if (useLastStageSkill && level >= lastStageSkill) {
+		return stagesSkill[lastStageSkill];
+	}
+
+	return stagesSkill[level];
+}
+
+
+bool Game::loadMagicLevelStages()
+{
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("data/XML/skillstages.xml");
+	if (!result) {
+		printXMLError("Error - Game::loadMagicLevelStages", "data/XML/skillstages.xml", result);
+		return false;
+	}
+
+	for (auto stageNode : doc.child("skillstages").children()) {
+		if (strcasecmp(stageNode.name(), "magiclevel") == 0) {
+			stagesMlEnabled = stageNode.attribute("enabled").as_bool();
+			for (auto stage1 : stageNode.children()) {
+				uint32_t minLevel, maxLevel, multiplier;
+
+				pugi::xml_attribute minLevelAttribute = stage1.attribute("minmagic");
+				if (minLevelAttribute) {
+					minLevel = pugi::cast<uint32_t>(minLevelAttribute.value());
+				}
+				else {
+					minLevel = 1;
+				}
+
+				pugi::xml_attribute maxLevelAttribute = stage1.attribute("maxmagic");
+				if (maxLevelAttribute) {
+					maxLevel = pugi::cast<uint32_t>(maxLevelAttribute.value());
+				}
+				else {
+					maxLevel = 0;
+					lastStageMl = minLevel;
+					useLastStageMl = true;
+				}
+
+				pugi::xml_attribute multiplierAttribute = stage1.attribute("multiplier");
+				if (multiplierAttribute) {
+					multiplier = pugi::cast<uint32_t>(multiplierAttribute.value());
+				}
+				else {
+					multiplier = 1;
+				}
+
+				if (useLastStageMl) {
+					stagesMl[lastStageMl] = multiplier;
+				}
+				else {
+					for (uint32_t i = minLevel; i <= maxLevel; ++i) {
+						stagesMl[i] = multiplier;
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+
+uint64_t Game::getMagicLevelStage(uint32_t level)
+{
+	if (!stagesMlEnabled) {
+		return g_config.getNumber(ConfigManager::RATE_MAGIC);
+	}
+
+	if (useLastStageMl && level >= lastStageMl) {
+		return stagesMl[lastStageMl];
+	}
+
+	return stagesMl[level];
 }
 
 void Game::playerInviteToParty(uint32_t playerId, uint32_t invitedId)

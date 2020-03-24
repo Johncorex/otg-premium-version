@@ -477,7 +477,13 @@ class Game
 		}
 
 		bool loadExperienceStages();
-		uint64_t getExperienceStage(uint32_t level);
+		double getExperienceStage(uint32_t level);
+
+		bool loadSkillStages();
+		uint64_t getSkillStage(uint32_t level);
+
+		bool loadMagicLevelStages();
+		uint64_t getMagicLevelStage(uint32_t level);
 
 		void loadMotdNum();
 		void saveMotdNum() const;
@@ -547,7 +553,9 @@ class Game
 		std::unordered_map<std::string, Player*> mappedPlayerNames;
 		std::unordered_map<uint32_t, Guild*> guilds;
 		std::unordered_map<uint16_t, Item*> uniqueItems;
-		std::map<uint32_t, uint32_t> stages;
+		std::map<uint32_t, double> stages;
+		std::map<uint32_t, uint32_t> stagesSkill;
+		std::map<uint32_t, uint32_t> stagesMl;
 
 		std::list<Item*> decayItems[EVENT_DECAY_BUCKETS];
 		std::list<Creature*> checkCreatureLists[EVENT_CREATURECOUNT];
@@ -599,6 +607,9 @@ class Game
 		uint32_t lastStageLevel = 0;
 		bool stagesEnabled = false;
 		bool useLastStageLevel = false;
+		uint32_t lastStageSkill = 0;
+		bool stagesSkillEnabled = false;
+		bool useLastStageSkill = false;
 };
 
 #endif
