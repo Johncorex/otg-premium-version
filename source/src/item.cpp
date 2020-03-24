@@ -635,6 +635,26 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			break;
 		}
 
+		case ATTR_UNMOVEABLEDITEM: {
+			uint8_t unmoveabledItem;
+			if (!propStream.read<uint8_t>(unmoveabledItem)) {
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_UNMOVEABLEDITEM, unmoveabledItem);
+			break;
+		}
+
+		case ATTR_WRAPCONTAINER: {
+			uint8_t wrapContainer;
+			if (!propStream.read<uint8_t>(wrapContainer)) {
+				return ATTR_READ_ERROR;
+			}
+
+			setIntAttr(ITEM_ATTRIBUTE_WRAPCONTAINER, wrapContainer);
+			break;
+		}
+
 		//these should be handled through derived classes
 		//If these are called then something has changed in the items.xml since the map was saved
 		//just read the values
@@ -853,6 +873,16 @@ void Item::serializeAttr(PropWriteStream& propWriteStream) const
 	if (hasAttribute(ITEM_ATTRIBUTE_SPECIAL)) {
 		propWriteStream.write<uint8_t>(ATTR_SPECIAL);
 		propWriteStream.writeString(getStrAttr(ITEM_ATTRIBUTE_SPECIAL));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_UNMOVEABLEDITEM)) {
+		propWriteStream.write<uint8_t>(ATTR_UNMOVEABLEDITEM);
+		propWriteStream.write<uint8_t>(getIntAttr(ITEM_ATTRIBUTE_UNMOVEABLEDITEM));
+	}
+
+	if (hasAttribute(ITEM_ATTRIBUTE_WRAPCONTAINER)) {
+		propWriteStream.write<uint8_t>(ATTR_WRAPCONTAINER);
+		propWriteStream.write<uint8_t>(getIntAttr(ITEM_ATTRIBUTE_WRAPCONTAINER));
 	}
 
 	if (hasAttribute(ITEM_ATTRIBUTE_CUSTOM)) {
