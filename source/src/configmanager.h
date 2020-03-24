@@ -127,6 +127,7 @@ class ConfigManager
 			BLACK_SKULL_DURATION,
 			ORANGE_SKULL_DURATION,
 			SERVER_SAVE_NOTIFY_DURATION,
+			NETWORK_ATTACK_THRESHOLD,
 
 			LAST_INTEGER_CONFIG /* this must be the last one */
 		};

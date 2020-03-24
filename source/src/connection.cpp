@@ -207,6 +207,7 @@ void Connection::parseHeader(const boost::system::error_code& error)
 	if (timePassed > 2) {
 		timeConnected = time(nullptr);
 		packetsSent = 0;
+		checksumsMap.clear();
 	}
 
 	uint16_t size = msg.getLengthHeader();
@@ -270,7 +271,12 @@ void Connection::parsePacket(const boost::system::error_code& error)
 
 		protocol->onRecvFirstMessage(msg);
 	} else {
-		protocol->onRecvMessage(msg); // Send the packet to the current protocol
+		if(detectAttack(recvPacket)) {
+			std::cout << "[Network protection] - attack detected. IP: ["<< convertIPToString(getIP())<< "] - disconnected" << std::endl;
+			close(FORCE_CLOSE);
+		} else {
+			protocol->onRecvMessage(msg); // Send the packet to the current protocol
+		}
 	}
 
 	try {
@@ -286,6 +292,20 @@ void Connection::parsePacket(const boost::system::error_code& error)
 		std::cout << "[Network error - Connection::parsePacket] " << e.what() << std::endl;
 		close(FORCE_CLOSE);
 	}
+}
+
+bool Connection::detectAttack(const uint32_t currentPacketChecksum) { // jlcvp(Leu) - detect packet replication attack
+	const auto it = checksumsMap.find(currentPacketChecksum);
+	if(it == checksumsMap.end()){ //element doesn't exists
+		checksumsMap.insert(std::make_pair(currentPacketChecksum, 1));
+	} else {
+        it->second += 1; //increase ocurrencies
+	    if(it->second > (uint32_t)g_config.getNumber(ConfigManager::NETWORK_ATTACK_THRESHOLD)) {
+            return true;
+        }
+	}
+
+	return false;
 }
 
 void Connection::send(const OutputMessage_ptr& conMsg)
