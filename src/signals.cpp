@@ -36,8 +36,12 @@
 #include "globalevent.h"
 #include "monster.h"
 #include "events.h"
+#include "scheduler.h"
+#include "databasetasks.h"
 
 
+extern Scheduler g_scheduler;
+extern DatabaseTasks g_databaseTasks;
 extern Dispatcher g_dispatcher;
 
 extern ConfigManager g_config;
@@ -64,6 +68,10 @@ Signals::Signals(boost::asio::io_service& service) :
 #ifndef _WIN32
 	set.add(SIGUSR1);
 	set.add(SIGHUP);
+	#else
+			// this must be a blocking call as Windows calls it in a new thread and terminates
+			// the process when the handler returns (or after 5 seconds, whichever is earlier)
+		signal(SIGBREAK, dispatchSignalHandler);
 #endif
 
 	asyncWait();
@@ -101,6 +109,13 @@ void Signals::dispatchSignalHandler(int signal)
 		default:
 			break;
 	}
+}
+
+void Signals::sigbreakHandler()
+{
+		//Dispatcher thread
+	std::cout << "SIGBREAK received, shutting game server down..." << std::endl;
+	g_game.setGameState(GAME_STATE_SHUTDOWN);
 }
 
 void Signals::sigtermHandler()
