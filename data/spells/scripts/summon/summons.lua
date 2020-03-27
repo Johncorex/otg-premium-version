@@ -13,7 +13,7 @@ local area = createCombatArea(AREA_CIRCLE1X1)
 setCombatArea(combat, area)
 
 function onCastSpell(creature, variant)
-	local player = Player(cid)
+	local player = Player(creature)
 	if not player then return false end
 
     if #player:getSummons() >= 1 then
