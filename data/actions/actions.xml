@@ -1032,6 +1032,24 @@
 	<action fromid="35172" toid="35180" script="others/consumables/hirelingfood.lua" />
 
 	<!-- Construction Kits / Beds -->
+	<action fromid="3901" toid="3938" script="others/kits/constructionkits.lua" />
+	<action fromid="5086" toid="5088" script="others/kits/constructionkits.lua" />
+	<action itemid="6114" script="others/kits/constructionkits.lua" />
+	<action itemid="6115" script="others/kits/constructionkits.lua" />
+	<action itemid="6373" script="others/kits/constructionkits.lua" />
+	<action itemid="8692" script="others/kits/constructionkits.lua" />
+	<action itemid="9974" script="others/kits/constructionkits.lua" />
+	<action itemid="11124" script="others/kits/constructionkits.lua" />
+	<action itemid="11126" script="others/kits/constructionkits.lua" />
+	<action itemid="11133" script="others/kits/constructionkits.lua" />
+	<action itemid="11205" script="others/kits/constructionkits.lua" />
+	<action itemid="14328" script="others/kits/constructionkits.lua" />
+	<action itemid="14329" script="others/kits/constructionkits.lua" />
+	<action itemid="16075" script="others/kits/constructionkits.lua" />
+	<action itemid="16099" script="others/kits/constructionkits.lua" />
+	<action itemid="20254" script="others/kits/constructionkits.lua" />
+	<action itemid="20255" script="others/kits/constructionkits.lua" />
+	<action itemid="20257" script="others/kits/constructionkits.lua" />
 	<action fromid="7904" toid="7907" script="others/kits/bedModificationKits.lua" />
 	<action itemid="20252" script="others/kits/bedModificationKits.lua" />
 
