@@ -105,6 +105,13 @@ void Signals::dispatchSignalHandler(int signal)
 		case SIGUSR1: //Saves game state
 			g_dispatcher.addTask(createTask(sigusr1Handler));
 			break;
+			#else
+				 case SIGBREAK: //Shuts the server down
+					g_dispatcher.addTask(createTask(sigbreakHandler));
+					g_scheduler.join();
+					g_databaseTasks.join();
+					g_dispatcher.join();
+					break;
 #endif
 		default:
 			break;
