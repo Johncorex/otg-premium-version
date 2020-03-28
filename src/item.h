@@ -897,6 +897,9 @@ class Item : virtual public Thing
 		bool isMoveable() const {
 			return items[id].moveable;
 		}
+		bool isWrapContainer() const {
+			return items[id].wrapContainer;
+		}
 		bool isPickupable() const {
 			return items[id].pickupable;
 		}
@@ -910,7 +913,7 @@ class Item : virtual public Thing
 			return items[id].rotatable && items[id].rotateTo;
 		}
 		bool isWrapable() const {
-			return items[id].wrapableTo;
+			return items[id].wrapable && items[id].wrapableTo;
 		}
 		bool hasWalkStack() const {
 			return items[id].walkStack;

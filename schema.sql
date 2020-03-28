@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `skill_mana_leech_chance` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `skill_mana_leech_chance_tries` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `skill_mana_leech_amount` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `skill_mana_leech_amount_tries` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `prey_stamina_1` int(11) DEFAULT NULL,
   `prey_stamina_2` int(11) DEFAULT NULL,
   `prey_stamina_3` int(11) DEFAULT NULL,
