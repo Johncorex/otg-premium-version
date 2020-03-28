@@ -2443,7 +2443,6 @@ void Game::playerWrapableItem(uint32_t playerId, const Position& pos, uint8_t st
 			return;
 	}
 
-	const ItemType& iiType = Item::items[item->getID()];
 	uint16_t newWrapId = Item::items[item->getID()].wrapableTo;
 
 	if (!item || item->getClientID() != spriteId || item->hasAttribute(ITEM_ATTRIBUTE_UNIQUEID) || (!item->isWrapable() && item->getID() != newWrapId)) {
