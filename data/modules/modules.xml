@@ -45,4 +45,11 @@
 	<module type="recvbyte" byte="160" script="expertpvp/fightmodes.lua"/> -->
 
 	<!-- Join agression formula is still unknown TODO: add it.-->
+
+	<!-- Bestiary -->
+	<module type="recvbyte" byte="225" script="bestiary/bestiary.lua" />
+	<module type="recvbyte" byte="226" script="bestiary/bestiary.lua" />
+	<module type="recvbyte" byte="227" script="bestiary/bestiary.lua" />
+	<module type="recvbyte" byte="228" script="bestiary/bestiary.lua" />
+
 </modules>

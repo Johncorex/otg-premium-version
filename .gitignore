@@ -1,13 +1,4 @@
-
-boost_date_time-vc141-mt-x64-1_70.dll
-boost_filesystem-vc141-mt-x64-1_70.dll
-boost_iostreams.dll
-bz2.dll
-libmariadb.dll
-lua51.dll
-lzma.dll
-pugixml.dll
-theforgottenserver.exe
-zlib1.dll
-zstd.dll
 data/world/otgpremium.otbm
+*.dll
+data/world/otgpremium.otbm
+*.exe
