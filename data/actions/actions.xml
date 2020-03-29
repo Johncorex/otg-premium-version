@@ -521,8 +521,8 @@
 	<action fromaid="50030" toaid="50056" script="others/variables/thaisExhibition.lua" />
 	<action itemid="22598" script="others/variables/unrealizedDream.lua"/>
 	<action itemid="22726" script="others/variables/ursagrodon.lua" />
-	<action fromid="29021" toid="29024" script="others/variables/dailyRewardShrine.lua"/>
-	<action fromid="29089" toid="29090" script="others/variables/dailyRewardShrine.lua"/>
+	<action fromid="29021" toid="29024" script="others/variables/dailyrewardactions.lua"/>
+	<action fromid="29089" toid="29090" script="others/variables/dailyrewardactions.lua"/>
 	<!-- Others (Weapons Enchanting Gems) -->
 	<action itemid="2146" script="others/shrines/iceFeyristEntrance.lua" />
 	<action itemid="2147" script="others/shrines/fireFeyristEntrance.lua" />

@@ -396,6 +396,7 @@ enum Icons_t {
 	ICON_REDSWORDS = 1 << 13,
 	ICON_PIGEON = 1 << 14,
 	ICON_BLEEDING = 1 << 15,
+	ICON_WITHIN_RESTING_AREA = 1 << 16 //client 11.40+
 };
 
 enum QuickLootCategory_t : uint8_t {
@@ -685,6 +686,12 @@ enum NameEval_t : uint8_t {
 	INVALID_TOKEN_LENGTH,
 	INVALID_FORBIDDEN,
 	INVALID_CHARACTER
+};
+
+enum DailyRewardStorages_t : uint32_t {
+	DAILYREWARDSTORAGE_NEXTREWARDPICK = 69799,
+	DAILYREWARDSTORAGE_LASTREWARDPICK = 69800,
+	DAILYREWARDSTORAGE_STREAKDAYS = 69801
 };
 
 static constexpr int32_t CHANNEL_GUILD = 0x00;

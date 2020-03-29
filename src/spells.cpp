@@ -1209,6 +1209,19 @@ ReturnValue RuneSpell::canExecuteAction(const Player* player, const Position& to
 	return RETURNVALUE_NOERROR;
 }
 
+bool RuneSpell::canUseRune(const Player* player, bool ignoreLevel /* =false*/) {
+    if (player->hasFlag(PlayerFlag_CannotUseSpells)) {
+        return false;
+    }
+    if (player->hasFlag(PlayerFlag_IgnoreSpellCheck)) {
+        return true;
+    }
+
+    return (player->getLevel() >= getLevel() || ignoreLevel) &&
+           player->getBaseMagicLevel() >= getMagicLevel() &&
+           (vocSpellMap.empty() || vocSpellMap.find(player->getVocationId()) != vocSpellMap.end());
+}
+
 bool RuneSpell::executeUse(Player* player, Item* item, const Position&, Thing* target, const Position& toPosition, bool isHotkey)
 {
 	if (!playerRuneSpellCheck(player, toPosition)) {

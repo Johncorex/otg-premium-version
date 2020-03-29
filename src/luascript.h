@@ -54,6 +54,7 @@ class Condition;
 class Npc;
 class Monster;
 class InstantSpell;
+class RuneSpell;
 
 struct LootBlock;
 
@@ -381,6 +382,7 @@ class LuaScriptInterface
 		static void pushBoolean(lua_State* L, bool value);
 		static void pushCombatDamage(lua_State* L, const CombatDamage& damage);
 		static void pushInstantSpell(lua_State* L, const InstantSpell& spell);
+		static void pushRuneSpell(lua_State* L, const RuneSpell& spell);
 		static void pushPosition(lua_State* L, const Position& position, int32_t stackpos = 0);
 		static void pushOutfit(lua_State* L, const Outfit_t& outfit);
 		static void pushLoot(lua_State* L, const std::vector<LootBlock>& lootList);
@@ -1049,6 +1051,7 @@ class LuaScriptInterface
 		static int luaPlayerGetContainerById(lua_State* L);
 		static int luaPlayerGetContainerIndex(lua_State* L);
 
+		static int luaPlayerGetRuneSpells(lua_State *L);
 		static int luaPlayerGetInstantSpells(lua_State* L);
 		static int luaPlayerCanCast(lua_State* L);
 
@@ -1071,6 +1074,11 @@ class LuaScriptInterface
 
 		static int luaPlayerGetIdleTime(lua_State* L);
 		static int luaPlayerGetFreeBackpackSlots(lua_State* L);
+
+		static int luaPlayerGetInstantRewardTokenBalance(lua_State* L);
+		static int luaPlayerSetInstantRewardTokenBalance(lua_State* L);
+
+		static int luaPlayerSendStats(lua_State* L);
 
 		// Monster
 		static int luaMonsterCreate(lua_State* L);
