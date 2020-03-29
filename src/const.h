@@ -22,7 +22,7 @@
 #ifndef OT_SRC_CONST_H_
 #define OT_SRC_CONST_H_
 
-static constexpr int32_t NETWORKMESSAGE_MAXSIZE = 24590;
+static constexpr int32_t NETWORKMESSAGE_MAXSIZE = 65535;
 
 enum MagicEffectClasses : uint8_t {
 	CONST_ME_NONE,
