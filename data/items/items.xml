@@ -1400,6 +1400,7 @@
 		<attribute key="writeOnceItemId" value="1954" />
 	</item>
 	<item id="1948" article="a" name="parchment">
+		<attribute key="quicklootcategory" value="unassigned" />
 		<attribute key="weight" value="200" />
 		<attribute key="description" value="It is rewriteable." />
 		<attribute key="writeable" value="1" />
@@ -2051,6 +2052,7 @@
 	</item>
 	<item id="2109" article="a" name="football" />
 	<item id="2110" article="a" name="doll">
+		<attribute key="quicklootcategory" value="unassigned" />
 		<attribute key="weight" value="650" />
 	</item>
 	<item id="2111" article="a" name="snowball">
