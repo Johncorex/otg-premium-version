@@ -253,11 +253,16 @@ class Monsters
 		Monsters(const Monsters&) = delete;
 		Monsters& operator=(const Monsters&) = delete;
 
+		bool loadRaces();
 		bool loadFromXml(bool reloading = false);
 		bool isLoaded() const {
 			return loaded;
 		}
 		bool reload();
+
+		std::unordered_map<std::string, uint16_t>& getRaces() {return races;}
+		std::map<uint16_t, std::map<uint16_t, std::string>>& getMonsterRaces() {return monsterRaces;}
+		std::string getRaceName(uint16_t raceId);
 
 		MonsterType* getMonsterType(const std::string& name);
 		void addMonsterType(const std::string& name, MonsterType* mType);
@@ -275,6 +280,9 @@ class Monsters
 
 		void loadLootContainer(const pugi::xml_node& node, LootBlock&);
 		bool loadLootItem(const pugi::xml_node& node, LootBlock&);
+
+		std::unordered_map<std::string, uint16_t> races;
+		std::map<uint16_t, std::map<uint16_t, std::string>> monsterRaces;
 
 		std::map<std::string, MonsterType> monsters;
 		std::map<std::string, std::string> unloadedMonsters;

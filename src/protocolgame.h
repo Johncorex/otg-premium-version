@@ -110,6 +110,10 @@ class ProtocolGame final : public Protocol
 		void parseAttack(NetworkMessage& msg);
 		void parseFollow(NetworkMessage& msg);
 
+		void parseCyclopediaMonsters(NetworkMessage& msg);
+		void parseCyclopediaRace(NetworkMessage& msg);
+		void parseCyclopediaCharacterInfo(NetworkMessage& msg);
+
 		void parseBugReport(NetworkMessage& msg);
 		void parseDebugAssert(NetworkMessage& msg);
 		void parseRuleViolationReport(NetworkMessage &msg);
@@ -227,6 +231,23 @@ class ProtocolGame final : public Protocol
 		void sendTutorial(uint8_t tutorialId);
 		void sendAddMarker(const Position& pos, uint8_t markType, const std::string& desc);
 
+		void sendMonsterCyclopedia();
+		void sendCyclopediaMonsters(const std::string& race);
+		void sendCyclopediaRace(uint16_t monsterId);
+		void sendCyclopediaBonusEffects();
+		void sendCyclopediaCharacterBaseInformation();
+		void sendCyclopediaCharacterGeneralStats();
+		void sendCyclopediaCharacterCombatStats();
+		void sendCyclopediaCharacterRecentDeaths();
+		void sendCyclopediaCharacterRecentPvPKills();
+		void sendCyclopediaCharacterAchievements();
+		void sendCyclopediaCharacterItemSummary();
+		void sendCyclopediaCharacterOutfitsMounts();
+		void sendCyclopediaCharacterStoreSummary();
+		void sendCyclopediaCharacterInspection();
+		void sendCyclopediaCharacterBadges();
+		void sendCyclopediaCharacterTitles();
+
 		void sendCreatureWalkthrough(const Creature* creature, bool walkthrough);
 		void sendCreatureShield(const Creature* creature);
 		void sendCreatureSkull(const Creature* creature);
@@ -235,6 +256,7 @@ class ProtocolGame final : public Protocol
 
 		void sendShop(Npc* npc, const ShopInfoList& itemList);
 		void sendCloseShop();
+		void sendPremiumTrigger();
 		void sendClientCheck();
 		void sendGameNews();
 		void sendResourceBalance(uint64_t money, uint64_t bank);
@@ -332,7 +354,7 @@ class ProtocolGame final : public Protocol
 
 		void AddCreature(NetworkMessage& msg, const Creature* creature, bool known, uint32_t remove);
 		void AddPlayerStats(NetworkMessage& msg);
-		void AddOutfit(NetworkMessage& msg, const Outfit_t& outfit);
+		void AddOutfit(const Outfit_t& outfit, bool addMount = true);
 		void AddPlayerSkills(NetworkMessage& msg);
 		void sendBlessStatus();
 		void sendPremiumTrigger();

@@ -43,8 +43,34 @@ spellBlock_t::~spellBlock_t()
 	}
 }
 
+bool Monsters::loadRaces()
+{
+	races = {};
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("data/monster/races.xml");
+	if (!result) {
+		printXMLError("Error - Monsters::loadRaces", "data/monster/races.xml", result);
+		return false;
+	}
+
+	for (auto raceNode : doc.child("races").children()) {
+		pugi::xml_attribute attr;
+		if (!(attr = raceNode.attribute("id"))) {
+			std::cout << "[Warning - Monsters::loadRaces] Missing race id." << std::endl;
+			continue;
+		}
+
+		races.emplace(raceNode.attribute("name").as_string(), pugi::cast<uint16_t>(attr.value()));
+	}
+	return true;
+}
+
 bool Monsters::loadFromXml(bool reloading /*= false*/)
 {
+	if (!loadRaces()) {
+		return false;
+	}
+
 	unloadedMonsters = {};
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("data/monster/monsters.xml");
@@ -62,6 +88,12 @@ bool Monsters::loadFromXml(bool reloading /*= false*/)
 			loadMonster(file, name, true);
 		} else {
 			unloadedMonsters.emplace(name, file);
+		}
+
+		pugi::xml_attribute attrRaceId = monsterNode.attribute("raceid");
+		if (attrRaceId) {
+			uint16_t raceId = pugi::cast<uint16_t>(attrRaceId.value());
+			monsterRaces[raceId][pugi::cast<uint16_t>(monsterNode.attribute("id").value())] = monsterNode.attribute("name").as_string();
 		}
 	}
 	return true;
@@ -1352,6 +1384,16 @@ void Monsters::loadLootContainer(const pugi::xml_node& node, LootBlock& lBlock)
 			lBlock.childLoot.emplace_back(std::move(lootBlock));
 		}
 	}
+}
+
+std::string Monsters::getRaceName(uint16_t raceId)
+{
+	for (const auto& race : races) {
+		if (race.second == raceId) {
+			return race.first;
+		}
+	}
+	return std::string();
 }
 
 MonsterType* Monsters::getMonsterType(const std::string& name)
