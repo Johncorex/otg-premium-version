@@ -11067,7 +11067,7 @@ int LuaScriptInterface::luaPlayerGetRuneSpells(lua_State* L)
 
 
     std::vector<const RuneSpell*> spells;
-    for (auto& spell : g_spells->getRuneSpells()) {
+    for (auto spell : g_spells->getRuneSpells()) {
         if (spell.second.canUseRune(player,ignoreLevel)) {
             spells.push_back(&spell.second);
         }
