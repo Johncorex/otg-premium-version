@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<npc name="Olhan" script="Olhan.lua" walkinterval="2000" floorchange="0">
+  <health now="100" max="100" />
+  <look type="146" head="107" body="88" legs="94" feet="58" addons="3" />
+  <voices>
+    <voice text="Good bye." interval2="120" margin="1" yell="no" />
+  </voices>
+</npc>
