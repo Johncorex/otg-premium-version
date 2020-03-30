@@ -14,7 +14,7 @@ local function teleport(player, pos)
 end
 
 local function loadMap()
-	Game.loadMap('data/world/feroxa/final.otbm')
+	Game.loadMap('data/world/worldchanges/feroxa/final.otbm')
 end
 
 local function removeFeroxa(feroxa)
@@ -103,7 +103,7 @@ function onThink(interval, lastExecution)
 			if spawnDay == tonumber(currentDay) then
 				if chance <= 5 then
 					addEvent(removeItems, 30 * 60 * 1000)
-					addEvent(Game.loadMap, 30 * 60 * 1000, 'data/world/feroxa/middle.otbm')
+					addEvent(Game.loadMap, 30 * 60 * 1000, 'data/world/worldchanges/feroxa/middle.otbm')
 					addEvent(spectators, 30 * 60 * 1000)
 					Game.setStorageValue(GlobalStorage.Feroxa.Active, 1)
 					Game.broadcastMessage('Grimvale drowns in werecreatures as the full moon reaches its apex and ancient evil returns.', MESSAGE_EVENT_ADVANCE)

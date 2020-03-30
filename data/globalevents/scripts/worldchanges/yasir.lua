@@ -91,7 +91,7 @@ function onStartup()
 				end
 			end
 
-			Game.loadMap('data/world/yasir/' .. randTown.mapName .. '.otbm')
+			Game.loadMap('data/world/worldchanges/yasir/' .. randTown.mapName .. '.otbm')
 			addEvent(spawnYasir, 5000, randTown.yasirPosition)
 		else
 			print('>> Yasir: not this time.')

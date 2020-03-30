@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<spawns>
+  <spawn centerx="32203" centery="32035" centerz="13" radius="3">
+    <npc name="Blubster" x="-2" y="3" z="13" spawntime="60" />
+  </spawn>
+  <spawn centerx="32210" centery="32035" centerz="13" radius="3">
+    <npc name="Gnomenace" x="2" y="2" z="13" spawntime="60" />
+  </spawn>
+  <spawn centerx="32196" centery="32049" centerz="13" radius="3">
+    <npc name="Olhan" x="1" y="-2" z="13" spawntime="60" />
+  </spawn>
+  <spawn centerx="32203" centery="32056" centerz="13" radius="3">
+    <npc name="Izzkl" x="-3" y="0" z="13" spawntime="60" />
+  </spawn>
+  <spawn centerx="32231" centery="32056" centerz="12" radius="3">
+    <monster name="Dwarf" x="3" y="1" z="12" spawntime="60" />
+  </spawn>
+  <spawn centerx="32238" centery="32056" centerz="12" radius="3">
+    <monster name="Dwarf" x="1" y="2" z="12" spawntime="60" />
+    <monster name="Dwarf" x="3" y="1" z="12" spawntime="60" />
+  </spawn>
+  <spawn centerx="32231" centery="32063" centerz="12" radius="3">
+    <monster name="Dwarf" x="-1" y="-1" z="12" spawntime="60" />
+  </spawn>
+  <spawn centerx="32210" centery="32070" centerz="12" radius="3">
+    <monster name="Dwarf" x="-3" y="-2" z="12" spawntime="60" />
+    <monster name="Dwarf" x="3" y="-2" z="12" spawntime="60" />
+  </spawn>
+  <spawn centerx="32217" centery="32070" centerz="12" radius="3">
+    <monster name="Dwarf" x="1" y="0" z="12" spawntime="60" />
+  </spawn>
+  <spawn centerx="32203" centery="32070" centerz="12" radius="3">
+    <monster name="Dwarf" x="-2" y="0" z="12" spawntime="60" />
+  </spawn>
+</spawns>
