@@ -760,13 +760,17 @@ bool ConditionRegeneration::executeCondition(Creature* creature, int32_t interva
 			case STREAKBONUS_HEALTHBONUS:
 				multiplierMana = 0;
 				break;
+
 			default:
 				break;
 			}
 		}
 
+		if (internalHealthTicks >= healthTicks) {
+			internalHealthTicks = 0;
+
 			int32_t realHealthGain = creature->getHealth();
-			creature->changeHealth(multiplierHealth);
+			creature->changeHealth(healthGain * multiplierHealth);
 			realHealthGain = creature->getHealth() - realHealthGain;
 
 			if (isBuff && realHealthGain > 0) {
@@ -798,7 +802,8 @@ bool ConditionRegeneration::executeCondition(Creature* creature, int32_t interva
 			internalManaTicks = 0;
 			creature->changeMana(manaGain * multiplierMana);
 		}
-	
+	}
+
 	return ConditionGeneric::executeCondition(creature, interval);
 }
 
