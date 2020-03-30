@@ -798,8 +798,7 @@ bool ConditionRegeneration::executeCondition(Creature* creature, int32_t interva
 			internalManaTicks = 0;
 			creature->changeMana(manaGain * multiplierMana);
 		}
-	}
-
+	
 	return ConditionGeneric::executeCondition(creature, interval);
 }
 
