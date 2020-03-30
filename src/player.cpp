@@ -4869,6 +4869,45 @@ uint16_t Player::getFreeBackpackSlots() const
 	return counter;
 }
 
+StreakBonus_t Player::getStreakDaysBonus()const {
+    int32_t value;
+    StreakBonus_t bonus;
+
+    getStorageValue(DAILYREWARDSTORAGE_STREAKDAYS,value);
+
+    if(value <= 1)
+        bonus = STREAKBONUS_NOBONUS;
+    else if(value == 2)
+        bonus = STREAKBONUS_HEALTHBONUS;
+    else if(value == 3)
+        bonus = STREAKBONUS_MANABONUS;
+    else if(value == 4)
+        bonus = STREAKBONUS_STAMINABONUS;
+    else if(value == 5)
+        bonus = STREAKBONUS_DOUBLEHEALTHBONUS;
+    else if(value == 6)
+        bonus = STREAKBONUS_DOUBLEMANABONUS;
+    else
+        bonus = STREAKBONUS_SOULBONUS;
+
+    return bonus;
+}
+
+void Player::sendRestingAreaIcon(uint16_t currentIcons) const {
+    if (client && getProtocolVersion() >= 1140) {
+        if (hasBitSet(ICON_PIGEON, currentIcons)) {
+            bool activeResting = false;
+
+            if (getStreakDaysBonus() > STREAKBONUS_NOBONUS) {
+                activeResting = true;
+            }
+            client->sendRestingAreaIcon(true, activeResting);
+        } else {
+            client->sendRestingAreaIcon(false); // clear
+        }
+    }
+}
+
 void Player::onEquipImbueItem(Imbuement* imbuement)
 {
 	// check skills

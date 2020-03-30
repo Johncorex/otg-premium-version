@@ -250,6 +250,10 @@ class Player final : public Creature, public Cylinder
 		}
 		//
 
+		void setStaminaMinutes(uint16_t stamina) {
+			staminaMinutes = std::min<uint16_t>(2520, stamina);
+			sendStats();
+		}
 		uint16_t getPreyStamina(uint16_t index) const {
 			return preyStaminaMinutes[index];
 		}
@@ -287,6 +291,14 @@ class Player final : public Creature, public Cylinder
 		}
 		void setBankBalance(uint64_t balance) {
 			bankBalance = balance;
+		}
+
+		void setInstantRewardTokens(uint64_t tokens){
+			instantRewardTokens = tokens;
+		}
+
+		uint64_t getInstantRewardTokens() const{
+			return instantRewardTokens;
 		}
 
 		Guild* getGuild() const {
@@ -1065,9 +1077,13 @@ class Player final : public Creature, public Cylinder
 			}
 		}
 		void sendClosePrivate(uint16_t channelId);
+		void sendRestingAreaIcon(uint16_t currentIcons) const;
 		void sendIcons() const {
 			if (client) {
-				client->sendIcons(getClientIcons());
+				uint16_t icons = getClientIcons();
+				client->sendIcons(icons);
+				//Send resting area icon
+				sendRestingAreaIcon(icons);			
 			}
 		}
 		void sendClientCheck() const {
@@ -1400,6 +1416,7 @@ class Player final : public Creature, public Cylinder
  		}
 
 		uint16_t getFreeBackpackSlots() const;
+		StreakBonus_t getStreakDaysBonus()const;
 
 	protected:
 		std::forward_list<Condition*> getMuteConditions() const;
@@ -1496,6 +1513,7 @@ class Player final : public Creature, public Cylinder
 		int64_t lastPing;
 		int64_t lastPong;
 		int64_t nextAction = 0;
+		uint64_t instantRewardTokens = 0;
 
 		std::vector<Kill> unjustifiedKills;
 

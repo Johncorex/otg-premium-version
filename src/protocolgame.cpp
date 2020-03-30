@@ -1748,6 +1748,33 @@ void ProtocolGame::sendContainer(uint8_t cid, const Container* container, bool h
 	writeToOutputBuffer(msg);
 }
 
+void ProtocolGame::sendRestingAreaIcon(bool activate/*=false*/, bool activeResting/*=false*/) {
+    NetworkMessage msg;
+    msg.addByte(0xA9);
+
+    uint8_t b1=0, b2=0;
+    std::ostringstream ss;
+    ss << "";
+    if(activate) {
+        b1=1;
+        ss << "Within ";
+
+        if(activeResting){
+            b2 =1;
+            ss << "Active ";
+        }
+        else{
+            b2 = 0;
+        }
+        ss << "Resting Area";
+    }
+
+    msg.addByte(b1);
+    msg.addByte(b2);
+    msg.addString(ss.str());
+    writeToOutputBuffer(msg);
+}
+
 void ProtocolGame::sendShop(Npc* npc, const ShopInfoList& itemList)
 {
 	NetworkMessage msg;

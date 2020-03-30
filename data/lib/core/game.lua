@@ -98,6 +98,10 @@ function Game.setStorageValue(key, value)
 	globalStorageTable[key] = value
 end
 
+function Game.getLastServerSave()
+    return Game.getStorageValue(GlobalStorage.LastServerSave)
+end
+
 function Game.getReverseDirection(direction)
 	if direction == DIRECTION_WEST then
 		return DIRECTION_EAST

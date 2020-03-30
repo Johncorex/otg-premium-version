@@ -1453,8 +1453,15 @@ Storage = {
 	Factions = 50723,
 	blockMovementStorage = 100000,
 	PetSummon = 60045,
-	isTraining = 37
+	isTraining = 37,
 
+	dailyReward = {
+        nextRewardPick = DAILYREWARDSTORAGE_NEXTREWARDPICK,
+        lastRewardPick = DAILYREWARDSTORAGE_LASTREWARDPICK,
+        streakDays = DAILYREWARDSTORAGE_STREAKDAYS,
+        exhaust = 69802,
+        currentIndex = 69803
+    }
 }
 
 GlobalStorage = {
@@ -1580,6 +1587,7 @@ GlobalStorage = {
 	NaginataStone = 50058,
 	ExpBoost = 51052,
 	SwordOfFury = 5635,
-	XpDisplayMode = 5634
+	XpDisplayMode = 5634,
+	LastServerSave =  69798
 
 }

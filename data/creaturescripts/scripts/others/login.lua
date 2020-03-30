@@ -40,7 +40,8 @@ function onLogin(player)
 
     local playerId = player:getId()
 
-	DailyReward.init(playerId)
+    --daily reward
+    player:initDailyRewardSystem()
 
     player:loadSpecialStorage()
 

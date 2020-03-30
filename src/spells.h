@@ -66,6 +66,10 @@ class Spells final : public BaseEvents
 			return instants;
 		};
 
+		const std::map<uint16_t, RuneSpell>& getRuneSpells() const{
+			return runes;
+		};
+
 		void clearMaps(bool fromLua);
 		void clear(bool fromLua) override final;
 		bool registerInstantLuaEvent(InstantSpell* event);
@@ -406,6 +410,7 @@ class RuneSpell final : public Action, public Spell
 
 		bool configureEvent(const pugi::xml_node& node) override;
 
+		bool canUseRune(const Player* player, bool ignoreLevel=false);
 		ReturnValue canExecuteAction(const Player* player, const Position& toPos) override;
 		bool hasOwnErrorHandler() override {
 			return true;
