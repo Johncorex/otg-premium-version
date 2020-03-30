@@ -42,15 +42,15 @@ function onStartup()
 	 --initializing lastServerSave storage
 	 local lastServerSave = math.max(tonumber(getGlobalStorageValueDB(GlobalStorage.LastServerSave)),0)
 	 if lastServerSave == 0 then
-		 print('[daily reward WARNING] LastServerSave is 0, reseting to now')
+		 print('>> [daily reward WARNING] LastServerSave is 0, reseting to now')
 		 lastServerSave = time
 	 elseif lastServerSave < (time - 24*60*60) then
  
-		 print('[daily reward WARNING]: LastServerSave is more than 24 hours old, falling back to the last eligible time...')
+		 print('>> [daily reward WARNING]: LastServerSave is more than 24 hours old, falling back to the last eligible time...')
 		 while(lastServerSave<(time - 24*60*60)) do
 			 lastServerSave = lastServerSave + 24*60*60
 		 end
-		 print('[daily reward INFO] done falling back.')
+		 print('>> [daily reward INFO] done falling back.')
 	 end
 	 
      Game.setStorageValue(GlobalStorage.LastServerSave, lastServerSave)

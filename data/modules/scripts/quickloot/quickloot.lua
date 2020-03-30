@@ -555,6 +555,7 @@ function setupDatabase()
 		`cid` INT UNSIGNED NULL,
 		`sid` INT UNSIGNED NULL,
 
-		CONSTRAINT `fk_player_id` FOREIGN KEY (`player_id`) REFERENCES `otserv`.`players` (`id`)
+		FOREIGN KEY(`player_id`) REFERENCES `players`(`id`)
+				ON DELETE CASCADE
 	)]])
 end
