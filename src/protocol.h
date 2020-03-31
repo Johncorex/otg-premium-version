@@ -23,6 +23,7 @@
 #define OT_SRC_PROTOCOL_H_
 
 #include "connection.h"
+#include "xtea.h"
 
 class Protocol : public std::enable_shared_from_this<Protocol>
 {
@@ -73,8 +74,8 @@ class Protocol : public std::enable_shared_from_this<Protocol>
 		void enableXTEAEncryption() {
 			encryptionEnabled = true;
 		}
-		void setXTEAKey(const uint32_t* newKey) {
-			memcpy(this->key, newKey, sizeof(*newKey) * 4);
+		void setXTEAKey(xtea::key key) {
+			this->key = std::move(key);
 		}
 		void disableChecksum() {
 			checksumEnabled = false;
@@ -100,7 +101,7 @@ class Protocol : public std::enable_shared_from_this<Protocol>
 		OutputMessage_ptr outputBuffer;
 	private:
 		const ConnectionWeak_ptr connection;
-		uint32_t key[4] = {};
+		xtea::key key;
 		uint32_t sequenceNumber = 0;
 		bool encryptionEnabled = false;
 		bool checksumEnabled = true;

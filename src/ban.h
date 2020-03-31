@@ -42,7 +42,7 @@ using IpConnectMap = std::map<uint32_t, ConnectBlock>;
 class Ban
 {
 	public:
-		bool acceptConnection(uint32_t clientip);
+		bool acceptConnection(uint32_t clientIP);
 
 	protected:
 		IpConnectMap ipConnectMap;
@@ -53,7 +53,7 @@ class IOBan
 {
 	public:
 		static bool isAccountBanned(uint32_t accountId, BanInfo& banInfo);
-		static bool isIpBanned(uint32_t ip, BanInfo& banInfo);
+		static bool isIpBanned(uint32_t clientIP, BanInfo& banInfo);
 		static bool isPlayerNamelocked(uint32_t playerId);
 };
 
