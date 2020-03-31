@@ -54,7 +54,7 @@ local itemsCache = {}
 
 local potionsIds = {7588, 7589, 7590, 7591, 7618, 7620, 8472, 8473, 26029, 26030, 26031} -- since there's no GetPotionList on sources, this should solve the problem for now
 local rewardShrineIds ={
-    29020,29021,29022,29023,29088,29089
+    29021,29022,29023,29024,29089,29090
 }
 
 REWARD_LANE = {
@@ -323,8 +323,7 @@ local function getAvailableRewardItems(pid, forceReload)
         local player = Player(pid)
 
         local runes = player:getRuneSpells(true) --ignore level
-        --[[
-            runes = {
+  --[[          runes = {
                 {
                     name,
                     level,
