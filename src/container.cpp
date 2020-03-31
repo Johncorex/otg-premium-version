@@ -21,6 +21,8 @@
 
 #include "otpch.h"
 
+#include "protocolgame.h"
+
 #include "container.h"
 #include "iomap.h"
 #include "game.h"
