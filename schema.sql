@@ -758,7 +758,23 @@ CREATE TABLE IF NOT EXISTS `player_storage` (
 -- --------------------------------------------------------
 
 --
--- Table structure `store_history`
+-- Table structure `bestiary_killcount`
+--
+
+CREATE TABLE IF NOT EXISTS `bestiary_killcount` (
+		`player_id` INT NULL,
+		`monster_id` INT UNSIGNED NULL,
+		`count` INT UNSIGNED NULL,
+		`finished` BOOLEAN,
+		CONSTRAINT `bestiary_killcount_players_fk`
+		FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+				ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure `quickloot_containers`
 --
 
 CREATE TABLE IF NOT EXISTS `quickloot_containers` (
@@ -766,7 +782,7 @@ CREATE TABLE IF NOT EXISTS `quickloot_containers` (
 		`category_id` INT UNSIGNED NULL,
 		`cid` INT UNSIGNED NULL,
 		`sid` INT UNSIGNED NULL,
-		CONSTRAINT `fk_player_id`
+		CONSTRAINT `quickloot_containers_players_fk`
 		FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
 				ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
