@@ -1,0 +1,28 @@
+package tibia.protobuf.staticdata;
+
+message Staticdata {
+ repeated Creature monsters = 1;
+ repeated Achievement achievements = 2;
+}
+
+message Outfit {
+ optional uint16 looktype = 1;
+ optional uint8 lookhead = 2;
+ optional uint8 lookbody = 3;
+ optional uint8 looklegs = 4;
+ optional uint8 lookfeet = 5;
+ optional uint8 lookaddons = 6;
+}
+
+message Creature {
+ optional uint16 id = 1;
+ optional string name = 2;
+ optional Outfit outfit = 3;
+}
+
+message Achievement {
+ optional uint32 id = 1;
+ optional string name = 2;
+ optional string description = 3;
+ optional uint8 grade = 4;
+}

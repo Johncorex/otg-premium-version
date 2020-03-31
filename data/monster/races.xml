@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<races>
+	<race id="1" name="Amphibic" />
+	<race id="2" name="Aquatic" />
+	<race id="3" name="Bird" />
+	<race id="4" name="Construct" />
+	<race id="5" name="Demon" />
+	<race id="6" name="Dragon" />
+	<race id="7" name="Elemental" />
+	<race id="8" name="Extra Dimensional" />
+	<race id="9" name="Fey" />
+	<race id="10" name="Giant" />
+	<race id="11" name="Human" />
+	<race id="12" name="Humanoid" />
+	<race id="13" name="Lycanthrope" />
+	<race id="14" name="Magical" />
+	<race id="15" name="Mammal" />
+	<race id="16" name="Plant" />
+	<race id="17" name="Reptile" />
+	<race id="18" name="Slime" />
+	<race id="19" name="Undead" />
+	<race id="20" name="Vermin" />
+</races>
