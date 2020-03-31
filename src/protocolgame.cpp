@@ -480,6 +480,7 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 		case 0xAB: parseChannelInvite(msg); break;
 		case 0xAC: parseChannelExclude(msg); break;
 		case 0xBE: addGameTask(&Game::playerCancelAttackAndFollow, player->getID()); break;
+		case 0xC7: parseTournamentLeaderboard(msg); break;
 		case 0xC9: /* update tile */ break;
 		case 0xCA: parseUpdateContainer(msg); break;
 		case 0xCB: parseBrowseField(msg); break;
@@ -1044,6 +1045,29 @@ void ProtocolGame::parseWrapableItem(NetworkMessage& msg)
 	addGameTaskTimed(DISPATCHER_TASK_EXPIRATION, &Game::playerWrapableItem, player->getID(), pos, stackpos, spriteId);
 }
 
+void ProtocolGame::parseTournamentLeaderboard(NetworkMessage& msg)
+{
+	uint8_t ledaerboardType = msg.getByte();
+	if(ledaerboardType == 0)
+	{
+		const std::string worldName = msg.getString();
+		uint16_t currentPage = msg.get<uint16_t>();
+		(void)worldName;
+		(void)currentPage;
+	}
+	else if(ledaerboardType == 1)
+	{
+		const std::string worldName = msg.getString();
+		const std::string characterName = msg.getString();
+		(void)worldName;
+		(void)characterName;
+	}
+	uint8_t elementsPerPage = msg.getByte();
+	(void)elementsPerPage;
+
+	addGameTask(&Game::playerTournamentLeaderboard, player->getID(), ledaerboardType);
+}
+
 void ProtocolGame::parseRuleViolationReport(NetworkMessage &msg)
 {
 	uint8_t reportType = msg.getByte();
@@ -1307,6 +1331,19 @@ void ProtocolGame::sendWorldLight(const LightInfo& lightInfo)
 	writeToOutputBuffer(msg);
 }
 
+void ProtocolGame::sendTibiaTime(int32_t time)
+{
+	if (version < 1121) {
+		return;
+	}
+
+	msg.reset();
+	msg.addByte(0xEF);
+	msg.addByte(time / 60);
+	msg.addByte(time % 60);
+	writeToOutputBuffer(msg);
+}
+
 void ProtocolGame::sendCreatureWalkthrough(const Creature* creature, bool walkthrough)
 {
 	if (!canSee(creature)) {
@@ -1416,6 +1453,15 @@ void ProtocolGame::sendAddMarker(const Position& pos, uint8_t markType, const st
 	msg.addPosition(pos);
 	msg.addByte(markType);
 	msg.addString(desc);
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendTournamentLeaderboard()
+{
+	msg.reset();
+	msg.addByte(0xC5);
+	msg.addByte(0);
+	msg.addByte(0x01); // No data available
 	writeToOutputBuffer(msg);
 }
 
@@ -1660,14 +1706,14 @@ void ProtocolGame::sendChannel(uint16_t channelId, const std::string& channelNam
 	writeToOutputBuffer(msg);
 }
 
-void ProtocolGame::sendIcons(uint16_t icons)
+void ProtocolGame::sendIcons(uint32_t icons)
 {
 	NetworkMessage msg;
 	msg.addByte(0xA2);
 	if (version >= 1140) { // TODO: verify compatibility of the new icon range ( 16-31 )
 		msg.add<uint32_t>(icons);
 	} else {
-		msg.add<uint16_t>(icons);
+		msg.add<uint16_t>(static_cast<uint16_t>(icons));
 	}
 
 	writeToOutputBuffer(msg);
@@ -1719,6 +1765,10 @@ void ProtocolGame::sendContainer(uint8_t cid, const Container* container, bool h
 
 	msg.addByte(hasParent ? 0x01 : 0x00);
 
+	if (version >= 1220) {
+		//can use depot search
+		msg.addByte(0x00);
+	}
 	msg.addByte(container->isUnlocked() ? 0x01 : 0x00); // Drag and drop
 	msg.addByte(container->hasPagination() ? 0x01 : 0x00); // Pagination
 
@@ -2716,20 +2766,6 @@ void ProtocolGame::sendUpdateTile(const Tile* tile, const Position& pos)
 	writeToOutputBuffer(msg);
 }
 
-void ProtocolGame::sendPendingStateEntered()
-{
-	NetworkMessage msg;
-	msg.addByte(0x0A);
-	writeToOutputBuffer(msg);
-}
-
-void ProtocolGame::sendEnterWorld()
-{
-	NetworkMessage msg;
-	msg.addByte(0x0F);
-	writeToOutputBuffer(msg);
-}
-
 void ProtocolGame::sendFightModes()
 {
 	NetworkMessage msg;
@@ -2793,17 +2829,22 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 	msg.add<uint16_t>(static_cast<uint16_t>(g_config.getNumber(ConfigManager::STORE_COIN_PACKET)));
 
 	if (version >= 1150 || shouldAddExivaRestrictions) {
-		msg.addByte(0x00); // exiva button enabled
+		msg.addByte(0x01); // exiva button enabled
 	}
 
 	if (version >= 1215) {
 		msg.addByte(0x01); // tournament button enabled
 	}
 
+	msg.addByte(0x0A); // sendPendingStateEntered
+	msg.addByte(0x0F); // sendEnterWorld
+
+	//gameworld settings
+	AddWorldLight(g_game.getWorldLightInfo());
+
 	writeToOutputBuffer(msg);
 
-	sendPendingStateEntered();
-	sendEnterWorld();
+	sendTibiaTime(g_game.getLightHour());
 	sendMapDescription(pos);
 	loggedIn = true;
 
@@ -2820,9 +2861,6 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 	sendBlessStatus();
 	sendPremiumTrigger();
 	sendStoreHighlight();
-
-	//gameworld light-settings
-	sendWorldLight(g_game.getWorldLightInfo());
 
 	//player light level
 	sendCreatureLight(creature);
@@ -3491,6 +3529,10 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 				msg.add<uint32_t>(master->getID());
 			}
 		}
+	}
+
+	if (version >= 1220 && creatureType == CREATURETYPE_PLAYER) {
+		msg.addByte(creature->getPlayer()->getVocation()->getClientId());
 	}
 
 	msg.addByte(creature->getSpeechBubble());
