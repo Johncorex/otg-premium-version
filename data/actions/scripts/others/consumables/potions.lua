@@ -140,7 +140,7 @@ function Player:canUsePotion(potionId, ignoreLevel --[[=false]])
         return true
     end
 
-	local potion = potions[item:getId()]
+	local potion = potions[potionId]
     if potion then
         return (potion.level and self:getLevel() >= potion.level or ignoreLevel)
                 and (potion.vocations and table.contains(potion.vocations, self:getVocation():getBase():getId()) or not potion.vocations)
