@@ -761,6 +761,22 @@ CREATE TABLE IF NOT EXISTS `player_storage` (
 -- Table structure `store_history`
 --
 
+CREATE TABLE IF NOT EXISTS `quickloot_containers` (
+		`player_id` INT NULL,
+		`category_id` INT UNSIGNED NULL,
+		`cid` INT UNSIGNED NULL,
+		`sid` INT UNSIGNED NULL,
+		CONSTRAINT `fk_player_id`
+		FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+				ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure `store_history`
+--
+
 CREATE TABLE IF NOT EXISTS `store_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
