@@ -1409,8 +1409,3 @@ Bestiary.MonstersName = {
   ["Lacewing Moth"] = 1736,
   ["Hibernal Moth"] = 1737
 }
--- Regex to parse upper table into the lower one:
---Search: \[(\d{1,4})\].*name = ('|")(.*)('|"), class.*
---Replace: ["$3"] = $1,
-Bestiary.CreatureEncryptionKeys = {"gnikcuf a si labolG", "!oiarac sion ", "vreSTO", "� !tcejorp emosewa "}
-Bestiary.CreatureEncryptionOrder = {3,1,4,2}

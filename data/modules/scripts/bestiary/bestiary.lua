@@ -233,14 +233,8 @@ Bestiary.sendMonsterData = function(player, msg)
 
             i = i + 1
         end
-		local bestiaryCreatureFinishingKeys = ""
-		for b = 1, #Bestiary.CreatureEncryptionOrder do
-			for i = #Bestiary.CreatureEncryptionKeys[Bestiary.CreatureEncryptionOrder[b]], 1, -1 do
-				bestiaryCreatureFinishingKeys = bestiaryCreatureFinishingKeys .. Bestiary.CreatureEncryptionKeys[Bestiary.CreatureEncryptionOrder[b]]:sub(i,i)
-			end
-		end
-        msg:addU16(1) --TODO DESCRIPTION
-        msg:addString(bestiaryCreatureFinishingKeys)
+        msg:addU16(1) -- enable or disable description
+        msg:addString("Great Job!")
     end
 
     if currentLevel > 3 then
