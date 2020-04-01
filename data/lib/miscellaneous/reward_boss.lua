@@ -52,7 +52,6 @@ function Item.getNameDescription(self)
 end
 
 function Container.getContentDescription(self, outputBuffer)
-    local client = self:getClient()
 	local firstItem = true
 	local buffer = outputBuffer or {}
 	for i = 1, self:getSize() do
@@ -64,12 +63,8 @@ function Container.getContentDescription(self, outputBuffer)
 			table.insert(buffer, ", ")
 		end
 
-		if (client.version >= 1200) then
-			local cid = ItemType(item:getId()):getClientId()
+		local cid = ItemType(item:getId()):getClientId()
 			table.insert(buffer, '{' .. cid .. '|' .. item:getNameDescription() .. '}')
-		else
-			table.insert(buffer, item:getNameDescription())
-		end
 	end
 
 	if firstItem then
