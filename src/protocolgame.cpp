@@ -1471,6 +1471,7 @@ void ProtocolGame::sendBlessStatus()
 	NetworkMessage msg;
 	uint8_t blessCount = 0;
 	uint8_t maxBlessings = (player->operatingSystem == CLIENTOS_NEW_WINDOWS) ? 8 : 6;
+	bool bless[8];
 	int flags = 0;
 	for (int i = 1; i <= maxBlessings; i++) {
 		if (player->hasBlessing(i)) {

@@ -213,6 +213,32 @@ std::ostringstream& Container::getContentDescription(std::ostringstream& os) con
 	return os;
 }
 
+std::ostringstream& Container::getContentDescriptionColor(std::ostringstream& os) const
+{
+	bool firstitem = true;
+	for (ContainerIterator it = iterator(); it.hasNext(); it.advance()) {
+		Item* item = *it;
+
+		Container* container = item->getContainer();
+		if (container && !container->empty()) {
+			continue;
+		}
+
+		if (firstitem) {
+			firstitem = false;
+		} else {
+			os << ", ";
+		}
+
+	os << '{' << item->getClientID() << '|' << item->getNameDescription() << '}';
+	}
+
+	if (firstitem) {
+		os << "nothing";
+	}
+	return os;
+}
+
 Item* Container::getItemByIndex(size_t index) const
 {
 	if (index >= size()) {
