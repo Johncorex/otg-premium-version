@@ -279,7 +279,8 @@ Bestiary.sendMonsterData = function(player, msg)
     msg:addU16(bestiaryMonster.toKill)  -- max kill third phase
 
     msg:addByte(bestiaryMonster.Stars)  -- Difficult
-    msg:addByte(Bestiary.getMonsterOccurrencyByName(bestiaryMonster.name)) -- Occurence
+    msg:addByte(1) -- Occurence
+    --msg:addByte(Bestiary.getMonsterOccurrencyByName(bestiaryMonster.name)) -- Occurence
 	local monsterLoot = monster:getLoot()
     msg:addByte(#monsterLoot)
 
