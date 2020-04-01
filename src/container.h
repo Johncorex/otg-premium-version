@@ -179,6 +179,7 @@ class Container : public Item, public Cylinder
 
 	protected:
 		std::ostringstream& getContentDescription(std::ostringstream& os) const;
+		std::ostringstream& getContentDescriptionColor(std::ostringstream& os) const;
 
 		uint32_t maxSize;
 		uint32_t totalWeight = 0;
