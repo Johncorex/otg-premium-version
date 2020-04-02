@@ -175,6 +175,10 @@ function parseTransferCoins(playerId, msg)
   local reciver = msg:getString()
   local amount = msg:getU32()
 
+  if amount <= 0 then
+    return addPlayerEvent(sendStoreError, 350, player, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "You don't have enough coins to transfer.")
+  end
+
   if (player:getCoinsBalance() < amount) then
     return addPlayerEvent(sendStoreError, 350, playerId, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "You don't have this amount of coins.")
   end
@@ -191,6 +195,10 @@ function parseTransferCoins(playerId, msg)
   local accountId = result.getDataInt(resultId, "account_id")
   if accountId == player:getAccountId() then
     return addPlayerEvent(sendStoreError, 350, playerId, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "You cannot transfer coin to a character in the same account.")
+  end
+
+  if player:canRemoveCoins(amount) == false then
+    return addPlayerEvent(sendStoreError, 350, player, GameStore.StoreErrors.STORE_ERROR_TRANSFER, "You don't have enough coins to transfer.")
   end
 
   db.query("UPDATE `accounts` SET `coins` = `coins` + " .. amount .. " WHERE `id` = " .. accountId)
@@ -1110,50 +1118,34 @@ function GameStore.processStackablePurchase(player, offerId, offerCount, offerNa
   if inbox and inbox:getEmptySlots() > 0 then
     if (isKegExerciseItem(offerId)) then
       if (offerCount >= 500) then
-        local parcel = Item(inbox:addItem(23782, 1):getUniqueId())
-        local function changeParcel(parcel)
-          local packagename = '' .. offerCount .. 'x ' .. offerName .. ' package.'
-          if parcel then
-            parcel:setAttribute(ITEM_ATTRIBUTE_NAME, packagename)
-            local pendingCount = offerCount
-            while (pendingCount > 0) do
-              local pack
-              if (pendingCount > 500) then
-                pack = 500
-              else
-                pack = pendingCount
-              end
-              local kegExerciseItem = parcel:addItem(offerId, 1)
-              kegExerciseItem:setAttribute(ITEM_ATTRIBUTE_CHARGES, pack)
-              pendingCount = pendingCount - pack
-            end
-          end
+		local pendingCount = offerCount
+		while (pendingCount > 0) do
+			local pack
+			if (pendingCount > 500) then
+				pack = 500
+			else
+				pack = pendingCount
+			end
+			local kegExerciseItem = inbox:addItem(offerId, 1)
+            kegExerciseItem:setAttribute(ITEM_ATTRIBUTE_CHARGES, pack)
+			pendingCount = pendingCount - pack
         end
-        addEvent(function() changeParcel(parcel) end, 250)
       else
         local kegExerciseItem = inbox:addItem(offerId, 1)
         kegExerciseItem:setAttribute(ITEM_ATTRIBUTE_CHARGES, offerCount)
       end
     elseif (offerCount > 100) then
-      local parcel = Item(inbox:addItem(23782, 1):getUniqueId())
-      local function changeParcel(parcel)
-        local packagename = '' .. offerCount .. 'x ' .. offerName .. ' package.'
-        if parcel then
-          parcel:setAttribute(ITEM_ATTRIBUTE_NAME, packagename)
-          local pendingCount = offerCount
-          while (pendingCount > 0) do
-            local pack
-            if (pendingCount > 100) then
-              pack = 100
-            else
-              pack = pendingCount
-            end
-            parcel:addItem(offerId, pack)
-            pendingCount = pendingCount - pack
-          end
-        end
+		local pendingCount = offerCount
+		while (pendingCount > 0) do
+			local pack
+			if (pendingCount > 100) then
+				pack = 100
+			else
+				pack = pendingCount
+			end
+			inbox:addItem(offerId, pack)
+			pendingCount = pendingCount - pack
       end
-      addEvent(function() changeParcel(parcel) end, 250)
     else
       inbox:addItem(offerId, offerCount)
     end
@@ -1176,7 +1168,7 @@ function GameStore.processHouseRelatedPurchase(player, offerId, offerCount)
       local decoItemName = ItemType(offerId):getName()
       if kit then
         kit:setAttribute(ITEM_ATTRIBUTE_DESCRIPTION, "You bought this item in the Store.\nUnwrap it in your own house to create a <" .. decoItemName .. ">.")
-        kit:setCustomAttribute("unWrapId", offerId)
+        kit:setActionId(offerId)
 
         if isCaskItem(offerId) then
           kit:setAttribute(ITEM_ATTRIBUTE_DATE, offerCount)

@@ -36,6 +36,7 @@ serverName = "OTG-Premium-Version"
 statusTimeout = 5 * 1000
 replaceKickOnLogin = true
 maxPacketsPerSecond = 35
+networkAttackThreshold = 4
 maxItem = 2000
 maxContainer = 100
 
@@ -87,7 +88,7 @@ maxMarketOffersAtATimePerPlayer = 100
 -- MySQL
 mysqlHost = "127.0.0.1"
 mysqlUser = "root"
-mysqlPass = "senha"
+mysqlPass = ""
 mysqlDatabase = "global"
 mysqlPort = 3306
 mysqlSock = ""

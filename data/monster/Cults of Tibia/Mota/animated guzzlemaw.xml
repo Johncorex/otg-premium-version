@@ -68,7 +68,6 @@
 		<item id="2229" chance="10400" /><!-- skull -->
 		<item id="2230" chance="9200" /><!-- bone -->
 		<item id="2231" chance="4500" /><!-- big bone -->
-		<item name="fish remains" chance="10110" />
 		<item name="two handed sword" chance="2700" />
 		<item id="2667" countmax="3" chance="7000" /><!-- fish -->
 		<item name="ham" chance="10000" />
@@ -85,6 +84,7 @@
 		<item name="brown crystal splinter" countmax="2" chance="12000" />
 		<item name="red crystal fragment" chance="7600" />
 		<item id="33539" chance="12000" />
+		<item id="2240" chance="10110" />
 		<item name="cluster of solace" chance="920" />
 		<item name="frazzle tongue" chance="15000" />
 		<item name="frazzle skin" chance="14000" />

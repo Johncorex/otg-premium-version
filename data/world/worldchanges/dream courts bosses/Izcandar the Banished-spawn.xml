@@ -1,0 +1,6 @@
+﻿<?xml version="1.0"?>
+<spawns>
+	<spawn centerx="32240" centery="32043" centerz="14" radius="1">
+		<npc name="Arenawarmaster" x="0" y="0" z="14" spawntime="60" />
+	</spawn>
+</spawns>

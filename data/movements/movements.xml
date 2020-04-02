@@ -66,6 +66,7 @@
 	<movevent event="StepIn" actionid="9745" script="quests/dark trails/necrometerTileAcess.lua" />
 
 	<!-- Dangerous Depths -->
+	<movevent event="StepIn" itemid="25331" script="quests/dangerous depth/lavaDamage.lua"/>
 	<movevent event="StepIn" actionid="57231" script="quests/dangerous depth/lostExiles.lua"/>
 	<movevent event="StepIn" actionid="57240" script="quests/dangerous depth/gnomesAvalanche.lua"/>
 	<movevent event="StepIn" actionid="57241" script="quests/dangerous depth/gnomesOrdnance.lua"/>
@@ -186,6 +187,7 @@
 	<movevent event="StepIn" fromaid="4534" toaid="4535" script="quests/gravedigger/dormitoritp.lua" />
 	<movevent event="StepIn" fromaid="4541" toaid="4542" script="quests/gravedigger/sacrificetp.lua" />
 	<movevent event="StepIn" actionid="4536" script="quests/gravedigger/necro.lua" />
+	<movevent event="StepIn" fromuid="4680" touid="4681" script="quests/gravedigger/checktittle.lua" />
 
 	<!-- Hero of Rathleton -->
 	<movevent event="StepIn" actionid="24862" script="quests/hero of rathleton/deepTerror.lua" />
@@ -559,6 +561,9 @@
 
 	<!-- Assassin Outfit Quest -->
 	<movevent event="StepIn" itemid="3139" script="quests/assassin outfit/erayohouse.lua"/>
+
+	<!-- Arito's Task -->
+	<movevent event="StepIn" uniqueid="26544" script="quests/aritos task/entranceTeleport.lua" />
 
 	<!-- Boots -->
 	<movevent event="Equip" itemid="34062" level="180" slot="feet" function="onEquipItem"> <!-- Pair of Dreamwalkers -->

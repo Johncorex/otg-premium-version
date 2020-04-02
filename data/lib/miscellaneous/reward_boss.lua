@@ -63,8 +63,33 @@ function Container.getContentDescription(self, outputBuffer)
 			table.insert(buffer, ", ")
 		end
 
-		table.insert(buffer, item:getNameDescription())
+			table.insert(buffer, item:getNameDescription())
+		end
+
+	if firstItem then
+		table.insert(buffer, "nothing")
 	end
+
+	if not outputBuffer then
+		return table.concat(buffer)
+	end
+end
+
+function Container.getContentDescriptionColor(self, outputBuffer)
+	local firstItem = true
+	local buffer = outputBuffer or {}
+	for i = 1, self:getSize() do
+		local item = self:getItem(i - 1)
+
+		if(firstItem) then
+			firstItem = false
+		else
+			table.insert(buffer, ", ")
+		end
+
+		local cid = ItemType(item:getId()):getClientId()
+		table.insert(buffer, '{' .. cid .. '|' .. item:getNameDescription() .. '}')
+		end
 
 	if firstItem then
 		table.insert(buffer, "nothing")

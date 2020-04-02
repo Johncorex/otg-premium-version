@@ -31,7 +31,7 @@ function onLogin(cid)
 
 	if pet then
 		position = player:getPosition()
-		summonpet = Game.createMonster(pet, position)
+		summonpet = Game.createMonster(pet, position, true, false, cid)
 		player:addSummon(summonpet)
 		player:setStorageValue(STORAGE_PET, os.time() + petTimeLeft)
 		summonpet:registerEvent('petdeath')
@@ -49,6 +49,24 @@ function onThink(cid, interval, item, position, lastPosition, fromPosition, toPo
 		player:setStorageValue(STORAGE_PET,0)
 	end
 	return true
+end
+
+function onThink(interval, position, lastPosition, fromPosition, toPosition)
+
+  for _, player in ipairs(Game.getPlayers()) do
+    local player_position = player:getPosition()
+    if not player_position:getTile():hasFlag(TILESTATE_FLOORCHANGE) then
+      local summons = player:getSummons()
+      if #summons > 0 then
+        for i = 1, #summons do
+          if summons[i]:getPosition().z ~= player_position.z then
+            summons[i]:teleportTo(player_position)
+          end
+        end
+      end
+    end
+  end
+  return true
 end
 
 function onDeath(creature, corpse, lasthitkiller, mostdamagekiller, lasthitunjustified, mostdamageunjustified)

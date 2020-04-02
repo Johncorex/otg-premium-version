@@ -44,6 +44,8 @@
 	<!-- World Changes -->
 	<globalevent name="FuryGates" type="startup" script="worldchanges/furygates.lua" />
 	<globalevent name="TheirMastersVoice" type="startup" script="worldchanges/theirmastersvoice.lua" />
+	<globalevent type="startup" name="dreamcourtsboss" script="worldchanges/dreamcourtsboss.lua" />
+
 
 	<!-- Raids -->
 	<globalevent name="SpawnRaid" interval="60000" script="spawn/raids.lua"/>

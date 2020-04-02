@@ -159,7 +159,7 @@ function onDeath(creature, corpse, killer, mostDamageKiller, lastHitUnjustified,
 			end
 
 			local playerLoot
-			if --[[stamina > 840 and]] con.score ~= 0 then
+			if stamina > 840 and con.score ~= 0 then
 				local lootFactor = 1
 				lootFactor = lootFactor / participants ^ (1 / 3) -- tone down the loot a notch if there are many participants
 				lootFactor = lootFactor * (1 + lootFactor) ^ (con.score / expectedScore) -- increase the loot multiplicatively by how many times the player surpassed the expected score
@@ -173,15 +173,21 @@ function onDeath(creature, corpse, killer, mostDamageKiller, lastHitUnjustified,
 			end
 
 			if con.player and con.score ~= 0 then
-				local lootMessage = {"The following items are available in your reward chest: "}
-
-				if --[[stamina > 840]]true then
-					reward:getContentDescription(lootMessage)
-				else
-					table.insert(lootMessage, 'nothing (due to low stamina)')
+				if con.player:getClient().os == CLIENTOS_NEW_WINDOWS then
+					if stamina > 840 then
+						local lootMessage = ("The following items dropped by %s are available in your reward chest: %s."):format(creature:getName(), reward:getContentDescriptionColor())
+						con.player:sendTextMessage(MESSAGE_LOOT, lootMessage)
+					else
+						table.insert(lootMessage, 'nothing (due to low stamina)')
+					end
+					else
+					if stamina > 840 then
+						local lootMessage = ("The following items dropped by %s are available in your reward chest: %s."):format(creature:getName(), reward:getContentDescription())
+						con.player:sendTextMessage(MESSAGE_LOOT, lootMessage)
+					else
+						table.insert(lootMessage, 'nothing (due to low stamina)')
+					end
 				end
-				table.insert(lootMessage, ".")
-				con.player:sendTextMessage(MESSAGE_INFO_DESCR, table.concat(lootMessage))
 			elseif con.score ~= 0 then
 				insertRewardItems(con.guid, timestamp, playerLoot)
 			end

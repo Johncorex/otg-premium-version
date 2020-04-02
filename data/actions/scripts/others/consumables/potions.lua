@@ -129,3 +129,21 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	item:remove(1)
 	return true
 end
+
+
+function Player:canUsePotion(potionId, ignoreLevel --[[=false]])
+    if not ignoreLevel then
+        ignoreLevel = false
+    end
+
+    if self:getGroup():getAccess() then
+        return true
+    end
+
+	local potion = potions[potionId]
+    if potion then
+        return (potion.level and self:getLevel() >= potion.level or ignoreLevel)
+                and (potion.vocations and table.contains(potion.vocations, self:getVocation():getBase():getId()) or not potion.vocations)
+    end
+    return false
+end

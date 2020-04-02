@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<npc name="Gnomenace" script="Gnomenace.lua" walkinterval="2000" floorchange="0">
+  <health now="100" max="100" />
+  <look type="493" head="59" body="59" legs="59" feet="58" addons="0" />
+  <voices>
+    <voice text="Good bye." interval2="5" margin="1" yell="no" />
+  </voices>
+</npc>

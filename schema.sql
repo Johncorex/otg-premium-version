@@ -30,15 +30,26 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `lastday` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `email` varchar(255) NOT NULL DEFAULT '',
   `creation` int(11) NOT NULL DEFAULT '0',
+  `vote` int(11) NOT NULL DEFAULT 0,
   `key` varchar(20) NOT NULL DEFAULT '0',
-  `premium_points` int(11) NOT NULL DEFAULT '0',
+  `email_new` varchar(255) NOT NULL DEFAULT '',
+  `email_new_time` int(11) NOT NULL DEFAULT '0',
+  `rlname` varchar(255) NOT NULL DEFAULT '',
+  `location` varchar(255) NOT NULL DEFAULT '',
+  `page_access` int(11) NOT NULL DEFAULT '0',
+  `email_code` varchar(255) NOT NULL DEFAULT '',
+  `next_email` int(11) NOT NULL DEFAULT '0',
   `create_date` int(11) NOT NULL DEFAULT '0',
   `create_ip` int(11) NOT NULL DEFAULT '0',
+  `last_post` int(11) NOT NULL DEFAULT '0',
   `flag` varchar(80) NOT NULL DEFAULT '',
+  `guild_points` int(11) NOT NULL DEFAULT '0',
+  `guild_points_stats` int(11) NOT NULL DEFAULT '0',
   `passed` int(11) NOT NULL DEFAULT '0',
   `block` int(11) NOT NULL DEFAULT '0',
   `refresh` int(11) NOT NULL DEFAULT '0',
   `birth_date` varchar(50) NOT NULL DEFAULT '',
+  `gender` varchar(20) NOT NULL DEFAULT 0,
   `loyalty_points` bigint(20) NOT NULL DEFAULT '0',
   `authToken` varchar(100) NOT NULL DEFAULT '',
   CONSTRAINT `accounts_pk` PRIMARY KEY (`id`),
@@ -126,12 +137,6 @@ CREATE TABLE IF NOT EXISTS `players` (
   `skill_mana_leech_chance_tries` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `skill_mana_leech_amount` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `skill_mana_leech_amount_tries` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `skill_criticalhit_chance` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `skill_criticalhit_damage` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `skill_lifeleech_chance` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `skill_lifeleech_amount` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `skill_manaleech_chance` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `skill_manaleech_amount` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `prey_stamina_1` int(11) DEFAULT NULL,
   `prey_stamina_2` int(11) DEFAULT NULL,
   `prey_stamina_3` int(11) DEFAULT NULL,
@@ -140,7 +145,20 @@ CREATE TABLE IF NOT EXISTS `players` (
   `xpboost_value` tinyint(4) DEFAULT NULL,
   `marriage_status` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `marriage_spouse` int(11) NOT NULL DEFAULT '-1',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `comment` text NOT NULL,
+  `create_ip` int(11) NOT NULL DEFAULT '0',
+  `create_date` int(11) NOT NULL DEFAULT '0',
+  `hide_char` int(11) NOT NULL DEFAULT '0',
+  `cast` tinyint(1) NOT NULL DEFAULT '0',
+  `hide_skills` int(11) DEFAULT NULL,
+  `hide_set` int(11) DEFAULT NULL,
+  `former` varchar(255) NOT NULL DEFAULT '-',
+  `signature` varchar(255) NOT NULL DEFAULT 0,
+  `loyalty_ranking` tinyint(1) NOT NULL DEFAULT '0',
   `bonus_rerolls` bigint(21) NOT NULL DEFAULT '0',
+  `instantrewardtokens` int(11) UNSIGNED NOT NULL DEFAULT '0',
   INDEX `account_id` (`account_id`),
   INDEX `vocation` (`vocation`),
   CONSTRAINT `players_pk` PRIMARY KEY (`id`),
@@ -229,18 +247,15 @@ CREATE TABLE IF NOT EXISTS `account_viplist` (
 --
 
 CREATE TABLE IF NOT EXISTS `daily_reward_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `daystreak` smallint(2) NOT NULL DEFAULT 0,
-  `player_id` int(11) NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  INDEX `player_id` (`player_id`),
-  CONSTRAINT `daily_reward_history_pk` PRIMARY KEY (`id`),
-  CONSTRAINT `daily_reward_history_player_fk`
-    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
-    ON DELETE CASCADE
+	`id` INT NOT NULL PRIMARY KEY auto_increment,
+	`streak` smallint(2) not null default 0,
+	`event` varchar(255),
+	`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`instant` tinyint unsigned NOT NULL DEFAULT 0 ,
+	`player_id` INT NOT NULL,
+	FOREIGN KEY(`player_id`) REFERENCES `players`(`id`)
+	ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 -- --------------------------------------------------------
 
@@ -743,6 +758,38 @@ CREATE TABLE IF NOT EXISTS `player_storage` (
 -- --------------------------------------------------------
 
 --
+-- Table structure `bestiary_killcount`
+--
+
+CREATE TABLE IF NOT EXISTS `bestiary_killcount` (
+		`player_id` INT NULL,
+		`monster_id` INT UNSIGNED NULL,
+		`count` INT UNSIGNED NULL,
+		`finished` BOOLEAN,
+		CONSTRAINT `bestiary_killcount_players_fk`
+		FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+				ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure `quickloot_containers`
+--
+
+CREATE TABLE IF NOT EXISTS `quickloot_containers` (
+		`player_id` INT NULL,
+		`category_id` INT UNSIGNED NULL,
+		`cid` INT UNSIGNED NULL,
+		`sid` INT UNSIGNED NULL,
+		CONSTRAINT `quickloot_containers_players_fk`
+		FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+				ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure `store_history`
 --
 
@@ -787,7 +834,7 @@ CREATE TABLE IF NOT EXISTS `prey_slots` (
   `player_id` int(11) NOT NULL,
   `num` smallint(2) NOT NULL,
   `state` smallint(2) NOT NULL DEFAULT '1',
-  `unlocked` tinyint(1) NOT NULL DEFAULT '0',
+  `unlocked` smallint(2) NOT NULL DEFAULT '0',
   `current` varchar(40) NOT NULL DEFAULT '',
   `monster_list` varchar(360) NOT NULL,
   `free_reroll_in` int(11) NOT NULL DEFAULT '0',
@@ -822,12 +869,21 @@ CREATE TABLE `player_charms` (
 --
 INSERT INTO `accounts`
 (`id`,  `name`, `password`,                                 `type`) VALUES
-(1,     'GOD',  '21298df8a3277357ee55b01df9530b535cf08ec1',  5);
+(1, 	'1', '356a192b7913b04c54574d18c28d46e6395428ab', 1),
+(2,     'GOD',  '21298df8a3277357ee55b01df9530b535cf08ec1',  5);
 
 --
 -- Create ADM Payer on GOD account
 --
 INSERT INTO `players`
 (`id`, `name`,           `group_id`, `account_id`, `level`, `vocation`, `health`, `healthmax`, `experience`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `mana`, `manamax`, `town_id`, `conditions`, `cap`, `sex`) VALUES
-(1,    'ADM',             6,          1,            1,       0,          150,      150,         0,            106,        95,         78,         116,        128,        5,      5,         2,         '',           400,   1 );
+(1, 	'Rook Sample', 		1, 			1, 			1, 			0, 		150, 		150, 		0, 				106, 		95, 		78, 		116, 		128, 		5, 		5, 			6,		'',				400, 	0),
+(2, 	'Sorcerer Sample',	 1, 		1, 			8, 			1, 		185, 		185, 		4200, 			106, 		95, 		78, 		116, 		128, 		40,		40, 		2, 		'',				 470,	 1),
+(3, 	'Druid Sample', 	1, 			1, 			8, 			2, 		185, 		185, 		4200, 			106, 		95, 		78, 		116, 		128, 		40,		40, 		2, 		'',				 470,	 1),
+(4, 	'Paladin Sample', 	1, 			1, 			8, 			3, 		185, 		185, 		4200, 			106, 		95, 		78, 		116, 		128, 		40, 	40,			2, 		'',				 470,	 1),
+(5,		'Knight Sample', 	1, 			1, 			8, 			4, 		185, 		185, 		4200, 			106, 		95, 		78, 		116, 		128, 		40,	 	40,			2, 		'',				 470,	 1),
+(6,	    'ADM',             6,          2,            1,       0,          150,      150,         0,            106,        95,         78,         116,        128,        5,      5,         2,         '',           400,   1 );
+
+
+
 
