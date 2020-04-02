@@ -84,14 +84,14 @@ bool Player::stopLiveCasting() {
 	liveCasting = false;
 	castPassword = "";
 
-	for(ProtocolSpectator* spectator : getSpectators()) {
+	for (ProtocolSpectator* spectator : getSpectators()) {
 		spectator->disconnect();
 		removeSpectator(spectator);
 	}
 
 	std::ostringstream query;
 	query << "UPDATE `players_online` SET `cast_password` = NULL, `cast_spectators` = '0';";
-	Database::getInstance()->executeQuery(query.str());
+	Database::getInstance().executeQuery(query.str());
 
 	g_game.removeLiveCaster(this);
 
@@ -101,17 +101,17 @@ bool Player::stopLiveCasting() {
 bool Player::startLiveCasting(const std::string& password) {
 	liveCasting = true;
 
-	if(!password.empty()) {
+	if (!password.empty()) {
 		castPassword = password;
 	}
 
 	sendChannel(CHANNEL_CAST, "Live Cast", nullptr, nullptr);
 
-	Database* db = Database::getInstance();
+	Database& db = Database::getInstance();
 
 	std::ostringstream query;
-	query << "UPDATE `players_online` SET `cast_password` = '" << db->escapeString(password) << "' WHERE `player_id` = '" << getGUID() <<"';";
-	db->executeQuery(query.str());
+	query << "UPDATE `players_online` SET `cast_password` = '" << db.escapeString(password) << "' WHERE `player_id` = '" << getGUID() << "';";
+	db.executeQuery(query.str());
 
 	g_game.addLiveCaster(this);
 

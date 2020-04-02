@@ -1333,7 +1333,7 @@ class Player final : public Creature, public Cylinder
 			spectatorCount++;
 			std::ostringstream query;
 			query << "UPDATE `players_online` SET `cast_spectators` = '" << spectatorCount << "' WHERE `player_id` = '" << getGUID() << "';";
-			Database::getInstance()->executeQuery(query.str());
+			Database::getInstance().executeQuery(query.str());
 		}
 
 		void removeSpectator(ProtocolSpectator* spectator) {
@@ -1341,7 +1341,7 @@ class Player final : public Creature, public Cylinder
 			spectatorCount--;
 			std::ostringstream query;
 			query << "UPDATE `players_online` SET `cast_spectators` = '" << spectatorCount << "' WHERE `player_id` = '" << getGUID() << "';";
-			Database::getInstance()->executeQuery(query.str());
+			Database::getInstance().executeQuery(query.str());
 		}
 
 		std::vector<ProtocolSpectator*> getSpectators() {
@@ -1658,6 +1658,7 @@ class Player final : public Creature, public Cylinder
 		bool isConnecting = false;
 		bool addAttackSkillPoint = false;
 		bool inventoryAbilities[CONST_SLOT_LAST + 1] = {};
+
 		bool isSpectator = false;
 		bool liveCasting = false;
 		bool liveChatDisabled = false;

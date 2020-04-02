@@ -686,6 +686,9 @@ CREATE TABLE IF NOT EXISTS `player_prey` (
   `name` varchar(50) NOT NULL,
   `mindex` smallint(6) NOT NULL,
   `mcolumn` int(11) NOT NULL
+  CONSTRAINT `player_prey_players_fk`
+    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -705,6 +708,9 @@ CREATE TABLE IF NOT EXISTS `player_preytimes` (
   `bonus_type3` int(11) NOT NULL,
   `bonus_value3` int(11) NOT NULL,
   `bonus_name3` varchar(50) NOT NULL
+  CONSTRAINT `player_preytimes_players_fk`
+    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -851,7 +857,6 @@ CREATE TABLE IF NOT EXISTS `prey_slots` (
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 -- --------------------------------------------------------
 
 --
@@ -863,8 +868,13 @@ CREATE TABLE `player_charms` (
   `player_id` int(11) NOT NULL,
   `charm` VARCHAR(20),
   `monster` VARCHAR(20)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  INDEX `player_id` (`player_id`),
+  CONSTRAINT `player_charms_players_fk`
+    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
 --
 -- Create Account GOD/god

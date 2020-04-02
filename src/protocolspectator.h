@@ -53,6 +53,9 @@ class ProtocolSpectator final : public ProtocolGame
 		void login(const std::string& name, const std::string& password, OperatingSystem_t operatingSystem);
 		void logout(bool displayEffect = false, bool forced = false);
 
+		void AddItem(NetworkMessage& msg, const Item* item);
+		void AddItem(NetworkMessage& msg, uint16_t id, uint8_t count);
+
 		uint16_t getVersion() const {
 			return version;
 		}

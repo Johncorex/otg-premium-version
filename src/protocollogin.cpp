@@ -149,7 +149,7 @@ void ProtocolLogin::getCasterList(const std::string& accountName, const std::str
 	output->addByte(0); // world id
 	output->addString(g_config.getString(ConfigManager::SERVER_NAME));
 	output->addString(g_config.getString(ConfigManager::IP));
-	output->add<uint16_t>(g_config.getNumber(ConfigManager::LIVE_CAST_PORT));
+	output->add<int32_t>(g_config.getNumber(ConfigManager::LIVE_CAST_PORT));
 	output->addByte(0);
 
 	uint8_t size = std::min<size_t>(std::numeric_limits<uint8_t>::max(), casts.size());
@@ -250,6 +250,7 @@ void ProtocolLogin::onRecvFirstMessage(NetworkMessage& msg)
 
 	std::string accountName = msg.getString();
 	std::string password = msg.getString();
+	auto thisPtr = std::static_pointer_cast<ProtocolLogin>(shared_from_this());
 	if (accountName.empty()) {
 		if(g_config.getBoolean(ConfigManager::LIVE_CAST_ENABLED) == false) {
 			disconnectClient("Invalid account name.", version);

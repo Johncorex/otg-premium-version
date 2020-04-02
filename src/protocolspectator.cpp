@@ -185,21 +185,13 @@ void ProtocolSpectator::onRecvFirstMessage(NetworkMessage& msg)
 		return;
 	}
 
-	uint32_t key[4];
+	xtea::key key;
 	key[0] = msg.get<uint32_t>();
 	key[1] = msg.get<uint32_t>();
 	key[2] = msg.get<uint32_t>();
 	key[3] = msg.get<uint32_t>();
 	enableXTEAEncryption();
-	setXTEAKey(key);
-
-	if (operatingSystem >= CLIENTOS_OTCLIENT_LINUX) {
-		NetworkMessage opcodeMessage;
-		opcodeMessage.addByte(0x32);
-		opcodeMessage.addByte(0x00);
-		opcodeMessage.add<uint16_t>(0x00);
-		writeToOutputBuffer(opcodeMessage);
-	}
+	setXTEAKey(std::move(key));
 
 	msg.skipBytes(1); // gamemaster flag
 
@@ -363,6 +355,56 @@ void ProtocolSpectator::parsePacket(NetworkMessage& msg)
 	}
 }
 
+void ProtocolSpectator::AddItem(NetworkMessage& msg, uint16_t id, uint8_t count)
+{
+	const ItemType& it = Item::items[id];
+
+	msg.add<uint16_t>(it.clientId);
+
+	if (version < 1200) {
+		msg.addByte(0xFF); // MARK_UNMARKED
+	}
+
+	if (it.stackable) {
+		msg.addByte(count);
+	}
+	else if (it.isSplash() || it.isFluidContainer()) {
+		msg.addByte(fluidMap[count & 7]);
+	}
+	else if (version >= 1150 && it.isContainer()) {
+		msg.addByte(0x00);
+	}
+
+	if (it.isAnimation) {
+		msg.addByte(0xFE); // random phase (0xFF for async)
+	}
+}
+
+void ProtocolSpectator::AddItem(NetworkMessage& msg, const Item* item)
+{
+	const ItemType& it = Item::items[item->getID()];
+
+	msg.add<uint16_t>(it.clientId);
+
+	if (version < 1200) {
+		msg.addByte(0xFF); // MARK_UNMARKED
+	}
+
+	if (it.stackable) {
+		msg.addByte(std::min<uint16_t>(0xFF, item->getItemCount()));
+	}
+	else if (it.isSplash() || it.isFluidContainer()) {
+		msg.addByte(fluidMap[item->getFluidType() & 7]);
+	}
+	else if (version >= 1150 && it.isContainer()) {
+		msg.addByte(0x00);
+	}
+
+	if (it.isAnimation) {
+		msg.addByte(0xFE); // random phase (0xFF for async)
+	}
+}
+
 void ProtocolSpectator::GetTileDescription(const Tile* tile, NetworkMessage& msg)
 {
 	msg.add<uint16_t>(0x00); //environmental effects
@@ -370,7 +412,7 @@ void ProtocolSpectator::GetTileDescription(const Tile* tile, NetworkMessage& msg
 	int32_t count;
 	Item* ground = tile->getGround();
 	if (ground) {
-		msg.addItem(ground);
+		AddItem(msg, ground);
 		count = 1;
 	} else {
 		count = 0;
@@ -379,7 +421,7 @@ void ProtocolSpectator::GetTileDescription(const Tile* tile, NetworkMessage& msg
 	const TileItemVector* items = tile->getItemList();
 	if (items) {
 		for (auto it = items->getBeginTopItem(), end = items->getEndTopItem(); it != end; ++it) {
-			msg.addItem(*it);
+			AddItem(msg, *it);
 
 			if (++count == 10) {
 				return;
@@ -407,7 +449,7 @@ void ProtocolSpectator::GetTileDescription(const Tile* tile, NetworkMessage& msg
 
 	if (items) {
 		for (auto it = items->getBeginDownItem(), end = items->getEndDownItem(); it != end; ++it) {
-			msg.addItem(*it);
+			AddItem(msg, *it);
 
 			if (++count == 10) {
 				return;
@@ -731,10 +773,10 @@ void ProtocolSpectator::sendContainer(uint8_t cid, const Container* container, b
 	msg.addByte(cid);
 
 	if (container->getID() == ITEM_BROWSEFIELD) {
-		msg.addItem(1987, 1);
+		AddItem(msg, 1987, 1);
 		msg.addString("Browse Field");
 	} else {
-		msg.addItem(container);
+		AddItem(msg, container);
 		msg.addString(container->getName());
 	}
 
@@ -753,7 +795,7 @@ void ProtocolSpectator::sendContainer(uint8_t cid, const Container* container, b
 
 		msg.addByte(itemsToSend);
 		for (auto it = container->getItemList().begin() + firstIndex, end = it + itemsToSend; it != end; ++it) {
-			msg.addItem(*it);
+			AddItem(msg, *it);
 		}
 	} else {
 		msg.addByte(0x00);
@@ -853,9 +895,7 @@ void ProtocolSpectator::sendAddCreature(const Creature* creature, const Position
 	sendSkills();
 
 	//gameworld light-settings
-	LightInfo lightInfo;
-	g_game.getWorldLightInfo(lightInfo);
-	sendWorldLight(lightInfo);
+	sendWorldLight(g_game.getWorldLightInfo());
 
 	//player light level
 	sendCreatureLight(creature);
@@ -892,7 +932,7 @@ void ProtocolSpectator::sendInventoryItem(slots_t slot, const Item* item)
 	if (item) {
 		msg.addByte(0x78);
 		msg.addByte(slot);
-		msg.addItem(item);
+		AddItem(msg, item);
 	} else {
 		msg.addByte(0x79);
 		msg.addByte(slot);
@@ -932,8 +972,7 @@ void ProtocolSpectator::AddCreature(NetworkMessage& msg, const Creature* creatur
 		AddOutfit(msg, outfit);
 	}
 
-	LightInfo lightInfo;
-	creature->getCreatureLight(lightInfo);
+	LightInfo lightInfo = creature->getCreatureLight();
 	msg.addByte(lightInfo.level);
 	msg.addByte(lightInfo.color);
 
@@ -1077,8 +1116,7 @@ void ProtocolSpectator::AddWorldLight(NetworkMessage& msg, const LightInfo& ligh
 
 void ProtocolSpectator::AddCreatureLight(NetworkMessage& msg, const Creature* creature)
 {
-	LightInfo lightInfo;
-	creature->getCreatureLight(lightInfo);
+	LightInfo lightInfo = creature->getCreatureLight();
 
 	msg.addByte(0x8D);
 	msg.add<uint32_t>(creature->getID());
