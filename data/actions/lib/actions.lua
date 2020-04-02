@@ -314,18 +314,6 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 			end
 		end
 
-	elseif targetId == 103 and targetActionId == 4205 then
-		if player:getStorageValue(Storage.TibiaTales.IntoTheBonePit) ~= 1 then
-			return false
-		end
-
-		local remains = Game.createItem(2248, 1, toPosition)
-		if remains then
-			remains:setActionId(4206)
-		end
-		toPosition:sendMagicEffect(CONST_ME_HITAREA)
-		addEvent(removeRemains, 60000, toPosition)
-
 		elseif targetId == 22674 then
 		if not player:removeItem(5091, 1) then
 			return false
@@ -424,6 +412,17 @@ function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 		target:decay()
 		toPosition:sendMagicEffect(CONST_ME_HITAREA)
 
+	elseif targetId == 103 and targetActionId == 4205 then
+		if player:getStorageValue(Storage.TibiaTales.IntoTheBonePit) ~= 1 then
+			return false
+		end
+
+		local remains = Game.createItem(2248, 1, toPosition)
+		if remains then
+			remains:setActionId(4206)
+		end
+		toPosition:sendMagicEffect(CONST_ME_HITAREA)
+		addEvent(removeRemains, 60000, toPosition)
 	--sea of light
 	elseif targetId == 8634 then
 		if target.actionid == 4224 then
@@ -704,7 +703,7 @@ function onUseSpoon(player, item, fromPosition, target, toPosition, isHotkey)
 
 	--The Ice Islands Quest
 	if targetId == 388 then
-		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
+		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 20 then
 			if player:getStorageValue(Storage.TheIceIslands.SulphurLava) < 1 then
 				player:addItem(7247, 1) -- fine sulphur
 				player:setStorageValue(Storage.TheIceIslands.SulphurLava, 1)
@@ -799,7 +798,7 @@ function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHot
 		end
 
 	elseif targetId == 2733 then
-		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
+		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 20 then
 			if player:getStorageValue(Storage.TheIceIslands.FlowerCactus) < 1 then
 				player:addItem(7245, 1)
 				player:setStorageValue(Storage.TheIceIslands.FlowerCactus, 1)
@@ -811,7 +810,7 @@ function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHot
 		end
 
 	elseif targetId == 4017 then
-		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
+		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 20 then
 			if player:getStorageValue(Storage.TheIceIslands.FlowerBush) < 1 then
 				player:addItem(7249, 1)
 				player:setStorageValue(Storage.TheIceIslands.FlowerBush, 1)
