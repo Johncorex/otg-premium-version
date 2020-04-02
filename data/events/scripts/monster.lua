@@ -17,7 +17,7 @@ function Monster:onDropLoot(corpse)
 		end
 
 		if player and player:getClient().os == CLIENTOS_NEW_WINDOWS then
-			local text = ("Loot of %s: %s"):format(mType:getNameDescription(), corpse:getContentDescriptionColor())
+			local text = ("Loot of %s: %s."):format(mType:getNameDescription(), corpse:getContentDescriptionColor())
 			local party = player:getParty()
 			if party then
 				party:broadcastPartyLoot(text)
@@ -25,7 +25,7 @@ function Monster:onDropLoot(corpse)
 				player:sendTextMessage(MESSAGE_LOOT, text)
 			end
 			else
-			local text = ("Loot of %s: %s"):format(mType:getNameDescription(), corpse:getContentDescription())
+			local text = ("Loot of %s: %s."):format(mType:getNameDescription(), corpse:getContentDescription())
 			local party = player:getParty()
 			if party then
 				party:broadcastPartyLoot(text)
