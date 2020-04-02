@@ -32,6 +32,7 @@
 #include "rsa.h"
 #include "protocolold.h"
 #include "protocollogin.h"
+#include "protocolspectator.h"
 #include "protocolstatus.h"
 #include "databasemanager.h"
 #include "scheduler.h"
@@ -270,6 +271,9 @@ void mainLoader(int argc, char* argv[], ServiceManager* services)
 
 	// Legacy login protocol
 	services->add<ProtocolOld>(static_cast<uint16_t>(g_config.getNumber(ConfigManager::LOGIN_PORT)));
+
+	// Spectator protocol
+	services->add<ProtocolSpectator>(g_config.getNumber(ConfigManager::LIVE_CAST_PORT));
 
 	RentPeriod_t rentPeriod;
 	std::string strRentPeriod = asLowerCaseString(g_config.getString(ConfigManager::HOUSE_RENT_PERIOD));

@@ -528,6 +528,16 @@ class Game
 		bool hasEffect(uint8_t effectId);
 		bool hasDistanceEffect(uint8_t effectId);
 
+		std::vector<Player*> getLiveCasters(const std::string& password);
+
+		void addLiveCaster(Player* player) {
+			liveCasters.push_back(player);
+		}
+
+		void removeLiveCaster(Player* player) {
+			liveCasters.erase(std::remove(liveCasters.begin(), liveCasters.end(), player), liveCasters.end());
+		}
+
 		Groups groups;
 		Map map;
 		Mounts mounts;
@@ -564,6 +574,7 @@ class Game
 
 		std::vector<Creature*> ToReleaseCreatures;
 		std::vector<Item*> ToReleaseItems;
+		std::vector<Player*> liveCasters;
 
 		size_t lastBucket = 0;
 		size_t lastImbuedBucket = 0;

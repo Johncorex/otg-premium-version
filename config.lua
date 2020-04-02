@@ -28,6 +28,7 @@ bindOnlyGlobalAddress = false
 loginProtocolPort = 7171
 gameProtocolPort = 7172
 statusProtocolPort = 7171
+liveCastProtocolPort = 7173
 maxPlayers = 0
 motd = "Bem vindo ao OTG-Premium-Version!"
 onePlayerOnlinePerAccount = true
@@ -39,6 +40,11 @@ maxPacketsPerSecond = 35
 networkAttackThreshold = 4
 maxItem = 2000
 maxContainer = 100
+
+-- Cast System
+liveCastProtocolPort = 7173
+liveCastEnabled = true
+liveCastMaxSpectators = 0
 
 -- Version Manual
 clientVersionMin = 1100

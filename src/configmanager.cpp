@@ -116,6 +116,7 @@ bool ConfigManager::load()
 	if (!loaded) { //info that must be loaded one time (unless we reset the modules involved)
 		boolean[BIND_ONLY_GLOBAL_ADDRESS] = getGlobalBoolean(L, "bindOnlyGlobalAddress", false);
 		boolean[OPTIMIZE_DATABASE] = getGlobalBoolean(L, "startupDatabaseOptimization", true);
+		boolean[LIVE_CAST_ENABLED] = getGlobalBoolean(L, "liveCastEnabled", true);
 
 		string[IP] = getGlobalString(L, "ip", "127.0.0.1");
 		string[MAP_NAME] = getGlobalString(L, "mapName", "forgotten");
@@ -132,6 +133,7 @@ bool ConfigManager::load()
 		integer[GAME_PORT] = getGlobalNumber(L, "gameProtocolPort", 7172);
 		integer[LOGIN_PORT] = getGlobalNumber(L, "loginProtocolPort", 7171);
 		integer[STATUS_PORT] = getGlobalNumber(L, "statusProtocolPort", 7171);
+		integer[LIVE_CAST_PORT] = getGlobalNumber(L, "liveCastProtocolPort", 7173);
 
 		integer[MARKET_OFFER_DURATION] = getGlobalNumber(L, "marketOfferDuration", 30 * 24 * 60 * 60);
 
@@ -213,6 +215,7 @@ bool ConfigManager::load()
 	integer[ORANGE_SKULL_DURATION] = getGlobalNumber(L, "orangeSkullDuration", 7);
 	integer[SERVER_SAVE_NOTIFY_DURATION] = getGlobalNumber(L, "serverSaveNotifyDuration", 5);
 	integer[NETWORK_ATTACK_THRESHOLD] = getGlobalNumber(L, "networkAttackThreshold", 10);
+	integer[LIVE_CAST_MAX] = getGlobalNumber(L, "liveCastMaxSpectators", 25);
 
 	floating[RATE_MONSTER_HEALTH] = getGlobalFloat(L, "rateMonsterHealth", 1.0);
 	floating[RATE_MONSTER_ATTACK] = getGlobalFloat(L, "rateMonsterAttack", 1.0);

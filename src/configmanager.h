@@ -54,6 +54,7 @@ class ConfigManager
 			SERVER_SAVE_CLEAN_MAP,
 			SERVER_SAVE_CLOSE,
 			SERVER_SAVE_SHUTDOWN,
+			LIVE_CAST_ENABLED,
 
 			LAST_BOOLEAN_CONFIG /* this must be the last one */
 		};
@@ -128,6 +129,8 @@ class ConfigManager
 			ORANGE_SKULL_DURATION,
 			SERVER_SAVE_NOTIFY_DURATION,
 			NETWORK_ATTACK_THRESHOLD,
+			LIVE_CAST_PORT,
+			LIVE_CAST_MAX,
 
 			LAST_INTEGER_CONFIG /* this must be the last one */
 		};

@@ -28,7 +28,7 @@
 #include "outfit.h"
 #include "enums.h"
 #include "vocation.h"
-#include "protocolgame.h"
+#include "protocolspectator.h"
 #include "ioguild.h"
 #include "party.h"
 #include "inbox.h"
@@ -120,7 +120,7 @@ struct Kill {
 
 using MuteCountMap = std::map<uint32_t, uint32_t>;
 
-static constexpr int32_t PLAYER_MAX_SPEED = 4500;
+static constexpr int32_t PLAYER_MAX_SPEED = 6000;
 static constexpr int32_t PLAYER_MIN_SPEED = 10;
 
 class Player final : public Creature, public Cylinder
@@ -833,9 +833,9 @@ class Player final : public Creature, public Cylinder
 			}
 		}
 
-		void sendChannelMessage(const std::string& author, const std::string& text, SpeakClasses type, uint16_t channel) {
+		void sendChannelMessage(const std::string& author, const std::string& text, SpeakClasses type, uint16_t channel, bool broadcast = true) {
 			if (client) {
-				client->sendChannelMessage(author, text, type, channel);
+				client->sendChannelMessage(author, text, type, channel, broadcast);
 			}
 		}
 		void sendChannelEvent(uint16_t channelId, const std::string& playerName, ChannelEvent_t channelEvent) {
@@ -1328,6 +1328,42 @@ class Player final : public Creature, public Cylinder
 		void forgetInstantSpell(const std::string& spellName);
 		bool hasLearnedInstantSpell(const std::string& spellName) const;
 
+		void addSpectator(ProtocolSpectator* spectator) {
+			spectators.push_back(spectator);
+			spectatorCount++;
+			std::ostringstream query;
+			query << "UPDATE `players_online` SET `cast_spectators` = '" << spectatorCount << "' WHERE `player_id` = '" << getGUID() << "';";
+			Database::getInstance()->executeQuery(query.str());
+		}
+
+		void removeSpectator(ProtocolSpectator* spectator) {
+			spectators.erase(std::remove(spectators.begin(), spectators.end(), spectator), spectators.end());
+			spectatorCount--;
+			std::ostringstream query;
+			query << "UPDATE `players_online` SET `cast_spectators` = '" << spectatorCount << "' WHERE `player_id` = '" << getGUID() << "';";
+			Database::getInstance()->executeQuery(query.str());
+		}
+
+		std::vector<ProtocolSpectator*> getSpectators() {
+			return spectators;
+		}
+
+		uint32_t getSpectatorCount() {
+			return spectatorCount;
+		}
+
+		bool isLiveCasting() {
+			return liveCasting;
+		}
+
+		bool stopLiveCasting();
+
+		bool startLiveCasting(const std::string& password);
+
+		bool isSpectating() {
+			return isSpectator;
+		}
+
 		const std::map<uint8_t, OpenContainer>& getOpenContainers() const {
 			return openContainers;
 		}
@@ -1482,6 +1518,10 @@ class Player final : public Creature, public Cylinder
 		std::vector<OutfitEntry> outfits;
 		GuildWarVector guildWarVector;
 
+		std::vector<ProtocolSpectator*> spectators;
+		std::vector<Player*> spectatorMutes;
+		std::unordered_map<std::string, uint32_t> spectatorBans;
+
 		std::list<ShopInfo> shopItemList;
 
 		std::forward_list<Party*> invitePartyList;
@@ -1491,6 +1531,8 @@ class Player final : public Creature, public Cylinder
 
 		std::string name;
 		std::string guildNick;
+
+		std::string castPassword;
 
 		Skill skills[SKILL_LAST + 1];
 		LightInfo itemsLight;
@@ -1566,6 +1608,7 @@ class Player final : public Creature, public Cylinder
 		int32_t idleTime = 0;
 		int32_t coinBalance = 0;
 		uint16_t expBoostStamina = 0;
+		uint32_t spectatorCount = 0;
 
 		uint16_t lastStatsTrainingTime = 0;
 		uint16_t staminaMinutes = 2520;
@@ -1615,6 +1658,9 @@ class Player final : public Creature, public Cylinder
 		bool isConnecting = false;
 		bool addAttackSkillPoint = false;
 		bool inventoryAbilities[CONST_SLOT_LAST + 1] = {};
+		bool isSpectator = false;
+		bool liveCasting = false;
+		bool liveChatDisabled = false;
 
 		static uint32_t playerAutoID;
 
@@ -1660,6 +1706,7 @@ class Player final : public Creature, public Cylinder
 		friend class Actions;
 		friend class IOLoginData;
 		friend class ProtocolGame;
+		friend class ProtocolSpectator;
 };
 
 #endif
