@@ -52,6 +52,7 @@ local MODAL_STATE_VIEWREWARDHISTORY_DETAILS = 8
 local dailyRewardStates = {}
 local itemsCache = {}
 
+local runesIds = {2311, 2313, 2310, 2308, 2305, 2304, 2303, 2302, 2301, 2295, 2293, 2292, 2291, 2290, 2289, 2288, 2287, 2286, 2285, 2279, 2278, 2277, 2274, 2273, 2271, 2269, 2268, 2266, 2265, 2262, 2261, 2316, 2315, 19792, 23722, 23723, } -- since there's no GetPotionList on sources, this should solve the problem for now
 local potionsIds = {7588, 7589, 7590, 7591, 7618, 7620, 8472, 8473, 26029, 26030, 26031} -- since there's no GetPotionList on sources, this should solve the problem for now
 local rewardShrineIds ={
     29021,29022,29023,29024,29089,29090
@@ -322,21 +323,21 @@ local function getAvailableRewardItems(pid, forceReload)
 
         local player = Player(pid)
 
-        local runes = player:getRuneSpells(true) --ignore level
-  --[[          runes = {
-                {
-                    name,
-                    level,
-                    mlevel,
-                    runeid, --itemid
-                    spriteid,
-                },
-                (...)
-            }
-        ]]
+        local runes = {}
+        for i=1, #runesIds do
+                local itype = ItemType(runesIds[i])
+                local rune = {
+                    name = itype:getArticle() .. " " .. itype:getName(),
+                    runeid = runesIds[i],
+                    spriteid = itype:getClientId()
+                }
+                table.insert(runes, rune)
+        end
+
         if runes then
             reward.runes = runes
         end
+
 
         local potions = {}
         for i=1, #potionsIds do
