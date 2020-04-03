@@ -33,21 +33,8 @@
 	<module type="recvbyte" byte="144" script="quickloot/quickloot.lua"/>
 	<module type="recvbyte" byte="145" script="quickloot/quickloot.lua"/>
 
-	<module type="recvbyte" byte="229" script="characters/characters.lua" />
-	<module type="recvbyte" byte="234" script="characters/characters.lua" />
-
 	<!-- Supply Stash -->
 	<module type="recvbyte" byte="40" script="supplystash/supplystash.lua" />
-
-	<!-- Inspection System (11.10)
-	<module type="recvbyte" byte="205" script="inspection/inspection.lua"/>
-	<module type="recvbyte" byte="206" script="inspection/inspection.lua"/>
-	-->
-
-	<!-- Expert Pvp
-	<module type="recvbyte" byte="160" script="expertpvp/fightmodes.lua"/> -->
-
-	<!-- Join agression formula is still unknown TODO: add it.-->
 
 	<!-- Bestiary -->
 	<module type="recvbyte" byte="225" script="bestiary/bestiary.lua" />
