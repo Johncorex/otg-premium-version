@@ -7,11 +7,7 @@ SupplyStash.Credits = {
 	todo = {"The whole system"}
 }
 
-SupplyStash.Items = {
-	{id=3723, count = 1000}, 
-	{id=16167, count = 1234},  
-	{id=7364, count = 4321}
-} --Test items
+SupplyStash.Items = {} --Test items
 
 SupplyStash.Size = 2000
 

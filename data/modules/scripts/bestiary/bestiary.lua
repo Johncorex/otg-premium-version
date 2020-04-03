@@ -290,8 +290,8 @@ Bestiary.sendMonsterData = function(player, msg)
     msg:addU16(bestiaryMonster.toKill)  -- max kill third phase
 
     msg:addByte(bestiaryMonster.Stars)  -- Difficult
-    msg:addByte(1) -- Occurence
-    --msg:addByte(Bestiary.getMonsterOccurrencyByName(bestiaryMonster.name)) -- Occurence
+	local monsterOccurency = Bestiary.getMonsterOccurrencyByName(bestiaryMonster.name)
+	msg:addByte(1) -- TODO Occurency
 	local monsterLoot = monster:getLoot()
     msg:addByte(#monsterLoot)
 
@@ -302,10 +302,10 @@ Bestiary.sendMonsterData = function(player, msg)
             if item then 
                 local type = 0 -- TODO 0 = normal loot   /  1 = special event loot
                 local difficult = Bestiary.calculateDifficult(loot.chance)
-				msg:addItemId(killCounter > 0 and loot.itemId or 0)
-                msg:addByte(difficult)
-                msg:addByte(type)
-				if killCounter > 0 then
+				msg:addItemId(currentLevel > 1 and loot.itemId or 0)
+				msg:addByte(difficult)
+				msg:addByte(type)
+				if currentLevel > 1 then
 					msg:addString(item:getName())
 					msg:addByte(item:isStackable() and 0x1 or 0x0)
 				end
@@ -396,7 +396,7 @@ Bestiary.getMonsterOccurrencyByName = function(monsterName)
 			return i
 		end
 	end
-	return Bestiary.Occurencies.HARMLESS_ORDINARY
+	return Bestiary.Occurrencies.HARMLESS_ORDINARY
 
 end
 
