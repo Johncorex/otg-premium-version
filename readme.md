@@ -1,4 +1,4 @@
-# OTG Premium Server - [![Build status](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/malucooo/otg-premium-version)  [![Build Status](https://travis-ci.com/malucooo/OTG-Premium-Version.svg?branch=master)](https://travis-ci.com/malucooo/OTG-Premium-Version)
+# OTG Premium Server - [![Build status](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/malucooo/otg-premium-version)  [![Build Status](https://travis-ci.com/malucooo/OTG-Premium-Version.svg?branch=master)](https://travis-ci.com/malucooo/OTG-Premium-Version) ![CI](https://github.com/OTG-Developers/OTG-Premium-Version/workflows/CI/badge.svg)
 
 ### Getting Started:
 * [Compiling](https://github.com/otland/forgottenserver/wiki/Compiling)
