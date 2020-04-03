@@ -36,6 +36,9 @@
 	<module type="recvbyte" byte="229" script="characters/characters.lua" />
 	<module type="recvbyte" byte="234" script="characters/characters.lua" />
 
+	<!-- Supply Stash -->
+	<module type="recvbyte" byte="40" script="supplystash/supplystash.lua" />
+
 	<!-- Inspection System (11.10)
 	<module type="recvbyte" byte="205" script="inspection/inspection.lua"/>
 	<module type="recvbyte" byte="206" script="inspection/inspection.lua"/>

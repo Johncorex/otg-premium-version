@@ -22,14 +22,19 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		toPosition:sendMagicEffect(CONST_ME_FIREAREA)
 		addEvent(revert, 2 * 60 * 1000, toPosition, 25532, 25531)
 		return true
-	end
-	--Dreamer Challenge Quest
-	if target.uid == 2243 then
-		target:transform(1387)
-		toPosition:sendMagicEffect(CONST_ME_FIREAREA)
+	elseif target.uid == 2243 then
+		local tile = Tile(Position(32849, 32233, 9))
+		local item = tile:getItemById(2249)
+		local createTeleport = Game.createItem(1387, 1, Position(32849, 32233, 9))
+		for k, v in pairs(positions) do
+			v:sendMagicEffect(CONST_ME_YELLOW_RINGS)
+		end
 		item:remove()
+		addEvent(revertAshes, 5 * 60 * 1000) -- 5 minutes
+		createTeleport:setDestination(Position(32857, 32234, 11))
 		return true
 	end
+
 	local random = math.random(10)
 	if random >= 4 then --success 6% chance
 		if target.itemid == 7538 then --Destroy spider webs/North - South
