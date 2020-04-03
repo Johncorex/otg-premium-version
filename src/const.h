@@ -1,5 +1,4 @@
 /**
-/**
  * @file const.h
  * 
  * The Forgotten Server - a free and open-source MMORPG server emulator
