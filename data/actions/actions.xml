@@ -450,7 +450,7 @@
 	<action fromid="2376" toid="2404" script="others/destroy.lua" />
 	<action itemid="2406" script="others/destroy.lua" />
 	<action fromid="2408" toid="2415" script="others/destroy.lua" />
-	<action fromid="2417" toid="2419" script="others/destroy.lua" />
+	<action fromid="2417" toid="2418" script="others/destroy.lua" />
 	<action fromid="2421" toid="2453" script="others/destroy.lua" />
 	<action fromid="5792" toid="5797" script="others/dice.lua" />
 	<action itemid="6277" script="others/baking.lua" />
@@ -1084,6 +1084,9 @@
 
 	<!-- Market -->
 	<action itemid="14405" function="market" />
+
+	<!-- Supply stash -->
+  	<action itemid="32450" script="others/objects/supplystash.lua" />
 
 	<!-- Dolls -->
 	<action itemid="5080" script="others/dolls.lua" />
