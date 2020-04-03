@@ -58,4 +58,6 @@ jobs:
     
     # Building
     - name: Build
-      run: make -j `nproc`
+      run: |
+        cd build
+        make -j `nproc`
