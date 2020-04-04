@@ -110,6 +110,9 @@ class ProtocolGame final : public Protocol
 		void parseAttack(NetworkMessage& msg);
 		void parseFollow(NetworkMessage& msg);
 
+		void parseCyclopediaCharacterInfo(NetworkMessage& msg);
+		void parseTournamentLeaderboard(NetworkMessage& msg);
+
 		void parseBugReport(NetworkMessage& msg);
 		void parseDebugAssert(NetworkMessage& msg);
 		void parseRuleViolationReport(NetworkMessage &msg);
@@ -193,7 +196,7 @@ class ProtocolGame final : public Protocol
 		void sendOpenPrivateChannel(const std::string& receiver);
 		void sendToChannel(const Creature* creature, SpeakClasses type, const std::string& text, uint16_t channelId);
 		void sendPrivateMessage(const Player* speaker, SpeakClasses type, const std::string& text);
-		void sendIcons(uint16_t icons);
+		void sendIcons(uint32_t icons);
 		void sendRestingAreaIcon(bool activate=false, bool activeResting=false);
 		void sendFYIBox(const std::string& message);
 
@@ -221,12 +224,31 @@ class ProtocolGame final : public Protocol
 		void sendCreatureOutfit(const Creature* creature, const Outfit_t& outfit);
 		void sendStats();
 		void sendBasicData();
+		void sendClientCheck();
+		void sendGameNews();
+		void sendBlessStatus();
+		void sendPremiumTrigger();
 		void sendStoreHighlight();
 		void sendTextMessage(const TextMessage& message);
 		void sendReLoginWindow(uint8_t unfairFightReduction);
 
 		void sendTutorial(uint8_t tutorialId);
 		void sendAddMarker(const Position& pos, uint8_t markType, const std::string& desc);
+
+		void sendCyclopediaCharacterBaseInformation();
+		void sendCyclopediaCharacterGeneralStats();
+		void sendCyclopediaCharacterCombatStats();
+		void sendCyclopediaCharacterRecentDeaths();
+		void sendCyclopediaCharacterRecentPvPKills();
+		void sendCyclopediaCharacterAchievements();
+		void sendCyclopediaCharacterItemSummary();
+		void sendCyclopediaCharacterOutfitsMounts();
+		void sendCyclopediaCharacterStoreSummary();
+		void sendCyclopediaCharacterInspection();
+		void sendCyclopediaCharacterBadges();
+		void sendCyclopediaCharacterTitles();
+
+		void sendTournamentLeaderboard();
 
 		void sendCreatureWalkthrough(const Creature* creature, bool walkthrough);
 		void sendCreatureShield(const Creature* creature);
@@ -236,8 +258,6 @@ class ProtocolGame final : public Protocol
 
 		void sendShop(Npc* npc, const ShopInfoList& itemList);
 		void sendCloseShop();
-		void sendClientCheck();
-		void sendGameNews();
 		void sendResourceBalance(uint64_t money, uint64_t bank);
 		void sendSaleItemList(const std::list<ShopInfo>& shop);
 		void sendMarketEnter(uint32_t depotId);
@@ -267,6 +287,7 @@ class ProtocolGame final : public Protocol
 
 		void sendCreatureLight(const Creature* creature);
 		void sendWorldLight(const LightInfo& lightInfo);
+		void sendTibiaTime(int32_t time);
 
 		void sendCreatureSquare(const Creature* creature, SquareColor_t color);
 
@@ -333,10 +354,8 @@ class ProtocolGame final : public Protocol
 
 		void AddCreature(NetworkMessage& msg, const Creature* creature, bool known, uint32_t remove);
 		void AddPlayerStats(NetworkMessage& msg);
-		void AddOutfit(NetworkMessage& msg, const Outfit_t& outfit);
+		void AddOutfit(NetworkMessage& msg, const Outfit_t& outfit, bool addMount = true);
 		void AddPlayerSkills(NetworkMessage& msg);
-		void sendBlessStatus();
-		void sendPremiumTrigger();
 		void AddWorldLight(NetworkMessage& msg, LightInfo lightInfo);
 		void AddCreatureLight(NetworkMessage& msg, const Creature* creature);
 
@@ -376,6 +395,7 @@ class ProtocolGame final : public Protocol
 
 		uint8_t challengeRandom = 0;
 
+		bool addExivaRestrictions = false;
 		bool debugAssertSent = false;
 		bool acceptPackets = false;
 

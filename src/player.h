@@ -342,7 +342,7 @@ class Player final : public Creature, public Cylinder
 			return inbox;
 		}
 
-		uint16_t getClientIcons() const;
+		uint32_t getClientIcons() const;
 
 		const GuildWarVector& getGuildWarVector() const {
 			return guildWarVector;
@@ -1083,10 +1083,10 @@ class Player final : public Creature, public Cylinder
 			}
 		}
 		void sendClosePrivate(uint16_t channelId);
-		void sendRestingAreaIcon(uint16_t currentIcons) const;
+		void sendRestingAreaIcon(uint32_t currentIcons) const;
 		void sendIcons() const {
 			if (client) {
-				uint16_t icons = getClientIcons();
+				uint32_t icons = getClientIcons();
 				client->sendIcons(icons);
 				//Send resting area icon
 				sendRestingAreaIcon(icons);			
@@ -1230,6 +1230,11 @@ class Player final : public Creature, public Cylinder
 				client->sendWorldLight(lightInfo);
 			}
 		}
+		void sendTibiaTime(int32_t time) {
+			if (client) {
+				client->sendTibiaTime(time);
+			}
+		}
 		void sendChannelsDialog() {
 			if (client) {
 				client->sendChannelsDialog();
@@ -1271,9 +1276,69 @@ class Player final : public Creature, public Cylinder
 				client->sendAddMarker(pos, markType, desc);
 			}
 		}
-		void sendEnterWorld() {
+		void sendCyclopediaCharacterBaseInformation() {
 			if (client) {
-				client->sendEnterWorld();
+				client->sendCyclopediaCharacterBaseInformation();
+			}
+		}
+		void sendCyclopediaCharacterGeneralStats() {
+			if (client) {
+				client->sendCyclopediaCharacterGeneralStats();
+			}
+		}
+		void sendCyclopediaCharacterCombatStats() {
+			if (client) {
+				client->sendCyclopediaCharacterCombatStats();
+			}
+		}
+		void sendCyclopediaCharacterRecentDeaths() {
+			if (client) {
+				client->sendCyclopediaCharacterRecentDeaths();
+			}
+		}
+		void sendCyclopediaCharacterRecentPvPKills() {
+			if (client) {
+				client->sendCyclopediaCharacterRecentPvPKills();
+			}
+		}
+		void sendCyclopediaCharacterAchievements() {
+			if (client) {
+				client->sendCyclopediaCharacterAchievements();
+			}
+		}
+		void sendCyclopediaCharacterItemSummary() {
+			if (client) {
+				client->sendCyclopediaCharacterItemSummary();
+			}
+		}
+		void sendCyclopediaCharacterOutfitsMounts() {
+			if (client) {
+				client->sendCyclopediaCharacterOutfitsMounts();
+			}
+		}
+		void sendCyclopediaCharacterStoreSummary() {
+			if (client) {
+				client->sendCyclopediaCharacterStoreSummary();
+			}
+		}
+		void sendCyclopediaCharacterInspection() {
+			if (client) {
+				client->sendCyclopediaCharacterInspection();
+			}
+		}
+		void sendCyclopediaCharacterBadges() {
+			if (client) {
+				client->sendCyclopediaCharacterBadges();
+			}
+		}
+		void sendCyclopediaCharacterTitles() {
+			if (client) {
+				client->sendCyclopediaCharacterTitles();
+			}
+		}
+		void sendTournamentLeaderboard() {
+			if (client) {
+				client->sendTournamentLeaderboard();
 			}
 		}
 		void sendFightModes() {

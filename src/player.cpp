@@ -401,9 +401,9 @@ float Player::getDefenseFactor() const
 	}
 }
 
-uint16_t Player::getClientIcons() const
+uint32_t Player::getClientIcons() const
 {
-	uint16_t icons = 0;
+	uint32_t icons = 0;
 	for (Condition* condition : conditions) {
 		if (!isSuppress(condition->getType())) {
 			icons |= condition->getIcons();
@@ -425,14 +425,14 @@ uint16_t Player::getClientIcons() const
 
 	// Game client debugs with 10 or more icons
 	// so let's prevent that from happening.
-	std::bitset<20> icon_bitset(static_cast<uint64_t>(icons));
+	std::bitset<32> icon_bitset(static_cast<uint64_t>(icons));
 	for (size_t pos = 0, bits_set = icon_bitset.count(); bits_set >= 10; ++pos) {
 		if (icon_bitset[pos]) {
 			icon_bitset.reset(pos);
 			--bits_set;
 		}
 	}
-	return icon_bitset.to_ulong();
+	return static_cast<uint32_t>(icon_bitset.to_ulong());
 }
 
 void Player::updateInventoryWeight()
@@ -4875,8 +4875,9 @@ StreakBonus_t Player::getStreakDaysBonus()const {
     return bonus;
 }
 
-void Player::sendRestingAreaIcon(uint16_t currentIcons) const {
-    if (client && getProtocolVersion() >= 1140) {
+void Player::sendRestingAreaIcon(uint32_t currentIcons) const
+{
+    if (client) {
         if (hasBitSet(ICON_PIGEON, currentIcons)) {
             bool activeResting = false;
 
