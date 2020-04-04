@@ -274,6 +274,14 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 		player:addItem(21250, 1)
 		player:setStorageValue(Storage.GravediggerOfDrefia.Mission70, 1)
 
+	-- ferumbras ascendant
+	elseif targetActionId == 53803 then
+		if player:getStorageValue(Storage.FerumbrasAscension.Ring) >= 1 then
+			return false
+		end
+		player:addItem(24826, 1)
+		player:setStorageValue(Storage.FerumbrasAscension.Ring, 1)
+
 	-- ???
 	elseif targetActionId == 50118 then
 		local wagonItem = Tile(Position(32717, 31492, 11)):getItemById(7131)
@@ -314,7 +322,8 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 			end
 		end
 
-		elseif targetId == 22674 then
+
+	elseif targetId == 22674 then
 		if not player:removeItem(5091, 1) then
 			return false
 		end
@@ -328,7 +337,6 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 
 	return true
 end
-
 
 function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 	local stonePos = Position(32648, 32134, 10)
@@ -765,6 +773,15 @@ function onUseScythe(player, item, fromPosition, target, toPosition, isHotkey)
 	end
 
 	return onDestroyItem(player, item, fromPosition, target, toPosition, isHotkey)
+end
+
+function onUseSickle(player, item, fromPosition, target, toPosition, isHotkey)
+	if target.itemid == 5465 then
+		target:transform(5464)
+		target:decay()
+		Game.createItem(5467, 1, toPosition)
+	end
+	return true
 end
 
 function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHotkey)
