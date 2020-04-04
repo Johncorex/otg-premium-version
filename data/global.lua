@@ -2,9 +2,6 @@ math.randomseed(os.time())
 dofile('data/lib/lib.lua')
 
 NOT_MOVEABLE_ACTION = 8000
-PARTY_PROTECTION = 1 -- Set to 0 to disable.
-ADVANCED_SECURE_MODE = 1 -- Set to 0 to disable.
-
 STORAGEVALUE_PROMOTION = 30018
 
 ropeSpots = {384, 418, 8278, 8592, 13189, 14435, 14436, 15635, 19518, 26019, 24621, 24622, 24623, 24624}

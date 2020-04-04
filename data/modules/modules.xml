@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modules>
+	<!-- Cults of Tibia -->
+	<module type="recvbyte" byte="15" script="cults of tibia/death.lua" />
+
 	<!-- GameStore -->
 	<module type="recvbyte" byte="232" script="gamestore/gamestore.lua"/>
 	<module type="recvbyte" byte="233" script="gamestore/gamestore.lua"/>
@@ -13,15 +16,22 @@
 	<!-- EquipObject -->
 	<module type="recvbyte" byte="119" delay="1000" script="equipobject/equipobject.lua"/>
 
-	<!-- Prey System -->
-	<module type="recvbyte" byte="235" script="prey system/prey.lua" />
-	<module type="recvbyte" byte="237" script="prey system/prey.lua" />
+	<!-- Expert Pvp -->
+	<module type="recvbyte" byte="160" script="expertpvp/fightmodes.lua"/>
+
+	<!-- Join agression formula is still unknown TODO: add it.-->
 
 	<!-- Blessings -->
 	<module type="recvbyte" byte="207" script="blessings/blessings.lua" />
 
-	<!-- Cults of Tibia -->
-	<module type="recvbyte" byte="15" script="cults of tibia/death.lua" />
+	<!-- Inspection System (11.10)
+	<module type="recvbyte" byte="205" script="inspection/inspection.lua"/>
+	<module type="recvbyte" byte="206" script="inspection/inspection.lua"/>
+	-->
+
+	<!-- Prey System -->
+	<module type="recvbyte" byte="235" script="prey system/prey.lua" />
+	<module type="recvbyte" byte="237" script="prey system/prey.lua" />
 
 	<!-- Daily Reward -->
 	<module type="recvbyte" byte="216" script="dailyreward/dailyrewardmodule.lua" /> <!-- OpenRewardbutton -->
@@ -41,5 +51,7 @@
 	<module type="recvbyte" byte="226" script="bestiary/bestiary.lua" />
 	<module type="recvbyte" byte="227" script="bestiary/bestiary.lua" />
 	<module type="recvbyte" byte="228" script="bestiary/bestiary.lua" />
+	<module type="recvbyte" byte="229" script="characters/characters.lua" />
+	<module type="recvbyte" byte="234" script="characters/characters.lua" />
 
 </modules>

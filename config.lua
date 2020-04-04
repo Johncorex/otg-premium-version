@@ -40,6 +40,9 @@ networkAttackThreshold = 4
 maxItem = 2000
 maxContainer = 100
 
+-- Expert Pvp Config
+expertPvp = true
+
 -- Version Manual
 clientVersionMin = 1100
 clientVersionMax = 1200

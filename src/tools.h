@@ -105,4 +105,6 @@ int64_t OTSYS_TIME();
 
 SpellGroup_t stringToSpellGroup(std::string value);
 
+uint16_t getPvpItem(uint16_t itemId, bool isPvp);
+
 #endif
