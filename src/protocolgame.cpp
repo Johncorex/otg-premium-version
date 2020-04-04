@@ -1335,19 +1335,6 @@ void ProtocolGame::sendWorldLight(const LightInfo& lightInfo)
 	writeToOutputBuffer(msg);
 }
 
-void ProtocolGame::sendTibiaTime(int32_t time)
-{
-	if (version < 1121) {
-		return;
-	}
-
-	msg.reset();
-	msg.addByte(0xEF);
-	msg.addByte(time / 60);
-	msg.addByte(time % 60);
-	writeToOutputBuffer(msg);
-}
-
 void ProtocolGame::sendCreatureWalkthrough(const Creature* creature, bool walkthrough)
 {
 	if (!canSee(creature)) {
@@ -1462,6 +1449,7 @@ void ProtocolGame::sendAddMarker(const Position& pos, uint8_t markType, const st
 
 void ProtocolGame::sendTournamentLeaderboard()
 {
+	NetworkMessage msg;
 	msg.reset();
 	msg.addByte(0xC5);
 	msg.addByte(0);
@@ -1710,14 +1698,14 @@ void ProtocolGame::sendChannel(uint16_t channelId, const std::string& channelNam
 	writeToOutputBuffer(msg);
 }
 
-void ProtocolGame::sendIcons(uint32_t icons)
+void ProtocolGame::sendIcons(uint16_t icons)
 {
 	NetworkMessage msg;
 	msg.addByte(0xA2);
 	if (version >= 1140) { // TODO: verify compatibility of the new icon range ( 16-31 )
 		msg.add<uint32_t>(icons);
 	} else {
-		msg.add<uint16_t>(static_cast<uint16_t>(icons));
+		msg.add<uint16_t>(icons);
 	}
 
 	writeToOutputBuffer(msg);
@@ -2867,11 +2855,10 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 	msg.addByte(0x0F); // sendEnterWorld
 
 	//gameworld settings
-	AddWorldLight(g_game.getWorldLightInfo());
+	sendWorldLight(g_game.getWorldLightInfo());
 
 	writeToOutputBuffer(msg);
 
-	sendTibiaTime(g_game.getLightHour());
 	sendMapDescription(pos);
 	loggedIn = true;
 
@@ -3661,7 +3648,7 @@ void ProtocolGame::AddPlayerSkills(NetworkMessage& msg)
 	}
 }
 
-void ProtocolGame::AddOutfit(NetworkMessage& msg, const Outfit_t& outfit)
+void ProtocolGame::AddOutfit(NetworkMessage& msg, const Outfit_t& outfit, bool addMount/* = true*/)
 {
 	msg.add<uint16_t>(outfit.lookType);
 
@@ -3675,7 +3662,9 @@ void ProtocolGame::AddOutfit(NetworkMessage& msg, const Outfit_t& outfit)
 		msg.addItemId(outfit.lookTypeEx);
 	}
 
-	msg.add<uint16_t>(outfit.lookMount);
+	if (addMount) {
+		msg.add<uint16_t>(outfit.lookMount);
+	}
 }
 
 void ProtocolGame::addImbuementInfo(NetworkMessage& msg, uint32_t imbuid)

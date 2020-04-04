@@ -336,7 +336,7 @@ class Player final : public Creature, public Cylinder
 			return inbox;
 		}
 
-		uint32_t getClientIcons() const;
+		uint16_t getClientIcons() const;
 
 		const GuildWarVector& getGuildWarVector() const {
 			return guildWarVector;
@@ -1222,11 +1222,6 @@ class Player final : public Creature, public Cylinder
 		void sendWorldLight(LightInfo lightInfo) {
 			if (client) {
 				client->sendWorldLight(lightInfo);
-			}
-		}
-		void sendTibiaTime(int32_t time) {
-			if (client) {
-				client->sendTibiaTime(time);
 			}
 		}
 		void sendChannelsDialog() {

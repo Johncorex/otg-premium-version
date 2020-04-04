@@ -4993,7 +4993,6 @@ void Game::checkLight()
 
 		for (const auto& it : players) {
 			it.second->sendWorldLight(lightInfo);
-			it.second->sendTibiaTime(lightHour);
 		}
 	}
 }

@@ -42,7 +42,7 @@ maxContainer = 100
 
 -- Version Manual
 clientVersionMin = 1100
-clientVersionMax = 1200
+clientVersionMax = 1230
 clientVersionStr = "Only support outdated 10.00 and version 12.00"
 
 -- Depot Limit

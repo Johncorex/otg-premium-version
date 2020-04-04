@@ -187,6 +187,33 @@ std::string Container::getContentDescription() const
 	return getContentDescription(os).str();
 }
 
+std::ostringstream& Container::getContentDescriptionColor(std::ostringstream& os) const
+{
+	bool firstitem = true;
+	for (ContainerIterator it = iterator(); it.hasNext(); it.advance()) {
+		Item* item = *it;
+
+		Container* container = item->getContainer();
+		if (container && !container->empty()) {
+			continue;
+		}
+
+		if (firstitem) {
+			firstitem = false;
+		}
+		else {
+			os << ", ";
+		}
+
+			os << '{' << item->getClientID() << '|' << item->getNameDescription() << '}';
+	}
+
+	if (firstitem) {
+		os << "nothing";
+	}
+	return os;
+}
+
 std::ostringstream& Container::getContentDescription(std::ostringstream& os) const
 {
 	bool firstitem = true;
@@ -200,15 +227,12 @@ std::ostringstream& Container::getContentDescription(std::ostringstream& os) con
 
 		if (firstitem) {
 			firstitem = false;
-		} else {
+		}
+		else {
 			os << ", ";
 		}
 
-	if (version > 1200) {
-		os << '{' << item->getClientID() << '|' << item->getNameDescription() << '}';
-		} else {
-		os << item->getNameDescription();
-		}
+			os << item->getNameDescription();
 	}
 
 	if (firstitem) {

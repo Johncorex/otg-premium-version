@@ -178,6 +178,7 @@ class Container : public Item, public Cylinder
 		void updateItemWeight(int32_t diff);
 
 	protected:
+		std::ostringstream& getContentDescriptionColor(std::ostringstream& os) const;
 		std::ostringstream& getContentDescription(std::ostringstream& os) const;
 
 		uint32_t maxSize;
