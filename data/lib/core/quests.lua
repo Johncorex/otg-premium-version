@@ -3163,7 +3163,7 @@ if not Quests then
 			missions = {
 				[1] = {
 					name = "Power", storageid = Storage.FirstDragon.DragonCounter, startvalue = 0, endvalue = 200, description = function(player)
-						return ("You already hunted %d/200 dragons."):format(player:getStorageValue(Storage.FirstDragon.DragonCounter))
+						return ("You already hunted %d/200 dragons.", (math.max(player:getStorageValue(Storage.FirstDragon.DragonCounter), 0)))
 					end,
 				},
 				
@@ -3184,7 +3184,7 @@ if not Quests then
 			missions = {
 				[1] = {
 					name = "The Strengthtening of the Minotaurs", storageid = Storage.CultsOfTibia.Minotaurs.jamesfrancisTask, startvalue = 0, endvalue = 50, description = function(player)
-                    return ("James asked you to enter the cave for hunting 50 empowered minotaurs. Then he will be able to continue his research.\nMinotaurs killed: %d/50"):format(player:getStorageValue(Storage.CultsOfTibia.Minotaurs.jamesfrancisTask))
+                    return ("James asked you to enter the cave for hunting 50 empowered minotaurs. Then he will be able to continue his research.\nMinotaurs killed: %d/50", (math.max(player:getStorageValue(Storage.CultsOfTibia.Minotaurs.jamesfrancisTask), 0)))
                 end,
 				},
 
@@ -3227,7 +3227,7 @@ if not Quests then
 					states = {
 						[1] = "The members of the Barkless follow a rigid path of hardship and sacrifice. Their cult is located somewhere beneath Ab'dendriel. Whatever happened to their leader, only a true Barkless can find out.",
 						[2] = "You survived the sulphur and tar trial. You accepted the stigma of misfortune and vanity. The hardest part, however, is yet to come. Give your life to the ice... to become true and purified.",
-						[3] = function(player)return("You survived the Trial. Barkless now have the right to see the cult leader but a powerful relic is sealing the path.\nBarkless markings broken to reverse the power of the cult object: %d of 10"):format(math.max(player:getStorageValue(Storage.CultsOfTibia.Barkless.Objects), 0))
+						[3] = function(player)return("You survived the Trial. Barkless now have the right to see the cult leader but a powerful relic is sealing the path.\nBarkless markings broken to reverse the power of the cult object: %d of 10", (math.max(player:getStorageValue(Storage.CultsOfTibia.Barkless.Objects), 0)))
                 end,
 						[4] = "You broke enough Barkless markings to now reverse the seal held up by the cult object in the ritual chamber. The power you gained feels unnatural and excessive but it seems ther is no other way.",
 						[5] = "Something far more powerful than the beliel of your Barkless brothers and sisters powered the seal to the leader. Whatever the case - find Leiden, or as he's known to his devotees: the \"Penitent\".",
@@ -3242,7 +3242,7 @@ if not Quests then
 					states = {
 						[1] = "ASD",
 						[2] = "Below a ruin in the vicinity of the outlaw camp east of Thais a strange figure in ragged clothes hinted at something weird going on in a cave. He seemed too confused to decide whether to stop you.",
-						[3] = function(player)return("While rubbish, the amulet you equipe emits a strange aura of splendour. You feel an urge to fulfill the amulets hunger for especific deaths... \nExorcisms: %d/5 "):format(math.max(player:getStorageValue(Storage.CultsOfTibia.Misguided.Exorcisms), 0))
+						[3] = function(player)return("While rubbish, the amulet you equipe emits a strange aura of splendour. You feel an urge to fulfill the amulets hunger for especific deaths... \nExorcisms: %d/5 "), (math.max(player:getStorageValue(Storage.CultsOfTibia.Misguided.Exorcisms), 0)))
 						end,
 						[4] = "You defeated the cult leader of Misguided by uncovering the true master to pull his strings and freeing this world from its malicious existance. Return to Gerimor to tell him about the victory.",
 						[5] = "You have spoken to Gerimor about your victory.",
@@ -3281,7 +3281,7 @@ if not Quests then
 					name = "Zathroth Remmants", storageid = Storage.CultsOfTibia.Humans.Mission, startvalue = 1, endvalue = 3,
 					states = {
 						[1] = function(player)
-						return ("A remnant cult of Zathroth has formed in a forbidden temple beneath Carlin. Find out what's behind this and stop it in time.\nTemporarily vaporised souls:\n%d Decaying\n%d Withering"):format(math.max(player:getStorageValue(18551), 0), math.max(player:getStorageValue(18550), 0))
+						return ("A remnant cult of Zathroth has formed in a forbidden temple beneath Carlin. Find out what's behind this and stop it in time.\nTemporarily vaporised souls:\n%d Decaying\n%d Withering", (math.max(player:getStorageValue(18551), 0), math.max(player:getStorageValue(18550), 0)))
 						end,
 						[2] = "ASD",
 						[3] = "You returned to Gerimor after encounter with the remnants of Zathroth. On one hand its is furtunate that Zathroth indeed wasn't behind all this, but on the other... what is going on there?",
@@ -3297,7 +3297,7 @@ if not Quests then
 				[1] = {
 					name = "Dwarves: Home Improvement", storageid = Storage.DangerousDepths.Dwarves.Home, startvalue = 1, endvalue = 2,
 					states = {
-						[1] = function(player)return string.format("Destroy makeshift homes of the Lost to force them to fight you! Try making some prisoners in the progress and report back to Klom Stonecutter.\n\nLost Exiles: %d/20\nPrisoners (bonus): %d/3"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Dwarves.LostExiles), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Dwarves.Prisoners), 0))
+						[1] = function(player)return string.format("Destroy makeshift homes of the Lost to force them to fight you! Try making some prisoners in the progress and report back to Klom Stonecutter.\n\nLost Exiles: %d/20\nPrisoners (bonus): %d/3", (math.max(player:getStorageValue(Storage.DangerousDepths.Dwarves.LostExiles), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Dwarves.Prisoners), 0)))
 						end,
 						[2] = "You drove off the Lost but more are sure to come. Check back with Klom Stonecutter at a later time.",
 					},
@@ -3305,7 +3305,7 @@ if not Quests then
 				[2] = {
 					name = "Dwarves: Subterranean Life", storageid = Storage.DangerousDepths.Dwarves.Subterranean, startvalue = 1, endvalue = 2,
 					states = {
-						[1] = function(player)return string.format("Klome Stonecutter sent you on a grave mission to exterminate large populaces of subterranian life. Looks like the dwarves make short work of the deep intruders.\n\nSubterranean organisms: %d/50"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Dwarves.Organisms), 0))
+						[1] = function(player)return string.format("Klome Stonecutter sent you on a grave mission to exterminate large populaces of subterranian life. Looks like the dwarves make short work of the deep intruders.\n\nSubterranean organisms: %d/50", (math.max(player:getStorageValue(Storage.DangerousDepths.Dwarves.Organisms), 0)))
 						end,
 						[2] = "You helped Klom defend the outpost by cutting down a number of vermin from deep down below. The gnomes don't seem to completely approve of this but everyone appreciates the drop in the enemy's ranks.",
 					},
@@ -3313,7 +3313,7 @@ if not Quests then
 				[3] = {
 					name = "Gnomes: Gnomal Warming Measurements", storageid = Storage.DangerousDepths.Gnomes.Measurements, startvalue = 1, endvalue = 2,
 					states = {
-						[1] = function(player)return string.format("Gnomus sent you on a mission to measure the rising heat from below.\n\nLocation A: %d/1\nLocation B: %d/1\nLocation C: %d/1\nLocation D: %d/1\nLocation E: %d/1"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationA), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationB), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationC), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationD), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationE), 0))
+						[1] = function(player)return string.format("Gnomus sent you on a mission to measure the rising heat from below.\n\nLocation A: %d/1\nLocation B: %d/1\nLocation C: %d/1\nLocation D: %d/1\nLocation E: %d/1", (math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationA), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationB), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationC), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationD), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.locationE), 0)))
 						end,
 						[2] = "You helped Lardoc Bashsmite fighting back the verminous growth in the northern mineshaft. Return to him later to see if he has more work for you.",
 					},
@@ -3322,7 +3322,7 @@ if not Quests then
 					name = "Gnomes: Ordnance", storageid = Storage.DangerousDepths.Gnomes.Ordnance, startvalue = 1, endvalue = 3,
 					states = {
 						[1] = "Gnomus sent you to find and rescue the gnome ordnance the outpost is currently waiting for. Travel to the east of the cave system and find the old gnome trail where reinforcements will arrive.",
-						[2] = function(player)return string.format("You found the old gnome trail where ordnance for the gnome outpost arrive, escort them and their pack animals to safety and return to Gnomus.\n\nRescued gnomes: %d/5\nRescued animals: %d/3"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.GnomesCount), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.CrawlersCount), 0))
+						[2] = function(player)return string.format("You found the old gnome trail where ordnance for the gnome outpost arrive, escort them and their pack animals to safety and return to Gnomus.\n\nRescued gnomes: %d/5\nRescued animals: %d/3", (math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.GnomesCount), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.CrawlersCount), 0)))
 						end,
 						[3] = "You helped Lardoc Bashsmite fighting back the verminous growth in the northern mineshaft. Return to him later to see if he has more work for you.",
 					},
@@ -3330,7 +3330,7 @@ if not Quests then
 				[5] = {
 					name = "Gnomes: Uncharted Territory", storageid = Storage.DangerousDepths.Gnomes.Charting, startvalue = 1, endvalue = 2,
 					states = {
-						[1] = function(player)return string.format("Chart the area around the deep base for Gnomus. Look for especific landmarks:\n\nOld Gate: %d/1\nThe Gaze: %d/1\nLost Ruin: %d/1\nOutpost: %d/1\nBastion: %d/1\nBroken Tower: %d/1"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.OldGate), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.TheGaze), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.LostRuin), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.Outpost), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.Bastion), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.BrokenTower), 0))
+						[1] = function(player)return string.format("Chart the area around the deep base for Gnomus. Look for especific landmarks:\n\nOld Gate: %d/1\nThe Gaze: %d/1\nLost Ruin: %d/1\nOutpost: %d/1\nBastion: %d/1\nBroken Tower: %d/1", (math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.OldGate), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.TheGaze), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.LostRuin), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.Outpost), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.Bastion), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Gnomes.BrokenTower), 0)))
 						end,
 						[2] = "You helped Gnomus chart the area around the deep base. You found traces of what could have been an old civilisation but there's not enough left to draw any conclusion.",
 					},
@@ -3338,7 +3338,7 @@ if not Quests then
 				[6] = {
 					name = "Scouts: Explosive Growth", storageid = Storage.DangerousDepths.Scouts.Growth, startvalue = 1, endvalue = 2,
 					states = {
-						[1] = function(player)return string.format("You found the mine shaft. Burn all the growth and report back to Lardoc Bashsmite!\n\nFirst Room: %d/1\nSecond room: %d/1\nThird room: %d/1\nFourth room: %d/1\nFifth room: %d/1"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.firstBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.secondBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.thirdBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.fourthBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.fifthBarrel), 0))
+						[1] = function(player)return string.format("You found the mine shaft. Burn all the growth and report back to Lardoc Bashsmite!\n\nFirst Room: %d/1\nSecond room: %d/1\nThird room: %d/1\nFourth room: %d/1\nFifth room: %d/1", (math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.firstBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.secondBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.thirdBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.fourthBarrel), 0), math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.fifthBarrel), 0)))
 						end,
 						[2] = "You helped Lardoc Bashsmite fighting back the verminous growth in the northern mineshaft. Return to him later to see if he has more work for you.",
 					},
@@ -3346,7 +3346,7 @@ if not Quests then
 				[7] = {
 					name = "Scouts: Pesticide", storageid = Storage.DangerousDepths.Scouts.Diremaw, startvalue = 1, endvalue = 2,
 					states = {
-						[1] = function(player)return string.format("Lardoc asked you to follow a plan of the gnomes to stop the deep threat by trying to neutralise diremaw spawn with pesticies. Diremaws lay eggs inside corpses of their skin.\n\nNeutralised: %d/20"):format(math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.DiremawsCount), 0))
+						[1] = function(player)return string.format("Lardoc asked you to follow a plan of the gnomes to stop the deep threat by trying to neutralise diremaw spawn with pesticies. Diremaws lay eggs inside corpses of their skin.\n\nNeutralised: %d/20", (math.max(player:getStorageValue(Storage.DangerousDepths.Scouts.DiremawsCount), 0)))
 						end,
 						[2] = "You reported back to Lardoc Bashsmite to inform him that the gnome's plan to neutralise diremaw corpses seems to work.",
 					},
@@ -3373,7 +3373,7 @@ if not Quests then
 			missions = {
 				[1] = {
 					name = "The Great Dragon Hunt", storageid = Storage.AdventurersGuild.GreatDragonHunt.WarriorSkeleton, startvalue = 0, endvalue = 2, description = function(player)
-						return ("You are exploring the Kha'zeel Dragon Lairs. Others obviously found a terrible end here. But the dragon hoards might justify the risks. You killed %d/50 dragons and dragon lords."):format(math.max(player:getStorageValue(Storage.AdventurersGuild.GreatDragonHunt.DragonCounter), 0))
+						return ("You are exploring the Kha'zeel Dragon Lairs. Others obviously found a terrible end here. But the dragon hoards might justify the risks. You killed %d/50 dragons and dragon lords.", (math.max(player:getStorageValue(Storage.AdventurersGuild.GreatDragonHunt.DragonCounter), 0)))
 					end,
 				},
 			},
