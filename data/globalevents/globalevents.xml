@@ -7,6 +7,9 @@
 	<globalevent name="Grand Commander" interval="900000" script="bosses/Grand Commander Soeren.lua" />
 	<globalevent name="Thawing Dragon Lord" interval="900000" script="bosses/Thawing Dragon Lord.lua" />
 
+	<!-- Boosted Creature -->
+	<globalevent type="startup" name="BoostedCreature" script="others/boosted.lua"/>
+
 	<!-- Loading Maps -->
 	<globalevent name="example" type="startup" script="others/map_loading.lua"/>
 

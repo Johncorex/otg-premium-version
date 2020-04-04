@@ -33,7 +33,13 @@ function onLogin(player)
 			player:sendTextMessage(MESSAGE_STATUS_DEFAULT, loginStr)
 		end
 
+    local key = 56541
+    local resultId = db.storeQuery("SELECT `value` FROM `global_storage` WHERE `key` = " .. key)
+    local val = result.getString(resultId, "value") 
+
 		loginStr = string.format('Your last visit was on %s.', os.date('%a %b %d %X %Y', player:getLastLoginSaved()))
+		    player:sendTextMessage(MESSAGE_STATUS_DEFAULT, "Todays boosted creature: "..val.." \nBoosted creatures yield more experience points, carry more loot than usual and respawn at a faster rate.")            
+        end
 	end
 
     player:sendTextMessage(MESSAGE_STATUS_DEFAULT, loginStr)
