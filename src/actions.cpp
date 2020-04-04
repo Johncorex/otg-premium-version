@@ -564,7 +564,7 @@ bool useImbueShrine(Player* player, Item*, const Position&, Thing* target, const
 	}
 
 	if (item->getTopParent() != player) {
-		player->sendTextMessage(MESSAGE_STATUS_SMALL, "You have to pick up the item to imbue it.");
+		player->sendTextMessage(MESSAGE_STATUS_SMALL, "You cannot imbue an equipped item.");
 		return false;
 	}
 	

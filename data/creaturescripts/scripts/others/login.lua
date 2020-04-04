@@ -126,7 +126,7 @@ function onLogin(player)
 	-- Set Client XP Gain Rate
 	local baseExp = 100
 	if Game.getStorageValue(GlobalStorage.XpDisplayMode) > 0 then
-		baseExp = getRateFromTable(experienceStages, player:getLevel(), configManager.getNumber(configKeys.RATE_EXP))
+		baseExp = Game.getExperienceStage(player:getLevel())
 	end
 	local staminaMinutes = player:getStamina()
 	local doubleExp = false -- pode mudar pra true se tiver double no server

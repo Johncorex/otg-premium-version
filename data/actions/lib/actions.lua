@@ -1,11 +1,13 @@
-local holeId = {
-	294, 369, 370, 383, 392, 408, 409, 410, 427, 428, 430, 462, 469, 470, 482,
-	484, 485, 489, 924, 3135, 3136, 7933, 7938, 8170, 8286, 8285, 8284, 8281,
-	8280, 8279, 8277, 8276, 8567, 8585, 8596, 8595, 8249, 8250, 8251,
-	8252, 8253, 8254, 8255, 8256, 8592, 8972, 9606, 9625, 13190, 14461, 19519, 21536, 26020
+local groundIds = {354, 355} -- pick usable ground
+local sandIds = {231, 9059} -- desert sand
+local holeId = { -- usable rope holes, for rope spots see global.lua
+	294, 369, 370, 383, 392, 408, 409, 410, 427, 428, 429, 430, 462, 469, 470, 482,
+	484, 485, 489, 924, 1369, 3135, 3136, 4835, 4837, 7933, 7938, 8170, 8249, 8250,
+	8251, 8252, 8254, 8255, 8256, 8276, 8277, 8279, 8281, 8284, 8285, 8286, 8323,
+	8567, 8585, 8595, 8596, 8972, 9606, 9625, 13190, 14461, 19519, 21536, 23713,
+	26020
 }
-
-local holes = {468, 481, 483, 7932, 23712}
+local holes = {468, 481, 483, 7932, 23712} -- holes opened by shovel
 
 local JUNGLE_GRASS = { 2782, 3985, 19433 }
 local WILD_GROWTH = { 1499, 11099, 2101, 1775, 1447, 1446}
@@ -215,19 +217,31 @@ function onUseRope(player, item, fromPosition, target, toPosition, isHotkey)
 end
 
 function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
-	local targetId, targetActionId = target.itemid, target.actionid
-	if isInArray(holes, targetId) then
-		target:transform(targetId + 1)
-		target:decay()
+	local tile = Tile(toPosition)
+	if not tile then
+		return false
+	end
 
-	elseif isInArray({231, 9059}, targetId) then
-		local rand = math.random(100)
-		if target.actionid == 100 and rand <= 20 then
-			target:transform(489)
-			target:decay()
-		elseif rand == 1 then
+	local ground = tile:getGround()
+	if not ground then
+		return false
+	end
+
+	local groundId = ground:getId()
+	if table.contains(holes, groundId) then
+		ground:transform(groundId + 1)
+		ground:decay()
+		toPosition.z = toPosition.z + 1
+		tile:relocateTo(toPosition)
+
+	elseif table.contains(sandIds, groundId) then
+		local randomValue = math.random(1, 100)
+		if target.actionid == 100 and randomValue <= 20 then
+			ground:transform(489)
+			ground:decay()
+		elseif randomValue == 1 then
 			Game.createItem(2159, 1, toPosition)
-		elseif rand > 95 then
+		elseif randomValue > 95 then
 			Game.createMonster("Scarab", toPosition)
 		end
 		toPosition:sendMagicEffect(CONST_ME_POFF)
@@ -274,6 +288,14 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 		player:addItem(21250, 1)
 		player:setStorageValue(Storage.GravediggerOfDrefia.Mission70, 1)
 
+	-- ferumbras ascendant
+	elseif targetActionId == 53803 then
+		if player:getStorageValue(Storage.FerumbrasAscension.Ring) >= 1 then
+			return false
+		end
+		player:addItem(24826, 1)
+		player:setStorageValue(Storage.FerumbrasAscension.Ring, 1)
+
 	-- ???
 	elseif targetActionId == 50118 then
 		local wagonItem = Tile(Position(32717, 31492, 11)):getItemById(7131)
@@ -314,7 +336,8 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 			end
 		end
 
-		elseif targetId == 22674 then
+
+	elseif targetId == 22674 then
 		if not player:removeItem(5091, 1) then
 			return false
 		end
@@ -328,7 +351,6 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 
 	return true
 end
-
 
 function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 	local stonePos = Position(32648, 32134, 10)
@@ -765,6 +787,15 @@ function onUseScythe(player, item, fromPosition, target, toPosition, isHotkey)
 	end
 
 	return onDestroyItem(player, item, fromPosition, target, toPosition, isHotkey)
+end
+
+function onUseSickle(player, item, fromPosition, target, toPosition, isHotkey)
+	if target.itemid == 5465 then
+		target:transform(5464)
+		target:decay()
+		Game.createItem(5467, 1, toPosition)
+	end
+	return true
 end
 
 function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHotkey)
