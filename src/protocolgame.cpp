@@ -3561,10 +3561,7 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 	if (version >= 1220 && creatureType == CREATURETYPE_PLAYER) {
 		msg.addByte(creature->getPlayer()->getVocation()->getClientId());
 	}
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 	msg.addByte(creature->getSpeechBubble());
 	msg.addByte(0xFF); // MARK_UNMARKED
 	if (version >= 1110) {
