@@ -1027,6 +1027,29 @@ Storage = {
 		Reward = 12513,
 		TheatreScript = 12514
 	},
+	ShadownofYalahar = {
+		QuestStart = 95591,
+		Cerdras = 91592,
+		Dreadeye = 91593,
+		Boveas = 91594,
+		Scutty = 91595,
+		Milos = 91596,
+		GolemParts = 91334,
+		Questline = 95592,
+		-- doors
+		doorFactory = 35593,
+		doorCharge = 35592,
+		doorOut06 = 35595,
+		doorPower07 = 35597,
+		doorStable08 = 35599,
+		doorRitual09 = 35704,
+		doorShower11 = 35705,
+		doorLast13 = 35608,
+		doorLastLaboratorio13 =	35610,
+		doorCathedral = 35615,
+		doorThorn = 35616,
+		doorFibula = 35617
+	},
 	CaptainHaba = 12540,
 	secretService = {
 		Quest = 12550,
@@ -1584,6 +1607,7 @@ GlobalStorage = {
 		DiprathSwitchesGlobalStorage = 201,
 		AshmunrahSwitchesGlobalStorage = 202
 	},
+	Darkcathedral = 64436,
 	NaginataStone = 50058,
 	ExpBoost = 51052,
 	SwordOfFury = 5635,

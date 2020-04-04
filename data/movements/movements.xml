@@ -409,6 +409,14 @@
 	<!-- Yalahar Demons -->
 	<movevent event="StepIn" fromaid="4244" toaid ="4245" script="others/teleports/yalaharDemons.lua" />
 
+	<!-- Rottin Wood Quest -->
+	<movevent event="StepIn" itemid="13174" script="quests/rottin wood quest/trap.lua"/>
+
+	<!-- Shadows of Yalahar Quest -->
+	<movevent event="StepIn" uniqueid="35594" script="quests/shadows of yalahar quest/tileCharge.lua"/>
+	<movevent event="StepIn" uniqueid="35605" script="quests/shadows of yalahar quest/tileShower11.lua"/>
+	<movevent event="StepIn" uniqueid="35608" script="quests/shadows of yalahar quest/entranceTeleport.lua"/>
+
 	<!-- Waterfall Quest (Port Hope) -->
 	<movevent event="StepIn" actionid="50022" script="quests/waterfall/waterfall.lua" />
 
