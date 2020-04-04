@@ -777,6 +777,10 @@ void ProtocolGame::parseAutoWalk(NetworkMessage& msg)
 
 void ProtocolGame::parseSetOutfit(NetworkMessage& msg)
 {
+	uint8_t outfitType = 0;
+	if (version >= 1220) {//Maybe some versions before? but I don't have executable to check
+		outfitType = msg.getByte();
+	}
 	Outfit_t newOutfit;
 	newOutfit.lookType = msg.get<uint16_t>();
 	newOutfit.lookHead = msg.getByte();
@@ -2646,11 +2650,24 @@ void ProtocolGame::sendPingBack()
 void ProtocolGame::sendDistanceShoot(const Position& from, const Position& to, uint8_t type)
 {
 	NetworkMessage msg;
-	msg.addByte(0x85);
-	msg.addPosition(from);
-	msg.addPosition(to);
-	msg.addByte(type);
-	writeToOutputBuffer(msg);
+	if (version >= 1203) {
+		msg.reset();
+		msg.addByte(0x83);
+		msg.addPosition(from);
+		msg.addByte(MAGIC_EFFECTS_CREATE_DISTANCEEFFECT);
+		msg.addByte(type);
+		msg.addByte(static_cast<uint8_t>(static_cast<int8_t>(static_cast<int32_t>(to.x) - static_cast<int32_t>(from.x))));
+		msg.addByte(static_cast<uint8_t>(static_cast<int8_t>(static_cast<int32_t>(to.y) - static_cast<int32_t>(from.y))));
+		msg.addByte(MAGIC_EFFECTS_END_LOOP);
+		writeToOutputBuffer(msg);
+	} else {
+		msg.reset();
+		msg.addByte(0x85);
+		msg.addPosition(from);
+		msg.addPosition(to);
+		msg.addByte(type);
+		writeToOutputBuffer(msg);
+	}
 }
 
 void ProtocolGame::sendMagicEffect(const Position& pos, uint8_t type)
@@ -2658,12 +2675,22 @@ void ProtocolGame::sendMagicEffect(const Position& pos, uint8_t type)
 	if (!canSee(pos)) {
 		return;
 	}
-
 	NetworkMessage msg;
-	msg.addByte(0x83);
-	msg.addPosition(pos);
-	msg.addByte(type);
-	writeToOutputBuffer(msg);
+	if (version >= 1203) {
+		msg.reset();
+		msg.addByte(0x83);
+		msg.addPosition(pos);
+		msg.addByte(MAGIC_EFFECTS_CREATE_EFFECT);
+		msg.addByte(type);
+		msg.addByte(MAGIC_EFFECTS_END_LOOP);
+		writeToOutputBuffer(msg);
+	} else {
+		msg.reset();
+		msg.addByte(0x83);
+		msg.addPosition(pos);
+		msg.addByte(type);
+		writeToOutputBuffer(msg);
+	}
 }
 
 void ProtocolGame::sendCreatureHealth(const Creature* creature)
@@ -3534,7 +3561,10 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 	if (version >= 1220 && creatureType == CREATURETYPE_PLAYER) {
 		msg.addByte(creature->getPlayer()->getVocation()->getClientId());
 	}
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 	msg.addByte(creature->getSpeechBubble());
 	msg.addByte(0xFF); // MARK_UNMARKED
 	if (version >= 1110) {
