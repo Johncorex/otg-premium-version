@@ -40,11 +40,6 @@ networkAttackThreshold = 4
 maxItem = 2000
 maxContainer = 100
 
--- Version Manual
-clientVersionMin = 1100
-clientVersionMax = 1200
-clientVersionStr = "Only support outdated 10.00 and version 12.00"
-
 -- Depot Limit
 freeDepotLimit = 2000
 premiumDepotLimit = 10000
