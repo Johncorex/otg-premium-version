@@ -3724,11 +3724,10 @@ void ProtocolGame::AddItem(NetworkMessage& msg, uint16_t id, uint8_t count)
 		if (quickLootFlags > 0) {
 			msg.addByte(2);
 			msg.add<uint32_t>(quickLootFlags);
-		}
-		else {
+		} else {
 			msg.addByte(0x00);
 		}
-
+	}
 	if (it.isAnimation) {
 		msg.addByte(0xFE); // random phase (0xFF for async)
 	}
