@@ -124,6 +124,24 @@
 	<!-- Druid Outfit Quest -->
 	<action itemid="5938" script="quests/druid outfit/waterskin.lua" />
 
+	<!-- Shadows of Yalahar Quest -->
+	<action itemid="2581" script="quests/shadows of yalahar quest/factoryShooting.lua"/>
+	<action uniqueid="35591" script="quests/shadows of yalahar quest/rewardFactory.lua"/>
+	<action itemid="10153" script="quests/shadows of yalahar quest/golemParts.lua"/>
+	<action uniqueid="35596" script="quests/shadows of yalahar quest/rewardOut06.lua"/>
+	<action uniqueid="35598" script="quests/shadows of yalahar quest/rewardPower07.lua"/>
+	<action uniqueid="35600" script="quests/shadows of yalahar quest/rewardStable08.lua"/>
+	<action fromaid="59530" toaid="59538" script="quests/shadows of yalahar quest/ritual09.lua"/>
+	<action fromaid="35603" toaid="35604" script="quests/shadows of yalahar quest/elevator11.lua"/>
+	<action fromaid="35605" toaid="35606" script="quests/shadows of yalahar quest/elevator12.lua"/>
+	<action uniqueid="35607" script="quests/shadows of yalahar quest/rewardHead12.lua"/>
+	<action fromaid="35613" toaid="35614" script="quests/shadows of yalahar quest/alavanca13.lua"/>
+	<action uniqueid="35609" script="quests/shadows of yalahar quest/lastLever13.lua"/> 
+	<action uniqueid="35612" script="quests/shadows of yalahar quest/rewardLast13.lua"/>
+	<action uniqueid="35618" script="quests/shadows of yalahar quest/rewardFibula.lua"/>
+	<action uniqueid="35619" script="quests/shadows of yalahar quest/rewardCathedral.lua"/>
+	<action uniqueid="35620" script="quests/shadows of yalahar quest/rewardThorn.lua"/>
+
 	<!-- Dwarven Legs Quest -->
 	<action actionid="50109" script="quests/dwarven legs/oreWagon.lua" />
 	<action actionid="42150" script="quests/dwarven legs/oreWagon1.lua" />
@@ -569,6 +587,7 @@
 
 	<!-- Rottin Wood and the Married Men Quest -->
 	<action itemid="13176" script="quests/rottin wood/corpse.lua"/>
+	<action itemid="13173" script="quests/rottin wood/trap.lua"/>
 	<action actionid="42501" script="quests/rottin wood/brokenWall.lua" />
 	<action actionid="42502" script="quests/rottin wood/brokenWall.lua" />
 	<action actionid="42503" script="quests/rottin wood/brokenWall.lua" />
@@ -699,7 +718,7 @@
 
 	<!-- The Ancient Tombs Quest -->
 	<action actionid="12105" script="quests/the ancient tombs/ancientRuinsTombInstruments.lua" />
-	<action actionid="12107" script="quests/the ancient tombs/oasisTombLeverDoor.lua" />
+	<action actionid="12110" script="quests/the ancient tombs/oasisTombLeverDoor.lua" />
 	<action actionid="12120" script="quests/the ancient tombs/lever.lua" />
 	<action fromaid="12121" toaid="12123" script="quests/the ancient tombs/activeTeleportSwitches.lua" />
 
@@ -841,7 +860,6 @@
 
 	<!-- Tools -->
 	<action itemid="13158" script="tools/present.lua" />
-	<action itemid="13173" script="quests/rottin wood/trap.lua"/>
 	<action itemid="8717" script="tools/lockPick.lua" />
 	<action itemid="8613" script="tools/bricklayerKit.lua" />
 	<action itemid="2557" script="tools/hammer.lua" />

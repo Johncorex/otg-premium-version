@@ -15,6 +15,10 @@ for index, value in ipairs(levelDoor) do
 end
 
 function door.onStepIn(player, item, position, fromPosition)
+	if not player:isPlayer() then
+	return false
+	end
+
 	local itemId = item:getId()
     for index, value in ipairs(questDoor) do
 		 if value.openDoor == itemId then

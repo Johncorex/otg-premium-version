@@ -15,7 +15,7 @@ function removeMonster()
 			end
 		end
     end
-    return TRUE
+    return true
 end
 
 
@@ -26,7 +26,6 @@ function removeTrap()
 			for Px = TOP_LEFT_CORNER.x, BOTTOM_RIGHT_CORNER.x do
    			    local trap = getTileItemById({x=Px, y=Py, z=7}, 13174)
  				 if trap then
-				 setPlayerStorageValue(cid, 41650, -1)
     		     doRemoveItem(trap.uid, 1)
 			end
 		end

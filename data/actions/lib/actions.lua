@@ -445,6 +445,7 @@ function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 		end
 		toPosition:sendMagicEffect(CONST_ME_HITAREA)
 		addEvent(removeRemains, 60000, toPosition)
+
 	--sea of light
 	elseif targetId == 8634 then
 		if target.actionid == 4224 then
@@ -458,6 +459,14 @@ function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 			else
 				player:getPosition():sendMagicEffect(CONST_ME_POFF)
 			end
+		end
+
+	-- Shadows of Yalahar
+	elseif targetId == 8933 then
+		if player:getStorageValue(Storage.ShadownofYalahar.Questline) == 10 then
+		player:sendTextMessage(TALKTYPE_ORANGE_1, 'You have unearthed a crystal!')
+		player:addItem(10169, 1)
+		toPosition:sendMagicEffect(CONST_ME_POFF)
 		end
 
 	-- grimvale quest
@@ -735,7 +744,7 @@ function onUseSpoon(player, item, fromPosition, target, toPosition, isHotkey)
 		end
 
 	elseif targetId == 4184 then
-		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
+		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 20 then
 			if player:getStorageValue(Storage.TheIceIslands.SporesMushroom) < 1 then
 				player:addItem(7251, 1)
 				player:setStorageValue(Storage.TheIceIslands.SporesMushroom, 1)
@@ -819,7 +828,7 @@ function onUseKitchenKnife(player, item, fromPosition, target, toPosition, isHot
 
 	--The Ice Islands Quest
 	if targetId == 7261 then
-		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 21 then
+		if player:getStorageValue(Storage.TheIceIslands.Questline) >= 20 then
 			if player:getStorageValue(Storage.TheIceIslands.FrostbiteHerb) < 1 then
 				player:addItem(7248, 1)
 				player:setStorageValue(Storage.TheIceIslands.FrostbiteHerb, 1)
