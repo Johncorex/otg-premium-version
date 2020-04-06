@@ -49,6 +49,8 @@ extern Chat* g_chat;
 extern Modules* g_modules;
 extern Spells* g_spells;
 extern Imbuements* g_imbuements;
+extern Monsters g_monsters;
+extern Prey g_prey;
 
 void ProtocolGame::release()
 {
@@ -139,12 +141,6 @@ void ProtocolGame::login(const std::string& name, uint32_t accountId, OperatingS
 			disconnectClient("Your character could not be loaded.");
 			return;
 		}
-
-		// New Prey
-		if (!IOLoginData::loadPlayerPreyData(player)) {
-			std::cout << "Prey data could not be loaded" << std::endl;
-			return;
-		};
 
 		player->setOperatingSystem(operatingSystem);
 
@@ -498,6 +494,8 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 		case 0xE6: parseBugReport(msg); break;
 		case 0xE7: /* thank you */ break;
 		case 0xE8: parseDebugAssert(msg); break;
+		case 0xEB: parsePreyAction(msg); break;
+		case 0xED: parseRequestResourceData(msg); break;
 		case 0xEF: if (!g_config.getBoolean(ConfigManager::STOREMODULES)) { parseCoinTransfer(msg); } break; /* premium coins transfer */
 		case 0xF0: addGameTaskTimed(DISPATCHER_TASK_EXPIRATION, &Game::playerShowQuestLog, player->getID()); break;
 		case 0xF1: parseQuestLine(msg); break;
@@ -1289,6 +1287,34 @@ void ProtocolGame::parseSeekInContainer(NetworkMessage& msg)
 	addGameTask(&Game::playerSeekInContainer, player->getID(), containerId, index);
 }
 
+// Prey System
+void ProtocolGame::parseRequestResourceData(NetworkMessage& msg)
+{
+	ResourceType_t resourceType = static_cast<ResourceType_t>(msg.getByte());
+	addGameTask(&Game::playerRequestResourceData, player->getID(), resourceType);
+}
+
+void ProtocolGame::parsePreyAction(NetworkMessage& msg)
+{
+	uint8_t preySlotId = msg.getByte();
+	PreyAction_t preyAction = static_cast<PreyAction_t>(msg.getByte());
+	uint8_t monsterIndex = 0;
+	if (preyAction == PREY_ACTION_MONSTERSELECTION) {
+		monsterIndex = msg.getByte();
+	}
+	addGameTask(&Game::playerPreyAction, player->getID(), preySlotId, preyAction, monsterIndex);
+}
+
+void ProtocolGame::sendResourceData(ResourceType_t resourceType, int64_t amount)
+{
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xEE);
+	msg.addByte(resourceType);
+	msg.add<int64_t>(amount);
+	writeToOutputBuffer(msg);
+}
+
 // Send methods
 void ProtocolGame::sendOpenPrivateChannel(const std::string& receiver)
 {
@@ -1521,6 +1547,123 @@ void ProtocolGame::sendBasicData()
 	writeToOutputBuffer(msg);
 }
 
+void ProtocolGame::sendPreyData(uint8_t preySlotId)
+{
+	if (preySlotId >= PREY_SLOTCOUNT) {
+		return;
+	}
+
+	NetworkMessage msg;
+	msg.reset();
+	PreyData& currentPreyData = player->preyData[preySlotId];
+	msg.addByte(0xE8);
+	msg.addByte(preySlotId);
+	msg.addByte(currentPreyData.state);
+	if (currentPreyData.state == STATE_LOCKED) {
+		msg.addByte(UNLOCK_STORE);
+	}
+	else if (currentPreyData.state == STATE_SELECTION || currentPreyData.state == STATE_SELECTION_CHANGE_MONSTER) {
+		if (currentPreyData.state == STATE_SELECTION_CHANGE_MONSTER) {
+			msg.addByte(static_cast<uint8_t>(currentPreyData.bonusType));
+			msg.add<uint16_t>(currentPreyData.bonusValue);
+			msg.addByte(currentPreyData.bonusGrade);
+		}
+		msg.addByte(currentPreyData.preyList.size());
+		for (const std::string& preyName : currentPreyData.preyList) {
+			msg.addString(preyName);
+			if (MonsterType* mType = g_monsters.getMonsterType(preyName)) {
+				msg.add<uint16_t>(mType->info.outfit.lookType == 0 ? 21 : mType->info.outfit.lookType);
+				msg.addByte(mType->info.outfit.lookHead);
+				msg.addByte(mType->info.outfit.lookBody);
+				msg.addByte(mType->info.outfit.lookLegs);
+				msg.addByte(mType->info.outfit.lookFeet);
+				msg.addByte(mType->info.outfit.lookAddons);
+			}
+			else {
+				return player->generatePreyData();
+			}
+		}
+	}
+	else if (currentPreyData.state == STATE_ACTIVE) {
+		msg.addString(currentPreyData.preyMonster);
+		if (MonsterType* mType = g_monsters.getMonsterType(currentPreyData.preyMonster)) {
+			msg.add<uint16_t>(mType->info.outfit.lookType == 0 ? 21 : mType->info.outfit.lookType);
+			msg.addByte(mType->info.outfit.lookHead);
+			msg.addByte(mType->info.outfit.lookBody);
+			msg.addByte(mType->info.outfit.lookLegs);
+			msg.addByte(mType->info.outfit.lookFeet);
+			msg.addByte(mType->info.outfit.lookAddons);
+		}
+		else {
+			return player->generatePreyData();
+		}
+
+		msg.addByte(static_cast<uint8_t>(currentPreyData.bonusType));
+		msg.add<uint16_t>(currentPreyData.bonusValue);
+		msg.addByte(currentPreyData.bonusGrade);
+		msg.add<uint16_t>(currentPreyData.timeLeft);
+	}
+
+	msg.add<uint16_t>(player->getFreeRerollTime(preySlotId));
+	if (version >= 1190) {
+		msg.addByte(0x00); //preyWildCards
+	}
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendRerollPrice(uint32_t price)
+{
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xE9);
+	msg.add<uint32_t>(price);
+	if (version >= 1190) {
+		msg.addByte(0x01); // bonus reroll
+		msg.addByte(0x05);
+	}
+
+	if (version >= 1230) {
+		msg.add<uint32_t>(800);
+		msg.add<uint32_t>(800);
+		msg.addByte(2);
+		msg.addByte(1);
+	}
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendFreeListRerollAvailability(uint8_t preySlotId, uint16_t time)
+{
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xE6);
+	msg.add<uint8_t>(preySlotId);
+	msg.add<uint16_t>(time);
+
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendPreyTimeLeft(uint8_t preySlotId, uint16_t timeLeft)
+{
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xE7);
+	msg.add<uint8_t>(preySlotId);
+	msg.add<uint16_t>(timeLeft);
+
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendMessageDialog(MessageDialog_t type, const std::string& message)
+{
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xED);
+	msg.addByte(type);
+	msg.addString(message);
+
+	writeToOutputBuffer(msg);
+}
+
 void ProtocolGame::sendBlessStatus()
 {
 	NetworkMessage msg;
@@ -1568,45 +1711,6 @@ void ProtocolGame::sendPremiumTrigger()
 	msg.reset();
 	msg.addByte(0x9E);
 	msg.addByte(0);
-	writeToOutputBuffer(msg);
-}
-
-// Send preyInfo
-void ProtocolGame::sendPreyData()
-{
-	NetworkMessage msg;
-	for (int i = 0; i < 3; i++) {
-		msg.addByte(0xE8);
-		msg.addByte(i);
-
-		msg.addByte(0x00);
-		msg.addByte(0x00);
-		msg.add<uint16_t>(0);
-		if (version >= 1190) {
-			msg.addByte(0x00); // wildCards
-		}
-	}
-
-	msg.addByte(0xEC);
-	msg.addByte(0xEE);
-	msg.addByte(0x0A);
-	msg.add<uint64_t>(0);
-	msg.addByte(0xEE);
-	msg.addByte(0x01);
-	msg.add<uint64_t>(0);
-	// prey prices
-	msg.addByte(0xE9);
-	msg.add<uint32_t>(0);
-	if (version >= 1190) {
-		msg.addByte(0x00); // unknown price
-		msg.addByte(0x00); // selectCreatureDirectly price (5 in tibia)
-	}
-	if (version >= 1230) {
-		msg.add<uint32_t>(800);
-		msg.add<uint32_t>(800);
-		msg.addByte(2);
-		msg.addByte(1);
-	}
 	writeToOutputBuffer(msg);
 }
 
@@ -2867,8 +2971,7 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 	msg.addByte(0x0A); // sendPendingStateEntered
 	msg.addByte(0x0F); // sendEnterWorld
 
-	sendWorldLight(g_game.getWorldLightInfo());
-
+	AddWorldLight(msg, g_game.getWorldLightInfo());
 	writeToOutputBuffer(msg);
 
 	//gameworld light-settings
@@ -2931,11 +3034,15 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 
 	sendBasicData();
 	sendInventoryClientIds();
-	sendPreyData();
 	if (player->getProtocolVersion() >= 1130) {
 		player->sendClientCheck();
 		player->sendGameNews();
 	}
+
+	for (uint8_t preySlotId = 0; preySlotId < PREY_SLOTCOUNT; preySlotId++) {
+		sendPreyData(preySlotId);
+	}
+	player->updateRerollPrice();
 	player->sendIcons();
 }
 
@@ -3139,9 +3246,11 @@ void ProtocolGame::sendOutfitWindow()
 	NetworkMessage msg;
 	msg.addByte(0xC8);
 
+	bool mounted = false;
 	Outfit_t currentOutfit = player->getDefaultOutfit();
 	Mount* currentMount = g_game.mounts.getMountByID(player->getCurrentMount());
 	if (currentMount) {
+		mounted = (currentOutfit.lookMount == currentMount->clientId);
 		currentOutfit.lookMount = currentMount->clientId;
 	}
 

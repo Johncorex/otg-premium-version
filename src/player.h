@@ -42,6 +42,7 @@
 #include "rewardchest.h"
 #include "gamestore.h"
 #include "imbuements.h"
+#include "prey.h"
 
 class House;
 class NetworkMessage;
@@ -211,66 +212,9 @@ class Player final : public Creature, public Cylinder
 			}
 		}
 		
-		// New Prey
-		uint16_t getPreyState(uint16_t slot) const {
-			return preySlotState[slot];
-		}
-
-		uint16_t getPreyUnlocked(uint16_t slot) const {
-			return preySlotUnlocked[slot];
-		}
-
-		std::string getPreyCurrentMonster(uint16_t slot) const {
-			return preySlotCurrentMonster[slot];
-		}
-
-		std::string getPreyMonsterList(uint16_t slot) const {
-			return preySlotMonsterList[slot];
-		}
-
-		uint16_t getPreyFreeRerollIn(uint16_t slot) const {
-			return preySlotFreeRerollIn[slot];
-		}
-
-		uint16_t getPreyTimeLeft(uint16_t slot) const {
-			return preySlotTimeLeft[slot];
-		}
-
-		uint32_t getPreyNextUse(uint16_t slot) const {
-			return preySlotNextUse[slot];
-		}
-
-		uint16_t getPreyBonusType(uint16_t slot) const {
-			return preySlotBonusType[slot];
-		}
-
-		uint16_t getPreyBonusValue(uint16_t slot) const {
-			return preySlotBonusValue[slot];
-		}
-
-		uint16_t getPreyBonusGrade(uint16_t slot) const {
-			return preySlotBonusGrade[slot];
-		}
-		uint16_t getPreyBonusRerolls() const {
-			return preyBonusRerolls;
-		}
-		//
-
 		void setStaminaMinutes(uint16_t stamina) {
 			staminaMinutes = std::min<uint16_t>(2520, stamina);
 			sendStats();
-		}
-		uint16_t getPreyStamina(uint16_t index) const {
-			return preyStaminaMinutes[index];
-		}
-		uint16_t getPreyType(uint16_t index) const {
-			return preyBonusType[index];
-		}
-		uint16_t getPreyValue(uint16_t index) const {
-			return preyBonusValue[index];
-		}
-		std::string getPreyName(uint16_t index) const {
-			return preyBonusName[index];
 		}
 
 		bool addOfflineTrainingTries(skills_t skill, uint64_t tries);
@@ -532,6 +476,8 @@ class Player final : public Creature, public Cylinder
 		uint64_t getExperience() const {
 			return experience;
 		}
+
+		void setStamina(uint16_t stamina);
 
 		time_t getLastLoginSaved() const {
 			return lastLoginSaved;
@@ -1298,6 +1244,76 @@ class Player final : public Creature, public Cylinder
 			}
 		}
 
+		void sendRerollPrice(uint32_t price) {
+			if (client) {
+				client->sendRerollPrice(price);
+			}
+		}
+
+		void sendPreyData(uint8_t preySlotId) {
+			if (client) {
+				client->sendPreyData(preySlotId);
+			}
+		}
+
+		void sendResourceData(ResourceType_t resourceType, int64_t amount) {
+			if (client) {
+				client->sendResourceData(resourceType, amount);
+			}
+		}
+
+		void sendFreeListRerollAvailability(uint8_t preySlotId) {
+			if (preySlotId >= PREY_SLOTCOUNT) {
+				return;
+			}
+
+			PreyData& currentPrey = preyData[preySlotId];
+			if (client && currentPrey.state != STATE_INACTIVE && currentPrey.state != STATE_LOCKED) {
+				client->sendFreeListRerollAvailability(preySlotId, getFreeRerollTime(preySlotId));
+			}
+		}
+
+		void sendPreyTimeLeft(uint8_t preySlotId) {
+			if (preySlotId >= PREY_SLOTCOUNT) {
+				return;
+			}
+
+			PreyData& currentPrey = preyData[preySlotId];
+			if (client) {
+				client->sendPreyTimeLeft(preySlotId, currentPrey.timeLeft);
+			}
+		}
+
+		int64_t getBonusRerollCount() {
+			return bonusRerollCount;
+		}
+		void setBonusRerollCount(int64_t count) {
+			bonusRerollCount = count;
+		}
+
+		void generatePreyData();
+		void setPreyData(std::vector<PreyData>&& preyData);
+		void serializePreyData(PropWriteStream& propWriteStream) const;
+		ReturnValue changePreyDataState(uint8_t preySlotId, PreyState state, uint8_t monsterIndex = 0);
+		void updateRerollPrice();
+		ReturnValue rerollPreyData(uint8_t preySlotId);
+		ReturnValue rerollPreyBonus(uint8_t preySlotId);
+		uint16_t getFreeRerollTime(uint8_t preySlotId);
+		uint16_t getPreyTimeLeft(uint8_t preySlotId);
+		void decreasePreyTimeLeft(uint16_t amount);
+
+		uint16_t getPreyBonusLoot(MonsterType* mType);
+		bool applyBonusExperience(uint64_t& gainExp, Creature* source);
+		bool applyBonusDamageBoost(CombatDamage&, Creature* opponent);
+		bool applyBonusDamageReduction(CombatDamage&, Creature* opponent);
+		bool hasActivePreyBonus(BonusType type, Creature* source);
+
+		void sendMessageDialog(MessageDialog_t type, const std::string& msg) const {
+			if (client) {
+				client->sendMessageDialog(type, msg);
+			}
+		}
+
 		void receivePing() {
 			lastPong = OTSYS_TIME();
 		}
@@ -1500,6 +1516,8 @@ class Player final : public Creature, public Cylinder
 		std::forward_list<std::string> learnedInstantSpellList;
 		std::forward_list<Condition*> storedConditionList; // TODO: This variable is only temporarily used when logging in, get rid of it somehow
 
+		std::vector<PreyData> preyData;
+
 		std::string name;
 		std::string guildNick;
 
@@ -1525,6 +1543,7 @@ class Player final : public Creature, public Cylinder
 		int64_t lastPong;
 		int64_t nextAction = 0;
 		uint64_t instantRewardTokens = 0;
+		int64_t bonusRerollCount = 0;
 
 		std::vector<Kill> unjustifiedKills;
 
@@ -1580,10 +1599,6 @@ class Player final : public Creature, public Cylinder
 
 		uint16_t lastStatsTrainingTime = 0;
 		uint16_t staminaMinutes = 2520;
-		std::vector<uint16_t> preyStaminaMinutes = {7200, 7200, 7200};
-		std::vector<uint16_t> preyBonusType = {0, 0, 0};
-		std::vector<uint16_t> preyBonusValue = {0, 0, 0};
-		std::vector<std::string> preyBonusName = {"", "", ""};
 		std::vector<uint8_t> blessings = { 0, 0, 0, 0, 0, 0, 0, 0 };
 		uint16_t maxWriteLen = 0;
 		uint16_t baseXpGain = 100;
@@ -1593,19 +1608,6 @@ class Player final : public Creature, public Cylinder
 		uint16_t staminaXpBoost = 100;
 		int16_t lastDepotId = -1;
 		
-		// New Prey
-		uint16_t preyBonusRerolls = 0;
-		std::vector<uint16_t> preySlotState = {0, 0, 0};
-		std::vector<uint16_t> preySlotUnlocked = {0, 0, 0};
-		std::vector<std::string> preySlotCurrentMonster = { "", "", "" };
-		std::vector<std::string> preySlotMonsterList = { "", "", "" };
-		std::vector<uint16_t> preySlotFreeRerollIn = { 0, 0, 0 };
-		std::vector<uint16_t> preySlotTimeLeft = {7200, 7200, 7200};
-		std::vector<uint32_t> preySlotNextUse = { 0, 0, 0 };
-		std::vector<uint16_t> preySlotBonusType = {0, 0, 0};
-		std::vector<uint16_t> preySlotBonusValue = {0, 0, 0};
-		std::vector<uint16_t> preySlotBonusGrade = { 0, 0, 0 };
-
 		uint8_t soul = 0;
 		uint8_t levelPercent = 0;
 		uint8_t magLevelPercent = 0;

@@ -50,7 +50,6 @@ function onLogin(player)
 	"Somewhat Beatable Death",
 	"deeplingBosses",
 	"theGreatDragonHuntKill",
-	"bonusPreyLootKill",
 	"bossesMissionCults",
 	"bragrumol_kill",
 	"mozradek_kill",
