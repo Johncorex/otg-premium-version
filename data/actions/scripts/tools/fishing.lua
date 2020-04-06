@@ -26,7 +26,7 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 		target:transform(targetId + 1)
 		target:decay()
 
-		local rareChance = math.random(1, 100)
+		local rareChance = math.random(100)
 		if rareChance == 1 then
 			player:addItem(lootVeryRare[math.random(#lootVeryRare)], 1)
 		elseif rareChance <= 3 then
