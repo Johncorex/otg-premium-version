@@ -1230,6 +1230,11 @@ class Player final : public Creature, public Cylinder
 				client->sendWorldLight(lightInfo);
 			}
 		}
+		void sendTibiaTime(int32_t time) {
+			if (client) {
+				client->sendTibiaTime(time);
+			}
+		}
 		void sendChannelsDialog() {
 			if (client) {
 				client->sendChannelsDialog();
@@ -1269,6 +1274,11 @@ class Player final : public Creature, public Cylinder
 		void sendAddMarker(const Position& pos, uint8_t markType, const std::string& desc) {
 			if (client) {
 				client->sendAddMarker(pos, markType, desc);
+			}
+		}
+		void sendTournamentLeaderboard() {
+			if (client) {
+				client->sendTournamentLeaderboard();
 			}
 		}
 		void sendFightModes() {

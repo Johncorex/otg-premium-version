@@ -5022,6 +5022,11 @@ void Game::checkLight()
 
 		for (const auto& it : players) {
 			it.second->sendWorldLight(lightInfo);
+			it.second->sendTibiaTime(lightHour);
+		}
+	} else {
+		for (const auto& it : players) {
+			it.second->sendTibiaTime(lightHour);
 		}
 	}
 }
@@ -5634,6 +5639,16 @@ void Game::kickPlayer(uint32_t playerId, bool displayEffect)
 	}
 
 	player->kickPlayer(displayEffect);
+}
+
+void Game::playerTournamentLeaderboard(uint32_t playerId, uint8_t leaderboardType)
+{
+	Player* player = getPlayerByID(playerId);
+	if (!player || leaderboardType > 1) {
+		return;
+	}
+
+	player->sendTournamentLeaderboard();
 }
 
 void Game::playerReportRuleViolationReport(uint32_t playerId, const std::string& targetName, uint8_t reportType, uint8_t reportReason, const std::string& comment, const std::string& translation)
