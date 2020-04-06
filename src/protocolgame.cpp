@@ -3246,11 +3246,9 @@ void ProtocolGame::sendOutfitWindow()
 	NetworkMessage msg;
 	msg.addByte(0xC8);
 
-	bool mounted = false;
 	Outfit_t currentOutfit = player->getDefaultOutfit();
 	Mount* currentMount = g_game.mounts.getMountByID(player->getCurrentMount());
 	if (currentMount) {
-		mounted = (currentOutfit.lookMount == currentMount->clientId);
 		currentOutfit.lookMount = currentMount->clientId;
 	}
 
