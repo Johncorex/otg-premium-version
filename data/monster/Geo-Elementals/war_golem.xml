@@ -60,7 +60,7 @@
 	</voices>
 	<loot>
 		<item id="2148" countmax="90" chance="37500"/><!-- gold coin -->
-		<item id="2148" countmax="80" chance="375000"/><!-- gold coin -->
+		<item id="2148" countmax="80" chance="37500"/><!-- gold coin -->
 		<item id="8309" countmax="5" chance="5260"/><!-- nails -->
 		<item id="2377" chance="5500"/><!-- two handed sword -->
 		<item id="2510" chance="9000"/><!-- plate shield -->
