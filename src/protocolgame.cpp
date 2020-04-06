@@ -349,7 +349,6 @@ void ProtocolGame::onRecvFirstMessage(NetworkMessage& msg)
 		disconnectClient("Account name or password is not correct.");
 		return;
 	}
-
 	g_dispatcher.addTask(createTask(std::bind(&ProtocolGame::login, getThis(), characterName, accountId, operatingSystem)));
 }
 
@@ -482,6 +481,7 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 		case 0xAB: parseChannelInvite(msg); break;
 		case 0xAC: parseChannelExclude(msg); break;
 		case 0xBE: addGameTask(&Game::playerCancelAttackAndFollow, player->getID()); break;
+		case 0xC7: parseTournamentLeaderboard(msg); break;
 		case 0xC9: /* update tile */ break;
 		case 0xCA: parseUpdateContainer(msg); break;
 		case 0xCB: parseBrowseField(msg); break;
@@ -522,11 +522,6 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 			// std::cout << "Player: " << player->getName() << " sent an unknown packet header: 0x" << std::hex << static_cast<uint16_t>(recvbyte) << std::dec << "!" << std::endl;
 			break;
 	}
-	/* temporary solution to disconnections while opening store 
-		if (msg.isOverrun()) {
-			disconnect();
-		}
-	*/
 }
 
 void ProtocolGame::GetTileDescription(const Tile* tile, NetworkMessage& msg)
@@ -1058,6 +1053,29 @@ void ProtocolGame::parseWrapableItem(NetworkMessage& msg)
 	addGameTaskTimed(DISPATCHER_TASK_EXPIRATION, &Game::playerWrapableItem, player->getID(), pos, stackpos, spriteId);
 }
 
+void ProtocolGame::parseTournamentLeaderboard(NetworkMessage& msg)
+{
+	uint8_t ledaerboardType = msg.getByte();
+	if (ledaerboardType == 0)
+	{
+		const std::string worldName = msg.getString();
+		uint16_t currentPage = msg.get<uint16_t>();
+		(void)worldName;
+		(void)currentPage;
+	}
+	else if (ledaerboardType == 1)
+	{
+		const std::string worldName = msg.getString();
+		const std::string characterName = msg.getString();
+		(void)worldName;
+		(void)characterName;
+	}
+	uint8_t elementsPerPage = msg.getByte();
+	(void)elementsPerPage;
+
+	addGameTask(&Game::playerTournamentLeaderboard, player->getID(), ledaerboardType);
+}
+
 void ProtocolGame::parseRuleViolationReport(NetworkMessage &msg)
 {
 	uint8_t reportType = msg.getByte();
@@ -1443,6 +1461,16 @@ void ProtocolGame::sendAddMarker(const Position& pos, uint8_t markType, const st
 	msg.addPosition(pos);
 	msg.addByte(markType);
 	msg.addString(desc);
+	writeToOutputBuffer(msg);
+}
+
+void ProtocolGame::sendTournamentLeaderboard()
+{
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xC5);
+	msg.addByte(0);
+	msg.addByte(0x01); // No data available
 	writeToOutputBuffer(msg);
 }
 
@@ -2829,17 +2857,22 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 	msg.add<uint16_t>(static_cast<uint16_t>(g_config.getNumber(ConfigManager::STORE_COIN_PACKET)));
 
 	if (version >= 1150 || shouldAddExivaRestrictions) {
-		msg.addByte(0x00); // exiva button enabled
+		msg.addByte(0x01); // exiva button enabled
 	}
 
 	if (version >= 1215) {
-		msg.addByte(0x01); // tournament button enabled
+		msg.addByte(0x00); // tournament button enabled
 	}
 
 	msg.addByte(0x0A); // sendPendingStateEntered
 	msg.addByte(0x0F); // sendEnterWorld
 
+	sendWorldLight(g_game.getWorldLightInfo());
+
 	writeToOutputBuffer(msg);
+
+	//gameworld light-settings
+	sendTibiaTime(g_game.getLightHour());
 
 	sendMapDescription(pos);
 	loggedIn = true;
@@ -2862,9 +2895,6 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 		sendItemsPrice();
 	}
 
-	//gameworld light-settings
-	sendWorldLight(g_game.getWorldLightInfo());
-	sendTibiaTime(g_game.getLightHour());
 
 	//player light level
 	sendCreatureLight(creature);
@@ -3766,14 +3796,18 @@ void ProtocolGame::AddItem(NetworkMessage& msg, uint16_t id, uint8_t count)
 
 	if (it.stackable) {
 		msg.addByte(count);
-	} else if (it.isSplash() || it.isFluidContainer()) {
+	}
+	else if (it.isSplash() || it.isFluidContainer()) {
 		msg.addByte(fluidMap[count & 7]);
-	} else if (version >= 1150 && it.isContainer()) {
-		msg.addByte(0x00);
 	}
 
 	if (it.isAnimation) {
 		msg.addByte(0xFE); // random phase (0xFF for async)
+	}
+
+	if (version >= 1150 && it.isContainer()) {
+		msg.addByte(0x00);
+
 	}
 }
 
@@ -3791,7 +3825,13 @@ void ProtocolGame::AddItem(NetworkMessage& msg, const Item* item)
 		msg.addByte(std::min<uint16_t>(0xFF, item->getItemCount()));
 	} else if (it.isSplash() || it.isFluidContainer()) {
 		msg.addByte(fluidMap[item->getFluidType() & 7]);
-	} else if (version >= 1150 && it.isContainer()) {
+	}
+
+	if (it.isAnimation) {
+		msg.addByte(0xFE); // random phase (0xFF for async)
+	}
+
+	if (version >= 1150 && it.isContainer()) {
 		uint32_t quickLootFlags = item->getQuickLootFlags();
 		if (quickLootFlags > 0) {
 			msg.addByte(2);
@@ -3799,10 +3839,6 @@ void ProtocolGame::AddItem(NetworkMessage& msg, const Item* item)
 		} else {
 			msg.addByte(0x00);
 		}
-	}
-
-	if (it.isAnimation) {
-		msg.addByte(0xFE); // random phase (0xFF for async)
 	}
 }
 

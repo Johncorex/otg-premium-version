@@ -1276,6 +1276,11 @@ class Player final : public Creature, public Cylinder
 				client->sendAddMarker(pos, markType, desc);
 			}
 		}
+		void sendTournamentLeaderboard() {
+			if (client) {
+				client->sendTournamentLeaderboard();
+			}
+		}
 		void sendFightModes() {
 			if (client) {
 				client->sendFightModes();

@@ -110,6 +110,8 @@ class ProtocolGame final : public Protocol
 		void parseAttack(NetworkMessage& msg);
 		void parseFollow(NetworkMessage& msg);
 
+		void parseTournamentLeaderboard(NetworkMessage& msg);
+
 		void parseBugReport(NetworkMessage& msg);
 		void parseDebugAssert(NetworkMessage& msg);
 		void parseRuleViolationReport(NetworkMessage &msg);
@@ -227,6 +229,8 @@ class ProtocolGame final : public Protocol
 
 		void sendTutorial(uint8_t tutorialId);
 		void sendAddMarker(const Position& pos, uint8_t markType, const std::string& desc);
+
+		void sendTournamentLeaderboard();
 
 		void sendCreatureWalkthrough(const Creature* creature, bool walkthrough);
 		void sendCreatureShield(const Creature* creature);
