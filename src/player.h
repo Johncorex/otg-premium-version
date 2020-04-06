@@ -1277,7 +1277,7 @@ class Player final : public Creature, public Cylinder
 			}
 		}
 		void sendTournamentLeaderboard() {
-			if (client) {
+  			if (client && getProtocolVersion() >= 1215) {
 				client->sendTournamentLeaderboard();
 			}
 		}
