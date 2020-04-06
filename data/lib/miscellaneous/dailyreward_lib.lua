@@ -1332,7 +1332,7 @@ function Player:receiveReward(useToken, rewardType, additional)
     elseif rewardType == REWARD_TYPE_PREY_REROLL then
         local bonusCount = additional
         --TODO expire after 7 days
-        self:addBonusReroll(math.abs(bonusCount))
+        self:setBonusRerollCount(math.abs(bonusCount))
 
     elseif rewardType == REWARD_TYPE_XP_BOOST then
         local minutes = additional

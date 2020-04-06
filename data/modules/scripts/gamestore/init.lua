@@ -1285,7 +1285,7 @@ function GameStore.processPreySlotPurchase(player)
 end
 
 function GameStore.processPreyBonusReroll(player, offerCount)
-	player:setPreyBonusRerolls(player:getPreyBonusRerolls() + offerCount)
+	player:setBonusRerollCount(player:getBonusRerollCount() + offerCount)
 end
 
 function GameStore.processTempleTeleportPurchase(player)
