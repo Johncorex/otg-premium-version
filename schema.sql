@@ -137,10 +137,6 @@ CREATE TABLE IF NOT EXISTS `players` (
   `skill_mana_leech_chance_tries` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `skill_mana_leech_amount` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `skill_mana_leech_amount_tries` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `prey_stamina_1` int(11) DEFAULT NULL,
-  `prey_stamina_2` int(11) DEFAULT NULL,
-  `prey_stamina_3` int(11) DEFAULT NULL,
-  `prey_column` smallint(6) NOT NULL DEFAULT '1',
   `xpboost_stamina` smallint(5) DEFAULT NULL,
   `xpboost_value` tinyint(4) DEFAULT NULL,
   `marriage_status` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
@@ -157,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `former` varchar(255) NOT NULL DEFAULT '-',
   `signature` varchar(255) NOT NULL DEFAULT 0,
   `loyalty_ranking` tinyint(1) NOT NULL DEFAULT '0',
-  `bonus_rerolls` bigint(21) NOT NULL DEFAULT '0',
+  `bonusrerollcount` bigint(21) NOT NULL DEFAULT '0',
   `instantrewardtokens` int(11) UNSIGNED NOT NULL DEFAULT '0',
   INDEX `account_id` (`account_id`),
   INDEX `vocation` (`vocation`),
@@ -676,35 +672,17 @@ CREATE TABLE IF NOT EXISTS `player_namelocks` (
 -- --------------------------------------------------------
 
 --
--- Table structure `player_prey`
+-- Table structure `player_preydata`
 --
 
-CREATE TABLE IF NOT EXISTS `player_prey` (
-  `player_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `mindex` smallint(6) NOT NULL,
-  `mcolumn` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure `player_preytimes`
---
-
-CREATE TABLE IF NOT EXISTS `player_preytimes` (
-  `player_id` int(11) NOT NULL,
-  `bonus_type1` int(11) NOT NULL,
-  `bonus_value1` int(11) NOT NULL,
-  `bonus_name1` varchar(50) NOT NULL,
-  `bonus_type2` int(11) NOT NULL,
-  `bonus_value2` int(11) NOT NULL,
-  `bonus_name2` varchar(50) NOT NULL,
-  `bonus_type3` int(11) NOT NULL,
-  `bonus_value3` int(11) NOT NULL,
-  `bonus_name3` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+CREATE TABLE IF NOT EXISTS `player_preydata` (
+`player_id` int(11) NOT NULL,
+ `data` blob NOT NULL,
+ PRIMARY KEY (`player_id`),
+ FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
+ ON DELETE CASCADE 
+ ON UPDATE CASCADE
+ )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 --
@@ -823,32 +801,6 @@ CREATE TABLE IF NOT EXISTS `tile_store` (
     FOREIGN KEY (`house_id`) REFERENCES `houses` (`id`)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure `prey_slots`
---
-
-CREATE TABLE IF NOT EXISTS `prey_slots` (
-  `player_id` int(11) NOT NULL,
-  `num` smallint(2) NOT NULL,
-  `state` smallint(2) NOT NULL DEFAULT '1',
-  `unlocked` smallint(2) NOT NULL DEFAULT '0',
-  `current` varchar(40) NOT NULL DEFAULT '',
-  `monster_list` varchar(360) NOT NULL,
-  `free_reroll_in` int(11) NOT NULL DEFAULT '0',
-  `time_left` smallint(5) NOT NULL DEFAULT '0',
-  `next_use` int(11) NOT NULL DEFAULT '0',
-  `bonus_type` smallint(3) NOT NULL,
-  `bonus_value` smallint(3) NOT NULL DEFAULT '0',
-  `bonus_grade` smallint(3) NOT NULL DEFAULT '0',
-  INDEX `player_id` (`player_id`),
-  CONSTRAINT `prey_slots_players_fk`
-    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
-    ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 -- --------------------------------------------------------
 
