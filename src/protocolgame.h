@@ -182,6 +182,10 @@ class ProtocolGame final : public Protocol
 		void parseStoreBuyOffer(NetworkMessage &message);
 		void parseCoinTransfer(NetworkMessage &msg);
 
+		//Prey system
+		void parseRequestResourceData(NetworkMessage& msg);
+		void parsePreyAction(NetworkMessage& msg);
+
 		// imbue info
 		void addImbuementInfo(NetworkMessage &msg, uint32_t imbuid);
 
@@ -214,15 +218,17 @@ class ProtocolGame final : public Protocol
 		// Unjust Panel
 		void sendUnjustifiedPoints(const uint8_t& dayProgress, const uint8_t& dayLeft, const uint8_t& weekProgress, const uint8_t& weekLeft, const uint8_t& monthProgress, const uint8_t& monthLeft, const uint8_t& skullDuration);
 
-		// Send preyInfo
-		void sendPreyData();
-
 		void sendCancelWalk();
 		void sendChangeSpeed(const Creature* creature, uint32_t speed);
 		void sendCancelTarget();
 		void sendCreatureOutfit(const Creature* creature, const Outfit_t& outfit);
 		void sendStats();
 		void sendBasicData();
+		void sendPreyData(uint8_t preySlotId);
+		void sendRerollPrice(uint32_t price);
+		void sendFreeListRerollAvailability(uint8_t preySlotId, uint16_t time);
+		void sendPreyTimeLeft(uint8_t preySlotId, uint16_t timeLeft);
+		void sendMessageDialog(MessageDialog_t type, const std::string& message);
 		void sendStoreHighlight();
 		void sendTextMessage(const TextMessage& message);
 		void sendReLoginWindow(uint8_t unfairFightReduction);
@@ -319,6 +325,9 @@ class ProtocolGame final : public Protocol
    		void sendUpdateSupplyTracker(const Item* item);
  		void sendUpdateImpactTracker(int32_t quantity, bool isHeal);
  		void sendUpdateLootTracker(Item* item);
+
+		//Prey System
+		void sendResourceData(ResourceType_t resourceType, int64_t amount);
 
 		//Help functions
 

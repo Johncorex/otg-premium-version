@@ -935,15 +935,6 @@ class LuaScriptInterface
 		static int luaPlayerGetStamina(lua_State* L);
 		static int luaPlayerSetStamina(lua_State* L);
 
-		static int luaPlayerGetPreyStamina(lua_State* L);
-		static int luaPlayerGetPreyType(lua_State* L);
-		static int luaPlayerGetPreyValue(lua_State* L);
-		static int luaPlayerGetPreyName(lua_State* L);
-		static int luaPlayerSetPreyStamina(lua_State* L);
-		static int luaPlayerSetPreyType(lua_State* L);
-		static int luaPlayerSetPreyValue(lua_State* L);
-		static int luaPlayerSetPreyName(lua_State* L);
-
 		static int luaPlayerGetSoul(lua_State* L);
 		static int luaPlayerAddSoul(lua_State* L);
 		static int luaPlayerGetMaxSoul(lua_State* L);
@@ -1016,32 +1007,6 @@ class LuaScriptInterface
 
 		static int luaPlayerIsPzLocked(lua_State* L);
 	
-		// New Prey
-		static int luaPlayerGetPreyState(lua_State * L);
-		static int luaPlayerGetPreyUnlocked(lua_State * L);
-		static int luaPlayerGetPreyCurrentMonster(lua_State * L);
-		static int luaPlayerGetPreyMonsterList(lua_State * L);
-		static int luaPlayerGetPreyFreeRerollIn(lua_State * L);
-		static int luaPlayerGetPreyTimeLeft(lua_State * L);
-		static int luaPlayerGetPreyNextUse(lua_State * L);
-		static int luaPlayerGetPreyBonusType(lua_State * L);
-		static int luaPlayerGetPreyBonusValue(lua_State * L);
-		static int luaPlayerGetPreyBonusGrade(lua_State * L);
-		static int luaPlayerGetPreyBonusRerolls(lua_State * L);
-		// SET
-		static int luaPlayerSetPreyState(lua_State * L);
-		static int luaPlayerSetPreyUnlocked(lua_State * L);
-		static int luaPlayerSetPreyCurrentMonster(lua_State * L);
-		static int luaPlayerSetPreyMonsterList(lua_State * L);
-		static int luaPlayerSetPreyFreeRerollIn(lua_State * L);
-		static int luaPlayerSetPreyTimeLeft(lua_State * L);
-		static int luaPlayerSetPreyNextUse(lua_State * L);
-		static int luaPlayerSetPreyBonusType(lua_State * L);
-		static int luaPlayerSetPreyBonusValue(lua_State * L);
-		static int luaPlayerSetPreyBonusGrade(lua_State * L);
-		static int luaPlayerSetPreyBonusRerolls(lua_State * L);
-		//
-
 		static int luaPlayerGetClient(lua_State* L);
 
 		static int luaPlayerGetHouse(lua_State* L);
@@ -1082,6 +1047,11 @@ class LuaScriptInterface
 		static int luaPlayerSetInstantRewardTokenBalance(lua_State* L);
 
 		static int luaPlayerSendStats(lua_State* L);
+
+		static int luaPlayerGetPreyState(lua_State* L);
+		static int luaPlayerChangePreyState(lua_State* L);
+		static int luaPlayerGetBonusRerollCount(lua_State* L);
+		static int luaPlayerSetBonusRerollCount(lua_State* L);
 
 		// Monster
 		static int luaMonsterCreate(lua_State* L);

@@ -749,17 +749,6 @@ function Player:onGainExperience(source, exp, rawExp)
 		displayRate = 1
 	end
 
-	-- Prey Bonus
-	for slot = CONST_PREY_SLOT_FIRST, CONST_PREY_SLOT_THIRD do
-		if (self:getPreyCurrentMonster(slot) == source:getName() and self:getPreyBonusType(slot) == CONST_BONUS_XP_BONUS) then
-			exp = exp + math.floor(exp * (self:getPreyBonusValue(slot) / 100))
-			break
-		end
-		if (self:getPreyTimeLeft(slot) / 60) > 0 then
-			preyTimeLeft(self, slot) -- slot consumption, outside of the mosnter check
-		end
-	end
-
 	-- Store Bonus
 	useStaminaXp(self) -- Use store boost stamina
 	local Boost = self:getExpBoostStamina()
