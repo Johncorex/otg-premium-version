@@ -1271,11 +1271,6 @@ class Player final : public Creature, public Cylinder
 				client->sendAddMarker(pos, markType, desc);
 			}
 		}
-		void sendEnterWorld() {
-			if (client) {
-				client->sendEnterWorld();
-			}
-		}
 		void sendFightModes() {
 			if (client) {
 				client->sendFightModes();

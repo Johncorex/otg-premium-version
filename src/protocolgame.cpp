@@ -776,6 +776,11 @@ void ProtocolGame::parseAutoWalk(NetworkMessage& msg)
 
 void ProtocolGame::parseSetOutfit(NetworkMessage& msg)
 {
+	uint8_t outfitType = 0;
+	if (version >= 1220) {//Maybe some versions before? but I don't have executable to check
+		outfitType = msg.getByte();
+	}
+
 	Outfit_t newOutfit;
 	newOutfit.lookType = msg.get<uint16_t>();
 	newOutfit.lookHead = msg.getByte();
@@ -783,7 +788,14 @@ void ProtocolGame::parseSetOutfit(NetworkMessage& msg)
 	newOutfit.lookLegs = msg.getByte();
 	newOutfit.lookFeet = msg.getByte();
 	newOutfit.lookAddons = msg.getByte();
-	newOutfit.lookMount = msg.get<uint16_t>();
+	if (outfitType == 0) {
+		newOutfit.lookMount = msg.get<uint16_t>();
+	} else if (outfitType == 1) {
+		//This value probably has something to do with try outfit variable inside outfit window dialog
+		//if try outfit is set to 2 it expects uint32_t value after mounted and disable mounts from outfit window dialog
+		newOutfit.lookMount = 0;
+		msg.get<uint32_t>();
+	}
 	addGameTask(&Game::playerChangeOutfit, player->getID(), newOutfit);
 }
 
@@ -1551,6 +1563,12 @@ void ProtocolGame::sendPreyData()
 		msg.addByte(0x00); // unknown price
 		msg.addByte(0x00); // selectCreatureDirectly price (5 in tibia)
 	}
+	if (version >= 1230) {
+		msg.add<uint32_t>(800);
+		msg.add<uint32_t>(800);
+		msg.addByte(2);
+		msg.addByte(1);
+	}
 	writeToOutputBuffer(msg);
 }
 
@@ -1713,6 +1731,11 @@ void ProtocolGame::sendContainer(uint8_t cid, const Container* container, bool h
 	msg.addByte(container->capacity());
 
 	msg.addByte(hasParent ? 0x01 : 0x00);
+
+	if (version >= 1220) {
+		//can use depot search
+		msg.addByte(0x00);
+	}
 
 	msg.addByte(container->isUnlocked() ? 0x01 : 0x00); // Drag and drop
 	msg.addByte(container->hasPagination() ? 0x01 : 0x00); // Pagination
@@ -2591,11 +2614,23 @@ void ProtocolGame::sendPingBack()
 void ProtocolGame::sendDistanceShoot(const Position& from, const Position& to, uint8_t type)
 {
 	NetworkMessage msg;
-	msg.addByte(0x85);
-	msg.addPosition(from);
-	msg.addPosition(to);
-	msg.addByte(type);
-	writeToOutputBuffer(msg);
+	if (version >= 1203) {
+		msg.reset();
+		msg.addByte(0x83);
+		msg.addPosition(from);
+		msg.addByte(MAGIC_EFFECTS_CREATE_DISTANCEEFFECT);
+		msg.addByte(type);
+		msg.addByte(static_cast<uint8_t>(static_cast<int8_t>(static_cast<int32_t>(to.x) - static_cast<int32_t>(from.x))));
+		msg.addByte(static_cast<uint8_t>(static_cast<int8_t>(static_cast<int32_t>(to.y) - static_cast<int32_t>(from.y))));
+		msg.addByte(MAGIC_EFFECTS_END_LOOP);
+		writeToOutputBuffer(msg);
+	} else {
+		msg.addByte(0x85);
+		msg.addPosition(from);
+		msg.addPosition(to);
+		msg.addByte(type);
+		writeToOutputBuffer(msg);
+	}
 }
 
 void ProtocolGame::sendMagicEffect(const Position& pos, uint8_t type)
@@ -2605,10 +2640,20 @@ void ProtocolGame::sendMagicEffect(const Position& pos, uint8_t type)
 	}
 
 	NetworkMessage msg;
-	msg.addByte(0x83);
-	msg.addPosition(pos);
-	msg.addByte(type);
-	writeToOutputBuffer(msg);
+	if (version >= 1203) {
+		msg.reset();
+		msg.addByte(0x83);
+		msg.addPosition(pos);
+		msg.addByte(MAGIC_EFFECTS_CREATE_EFFECT);
+		msg.addByte(type);
+		msg.addByte(MAGIC_EFFECTS_END_LOOP);
+		writeToOutputBuffer(msg);
+	} else {
+		msg.addByte(0x83);
+		msg.addPosition(pos);
+		msg.addByte(type);
+		writeToOutputBuffer(msg);
+	}
 }
 
 void ProtocolGame::sendCreatureHealth(const Creature* creature)
@@ -2711,20 +2756,6 @@ void ProtocolGame::sendUpdateTile(const Tile* tile, const Position& pos)
 	writeToOutputBuffer(msg);
 }
 
-void ProtocolGame::sendPendingStateEntered()
-{
-	NetworkMessage msg;
-	msg.addByte(0x0A);
-	writeToOutputBuffer(msg);
-}
-
-void ProtocolGame::sendEnterWorld()
-{
-	NetworkMessage msg;
-	msg.addByte(0x0F);
-	writeToOutputBuffer(msg);
-}
-
 void ProtocolGame::sendFightModes()
 {
 	NetworkMessage msg;
@@ -2795,10 +2826,11 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 		msg.addByte(0x01); // tournament button enabled
 	}
 
+	msg.addByte(0x0A); // sendPendingStateEntered
+	msg.addByte(0x0F); // sendEnterWorld
+
 	writeToOutputBuffer(msg);
 
-	sendPendingStateEntered();
-	sendEnterWorld();
 	sendMapDescription(pos);
 	loggedIn = true;
 
@@ -3492,6 +3524,10 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 		}
 	}
 
+	if (version >= 1220 && creatureType == CREATURETYPE_PLAYER) {
+		msg.addByte(creature->getPlayer()->getVocation()->getClientId());
+	}
+
 	msg.addByte(creature->getSpeechBubble());
 	msg.addByte(0xFF); // MARK_UNMARKED
 	if (version >= 1110) {
@@ -3591,7 +3627,7 @@ void ProtocolGame::AddPlayerSkills(NetworkMessage& msg)
 	}
 }
 
-void ProtocolGame::AddOutfit(NetworkMessage& msg, const Outfit_t& outfit)
+void ProtocolGame::AddOutfit(NetworkMessage& msg, const Outfit_t& outfit, bool addMount/* = true*/)
 {
 	msg.add<uint16_t>(outfit.lookType);
 
@@ -3605,7 +3641,9 @@ void ProtocolGame::AddOutfit(NetworkMessage& msg, const Outfit_t& outfit)
 		msg.addItemId(outfit.lookTypeEx);
 	}
 
-	msg.add<uint16_t>(outfit.lookMount);
+	if (addMount) {
+		msg.add<uint16_t>(outfit.lookMount);
+	}
 }
 
 void ProtocolGame::addImbuementInfo(NetworkMessage& msg, uint32_t imbuid)
