@@ -422,7 +422,9 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 	g_dispatcher.addTask(createTask(std::bind(&Modules::executeOnRecvbyte, g_modules, player, msg, recvbyte)));
 
 	switch (recvbyte) {
+		case 0x0F: /* enter world */ break;
 		case 0x14: g_dispatcher.addTask(createTask(std::bind(&ProtocolGame::logout, getThis(), true, false))); break;
+		case 0x1C: /* connection ping back */ break;
 		case 0x1D: addGameTask(&Game::playerReceivePingBack, player->getID()); break;
 		case 0x1E: addGameTask(&Game::playerReceivePing, player->getID()); break;
 		case 0x32: parseExtendedOpcode(msg); break; //otclient extended opcode
@@ -1319,6 +1321,19 @@ void ProtocolGame::sendWorldLight(const LightInfo& lightInfo)
 	writeToOutputBuffer(msg);
 }
 
+void ProtocolGame::sendTibiaTime(int32_t time)
+{
+	if (version < 1121) {
+		return;
+	}
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0xEF);
+	msg.addByte(time / 60);
+	msg.addByte(time % 60);
+	writeToOutputBuffer(msg);
+}
+
 void ProtocolGame::sendCreatureWalkthrough(const Creature* creature, bool walkthrough)
 {
 	if (!canSee(creature)) {
@@ -1521,16 +1536,11 @@ void ProtocolGame::sendStoreHighlight()
 
 void ProtocolGame::sendPremiumTrigger()
 {
-	if (!g_config.getBoolean(ConfigManager::FREE_PREMIUM)) {
-		NetworkMessage msg;
-		msg.addByte(0x9E);
-		msg.addByte(16);
-		for (uint16_t i = 0; i <= 15; i++) {
-			//PREMIUM_TRIGGER_TRAIN_OFFLINE = false, PREMIUM_TRIGGER_XP_BOOST = false, PREMIUM_TRIGGER_MARKET = false, PREMIUM_TRIGGER_VIP_LIST = false, PREMIUM_TRIGGER_DEPOT_SPACE = false, PREMIUM_TRIGGER_INVITE_PRIVCHAT = false
-			msg.addByte(0x01);
-		}
-		writeToOutputBuffer(msg);
-	}
+	NetworkMessage msg;
+	msg.reset();
+	msg.addByte(0x9E);
+	msg.addByte(0);
+	writeToOutputBuffer(msg);
 }
 
 // Send preyInfo
@@ -2854,6 +2864,7 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 
 	//gameworld light-settings
 	sendWorldLight(g_game.getWorldLightInfo());
+	sendTibiaTime(g_game.getLightHour());
 
 	//player light level
 	sendCreatureLight(creature);
