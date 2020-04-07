@@ -6,3 +6,4 @@ data/world/otgpremium.otbm
 build/
 cmake-build-debug/
 .idea/
+tfs
