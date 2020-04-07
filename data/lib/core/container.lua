@@ -10,29 +10,29 @@ function Container.createLootItem(self, item)
 	local itemCount = 0
 	local randvalue = getLootRandom()
 	if randvalue < item.chance then
-		if ItemType(item.itemId):isStackable() then
-			itemCount = randvalue % item.maxCount + 1
-		else
-			itemCount = 1
+		local maxCount = math.min(item.maxCount, 100)
+		local isStackable = ItemType(item.itemId):isStackable()
+		for i = 1, math.ceil(item.maxCount / 100) do
+			if isStackable then
+				itemCount = itemCount + (randvalue % maxCount + 1)
+				item.maxCount = item.maxCount - maxCount
+				maxCount = math.min(item.maxCount, 100)
+			else
+				itemCount = itemCount + 1
+			end
 		end
 	end
 
 		if itemCount > 0 then
 		local tmpItem = {}
-		while itemCount > 100 do
-			local itm = self:addItem(item.itemId, 100)
+		repeat
+			local addCount = math.min(itemCount, 100)
+			local itm = self:addItem(item.itemId, addCount)
 			if itm then
 				tmpItem[#tmpItem + 1] = itm
 			end
-			itemCount = itemCount - 100
-		end
-
-		if itemCount > 0 then
-			local itm = self:addItem(item.itemId, itemCount)
-			if itm then
-				tmpItem[#tmpItem + 1] = itm
-			end
-		end
+			itemCount = itemCount - addCount
+		until itemCount < 1
 
 		if #tmpItem == 0 then
 			return false
@@ -44,7 +44,7 @@ function Container.createLootItem(self, item)
 					if not tmp:createLootItem(item.childLoot[i]) then
 						tmp:remove()
 						return false
-				end
+					end
 			end
 		end
 
