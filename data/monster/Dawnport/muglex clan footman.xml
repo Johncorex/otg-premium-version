@@ -28,7 +28,7 @@
 		<item id="2230" chance="1410"/><!-- bone -->
 		<item id="2449" chance="9440"/><!-- bone club -->
 		<item id="2379" chance="17040"/><!-- dagger -->
-		<item id="2667" countmax="2" chance="159200"/><!-- fish -->
+		<item id="2667" countmax="2" chance="100000"/><!-- fish -->
 		<item id="12495" chance="1130"/><!-- goblin ear -->
 		<item id="2148" countmax="6" chance="100000"/><!-- gold coin -->
 		<item id="2467" chance="6060"/><!-- leather armor -->

@@ -46,7 +46,7 @@
 		<voice sentence="Raar!!"/>
 	</voices>
 	<loot>
-		<item id="2148" countmax="165" chance="100320"/><!-- gold coin -->
+		<item id="2148" countmax="165" chance="10000"/><!-- gold coin -->
 		<item id="2152" countmax="2" chance="70320"/><!-- platinun coin -->
 		<item id="27051" countmax="2" chance="20000"/><!-- cave turnip -->
 		<item id="27052" chance="17000"/><!-- Ancient Belt Buckle -->

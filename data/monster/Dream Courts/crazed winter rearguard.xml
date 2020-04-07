@@ -39,8 +39,8 @@
 	<loot>
 <!--common-->
 <item name="platinum coin" countmax="5" chance="100000"/>
-<item name="red crystal fragment" chance="1000000"/>
-<item name="red gem" chance="1000000"/>
+<item name="red crystal fragment" chance="100000"/>
+<item name="red gem" chance="100000"/>
 <!--uncommon-->
 <item name="ice rapier" chance="15000"/>
 <item name="ultimate health potion" chance="11550"/>
