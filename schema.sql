@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `xpboost_value` tinyint(4) DEFAULT NULL,
   `marriage_status` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `marriage_spouse` int(11) NOT NULL DEFAULT '-1',
+  `instantrewardtokens` int(11) UNSIGNED NOT NULL DEFAULT '0',
   INDEX `account_id` (`account_id`),
   INDEX `vocation` (`vocation`),
   CONSTRAINT `players_pk` PRIMARY KEY (`id`),
@@ -214,16 +215,14 @@ CREATE TABLE IF NOT EXISTS `account_viplist` (
 --
 
 CREATE TABLE IF NOT EXISTS `daily_reward_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `daystreak` smallint(2) NOT NULL DEFAULT 0,
-  `player_id` int(11) NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  INDEX `player_id` (`player_id`),
-  CONSTRAINT `daily_reward_history_pk` PRIMARY KEY (`id`),
-  CONSTRAINT `daily_reward_history_player_fk`
-    FOREIGN KEY (`player_id`) REFERENCES `players` (`id`)
-    ON DELETE CASCADE
+	`id` INT NOT NULL PRIMARY KEY auto_increment,
+	`streak` smallint(2) not null default 0,
+	`event` varchar(255),
+	`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`instant` tinyint unsigned NOT NULL DEFAULT 0 ,
+	`player_id` INT NOT NULL,
+	FOREIGN KEY(`player_id`) REFERENCES `players`(`id`)
+	ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
