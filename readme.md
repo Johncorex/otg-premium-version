@@ -1,4 +1,5 @@
 # OTG Premium Server - [![Windows](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/malucooo/otg-premium-version)  ![Linux](https://github.com/Johncorex/OTG-Premium-Version/workflows/CI/badge.svg)
+
 ### Getting Started:
 * [Compiling](https://github.com/otland/forgottenserver/wiki/Compiling)
 * [Scripting Reference](https://github.com/otland/forgottenserver/wiki/Script-Interface)
