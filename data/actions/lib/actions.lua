@@ -227,10 +227,12 @@ function onUseShovel(player, item, fromPosition, target, toPosition, isHotkey)
 		return false
 	end
 
+	local targetId = target.itemid
 	local groundId = ground:getId()
-	if table.contains(holes, groundId) then
-		ground:transform(groundId + 1)
-		ground:decay()
+
+	if table.contains(holes, targetId) then
+		target:transform(targetId + 1)
+		target:decay()
 		toPosition.z = toPosition.z + 1
 		tile:relocateTo(toPosition)
 
@@ -371,7 +373,7 @@ function onUsePick(player, item, fromPosition, target, toPosition, isHotkey)
 		target:transform(392)
 		target:decay()
 		toPosition:sendMagicEffect(CONST_ME_POFF)
-		
+
 	elseif targetId == 23759 then
 		target:remove()
 		toPosition:sendMagicEffect(CONST_ME_POFF)
