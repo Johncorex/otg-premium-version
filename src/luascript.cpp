@@ -19,6 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "enums.h"
 #include "otpch.h"
 
 #include <boost/range/adaptor/reversed.hpp>
@@ -1536,6 +1537,8 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(CREATURETYPE_SUMMONPLAYER)
 	registerEnum(CREATURETYPE_SUMMON_OWN)
 	registerEnum(CREATURETYPE_SUMMON_OTHERS)
+    registerEnum(CREATURETYPE_MONSTER_HIDDEN)
+
 
 	registerEnum(CLIENTOS_LINUX)
 	registerEnum(CLIENTOS_WINDOWS)
