@@ -2493,7 +2493,7 @@ void ProtocolGame::updateCoinBalance()
 
     g_dispatcher.addTask(
         createTask(std::bind([](ProtocolGame* client) {
-			if (client) {
+			if (client && client->player) {
 				auto coinBalance = IOAccount::getCoinBalance(client->player->getAccount());
                 client->player->coinBalance = coinBalance;
                 client->sendCoinBalance();
