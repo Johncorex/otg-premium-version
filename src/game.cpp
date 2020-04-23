@@ -6716,7 +6716,7 @@ void Game::playerRequestResourceData(uint32_t playerId, ResourceType_t resourceT
 	switch (resourceType) {
 	case RESOURCETYPE_BANK_GOLD: player->sendResourceData(RESOURCETYPE_BANK_GOLD, player->getBankBalance()); break;
 	case RESOURCETYPE_INVENTORY_GOLD: player->sendResourceData(RESOURCETYPE_INVENTORY_GOLD, player->getMoney()); break;
-	case RESOURCETYPE_PREY_BONUS_REROLLS: player->sendResourceData(RESOURCETYPE_PREY_BONUS_REROLLS, 0); break;
+	case RESOURCETYPE_PREY_BONUS_REROLLS: player->sendResourceData(RESOURCETYPE_PREY_BONUS_REROLLS, player->getBonusRerollCount()); break;
 	default: {
 		player->sendResourceData(RESOURCETYPE_BANK_GOLD, player->getBankBalance());
 		player->sendResourceData(RESOURCETYPE_INVENTORY_GOLD, player->getMoney());
