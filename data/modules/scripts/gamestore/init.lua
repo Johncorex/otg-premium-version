@@ -714,8 +714,10 @@ function sendStorePurchaseSuccessful(playerId, message)
   msg:addByte(0x00)
 
   msg:addString(message)
-  msg:addU32(player:getCoinsBalance())
-  msg:addU32(player:getCoinsBalance())
+	if player:getClient().version < 1205 then
+		msg:addU32(player:getCoinsBalance())
+		msg:addU32(player:getCoinsBalance())
+	end
 
   msg:sendToPlayer(player)
 end
@@ -766,6 +768,10 @@ function sendUpdateCoinBalance(playerId)
 
   msg:addU32(player:getCoinsBalance())
   msg:addU32(player:getCoinsBalance())
+
+	if player:getClient().version >= 1215 then
+		msg:addU32(0) --tournament coins
+	end
 
   msg:sendToPlayer(player)
 end

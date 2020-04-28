@@ -1947,11 +1947,11 @@ void ProtocolGame::sendRerollPrice(uint32_t price)
 		msg.addByte(0x05);
 	}
 
-	if (version >= 1230) {
-		msg.add<uint32_t>(800);
-		msg.add<uint32_t>(800);
-		msg.addByte(2);
-		msg.addByte(1);
+	if (version >= 1220) {
+		msg.add<uint32_t>(5);
+		msg.add<uint32_t>(6);
+		msg.addByte(0x02);
+		msg.addByte(0x01);
 	}
 	writeToOutputBuffer(msg);
 }
@@ -2265,8 +2265,8 @@ void ProtocolGame::sendShop(Npc* npc, const ShopInfoList& itemList)
 	NetworkMessage msg;
 	msg.addByte(0x7A);
 	msg.addString(npc->getName());
-	if (version >= 1230) {
-		msg.addByte(0x00); // No data available
+	if (version >= 1203) {
+		msg.addItemId(2148);
 	}
 
 	uint16_t itemsToSend = std::min<size_t>(itemList.size(), std::numeric_limits<uint16_t>::max());
@@ -2479,6 +2479,10 @@ void ProtocolGame::sendCoinBalance()
 
 	msg.add<uint32_t>(player->coinBalance); //total coins
 	msg.add<uint32_t>(player->coinBalance); //transferable coins
+
+	if (version >= 1215) {
+		msg.add<uint32_t>(0);
+	}
 
 	writeToOutputBuffer(msg);
 }
