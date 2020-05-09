@@ -1118,6 +1118,9 @@
 	<action itemid="25419" script="valuables/randomitems.lua" />
 	<action itemid="26165" script="valuables/randomitems.lua" />
 	<action itemid="32014" script="valuables/randomitems.lua" />
+
+	<!-- Hireling Lamp -->
+	<action itemid="34070" script="others/hirelinglamp.lua" />
 </actions>
 
 <!--

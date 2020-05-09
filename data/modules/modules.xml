@@ -38,4 +38,6 @@
 	<module type="recvbyte" byte="227" script="bestiary/bestiary.lua" />
 	<module type="recvbyte" byte="228" script="bestiary/bestiary.lua" />
 
+	<!-- Outfit Helper -->
+	<module type="recvbyte" byte="211" script="hirelings/hireling_module.lua" />
 </modules>

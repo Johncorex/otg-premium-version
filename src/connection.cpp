@@ -295,7 +295,7 @@ void Connection::parsePacket(const boost::system::error_code& error)
 }
 
 bool Connection::detectAttack(const uint32_t currentPacketChecksum) { // jlcvp(Leu) - detect packet replication attack
-	const auto it = checksumsMap.find(currentPacketChecksum);
+	const auto it = checksumsMap.find(currentPacketChecksum); //this find is complexity is O(1)
 	if(it == checksumsMap.end()){ //element doesn't exists
 		checksumsMap.insert(std::make_pair(currentPacketChecksum, 1));
 	} else {
