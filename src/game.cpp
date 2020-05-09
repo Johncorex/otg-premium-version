@@ -5224,6 +5224,10 @@ void Game::updateCreatureType(Creature* creature)
 				creatureType = CREATURETYPE_SUMMONPLAYER;
 			}
 		}
+
+		if(creature->isHealthHidden()) {
+			creatureType = CREATURETYPE_NPC;
+		}
 	}
 
 	//send to clients

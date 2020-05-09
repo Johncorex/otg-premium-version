@@ -61,4 +61,5 @@
 	<globalevent name="checkInbox" interval="30000" script="others/checkInbox.lua"/>
 	<globalevent interval="100000" name="GuildWar" script="guildwar.lua"/>
 	<globalevent name="npcsSpawn" type="startup" script="server/npcsSpawn.lua"/>
+	<globalevent name="hirelingSave" type="shutdown" script="others/hireling_save.lua"/>
 </globalevents>

@@ -226,4 +226,7 @@
 
  	<!-- Bestiary -->
   	<event type="kill" name="BestiaryOnKill" script="others/bestiaryadd.lua"/>
+
+	<!-- Hirelings -->
+	<event type="logout" name="HirelingLogoutPlayer" script="others/hireling_logout.lua" />
 </creaturescripts>
