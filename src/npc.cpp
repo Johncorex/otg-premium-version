@@ -360,11 +360,10 @@ void Npc::doSayToPlayer(Player* player, const std::string& text)
 void Npc::onPlayerTrade(Player* player, int32_t callback, uint16_t itemId, uint8_t count,
 						uint8_t amount, bool ignore/* = false*/, bool inBackpacks/* = false*/)
 {
-	g_dispatcher.addTask(createTask(std::bind(&Game::updatePlayerSaleItems, &g_game, player->getID())));
-	player->setScheduledSaleUpdate(true);
 	if (npcEventHandler) {
 		npcEventHandler->onPlayerTrade(player, callback, itemId, count, amount, ignore, inBackpacks);
 	}
+	player->sendSaleItemList();
 }
 
 void Npc::onPlayerEndTrade(Player* player, int32_t buyCallback, int32_t sellCallback)
@@ -795,24 +794,24 @@ int NpcScriptInterface::luaOpenShopWindow(lua_State* L)
 		return 1;
 	}
 
-	std::vector<ShopInfo> items;
+	std::list<ShopInfo> items;
 	lua_pushnil(L);
 	while (lua_next(L, -2) != 0) {
 		const auto tableIndex = lua_gettop(L);
 		ShopInfo item;
 
-		uint16_t itemId = static_cast<uint16_t>(getField<uint32_t>(L, tableIndex, "id"));
-		int32_t subType = getField<int32_t>(L, tableIndex, "subType");
-		if (subType == 0) {
-			subType = getField<int32_t>(L, tableIndex, "subtype");
+		item.itemId = getField<uint32_t>(L, tableIndex, "id");
+		item.subType = getField<int32_t>(L, tableIndex, "subType");
+		if (item.subType == 0) {
+			item.subType = getField<int32_t>(L, tableIndex, "subtype");
 			lua_pop(L, 1);
 		}
 
-		uint32_t buyPrice = getField<uint32_t>(L, tableIndex, "buy");
-		uint32_t sellPrice = getField<uint32_t>(L, tableIndex, "sell");
-		std::string realName = getFieldString(L, tableIndex, "name");
+		item.buyPrice = getField<uint32_t>(L, tableIndex, "buy");
+		item.sellPrice = getField<uint32_t>(L, tableIndex, "sell");
+		item.realName = getFieldString(L, tableIndex, "name");
 
-		items.emplace_back(itemId, subType, buyPrice, sellPrice, std::move(realName));
+		items.push_back(item);
 		lua_pop(L, 6);
 	}
 	lua_pop(L, 1);
@@ -1014,24 +1013,25 @@ int NpcScriptInterface::luaNpcOpenShopWindow(lua_State* L)
 		buyCallback = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	std::vector<ShopInfo> items;
+	std::list<ShopInfo> items;
 
 	lua_pushnil(L);
 	while (lua_next(L, 3) != 0) {
 		const auto tableIndex = lua_gettop(L);
+		ShopInfo item;
 
-		uint16_t itemId = static_cast<uint16_t>(getField<uint32_t>(L, tableIndex, "id"));
-		int32_t subType = getField<int32_t>(L, tableIndex, "subType");
-		if (subType == 0) {
-			subType = getField<int32_t>(L, tableIndex, "subtype");
+		item.itemId = getField<uint32_t>(L, tableIndex, "id");
+		item.subType = getField<int32_t>(L, tableIndex, "subType");
+		if (item.subType == 0) {
+			item.subType = getField<int32_t>(L, tableIndex, "subtype");
 			lua_pop(L, 1);
 		}
 
-		uint32_t buyPrice = getField<uint32_t>(L, tableIndex, "buy");
-		uint32_t sellPrice = getField<uint32_t>(L, tableIndex, "sell");
-		std::string realName = getFieldString(L, tableIndex, "name");
+		item.buyPrice = getField<uint32_t>(L, tableIndex, "buy");
+		item.sellPrice = getField<uint32_t>(L, tableIndex, "sell");
+		item.realName = getFieldString(L, tableIndex, "name");
 
-		items.emplace_back(itemId, subType, buyPrice, sellPrice, std::move(realName));
+		items.push_back(item);
 		lua_pop(L, 6);
 	}
 	lua_pop(L, 1);

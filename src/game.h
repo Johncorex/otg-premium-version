@@ -329,8 +329,6 @@ class Game
 		void playerAnswerModalWindow(uint32_t playerId, uint32_t modalWindowId, uint8_t button, uint8_t choice);
 		void playerReportRuleViolationReport(uint32_t playerId, const std::string& targetName, uint8_t reportType, uint8_t reportReason, const std::string& comment, const std::string& translation);
 
-		void updatePlayerSaleItems(uint32_t playerId);
-
 		void playerCyclopediaCharacterInfo(uint32_t playerId, CyclopediaCharacterInfoType_t characterInfoType);
 		void playerTournamentLeaderboard(uint32_t playerId, uint8_t leaderboardType);
 
@@ -373,8 +371,6 @@ class Game
 		void playerWriteItem(uint32_t playerId, uint32_t windowTextId, const std::string& text);
 		void playerBrowseField(uint32_t playerId, const Position& pos);
 		void playerSeekInContainer(uint32_t playerId, uint8_t containerId, uint16_t index);
-		void playerInspectItem(Player* player, const Position& pos);
-		void playerInspectItem(Player* player, uint16_t itemId, uint8_t itemCount, bool cyclopedia);
 		void playerUpdateHouseWindow(uint32_t playerId, uint8_t listId, uint32_t windowTextId, const std::string& text);
 		void playerRequestTrade(uint32_t playerId, const Position& pos, uint8_t stackPos,
 								uint32_t tradePlayerId, uint16_t spriteId);

@@ -2713,28 +2713,6 @@ void Game::playerSeekInContainer(uint32_t playerId, uint8_t containerId, uint16_
 	player->sendContainer(containerId, container, container->hasParent(), index);
 }
 
-void Game::playerInspectItem(Player* player, const Position& pos)
-{
-	Thing* thing = internalGetThing(player, pos, 0, 0, STACKPOS_TOPDOWN_ITEM);
-	if (!thing) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	Item* item = thing->getItem();
-	if (!item) {
-		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
-		return;
-	}
-
-	player->sendItemInspection(item->getClientID(), item->getItemCount(), item, false);
-}
-
-void Game::playerInspectItem(Player* player, uint16_t itemId, uint8_t itemCount, bool cyclopedia)
-{
-	player->sendItemInspection(itemId, itemCount, nullptr, cyclopedia);
-}
-
 void Game::playerUpdateHouseWindow(uint32_t playerId, uint8_t listId, uint32_t windowTextId, const std::string& text)
 {
 	Player* player = getPlayerByID(playerId);
@@ -6885,17 +6863,6 @@ void Game::playerAnswerModalWindow(uint32_t playerId, uint32_t modalWindowId, ui
 			creatureEvent->executeModalWindow(player, modalWindowId, button, choice);
 		}
 	}
-}
-
-void Game::updatePlayerSaleItems(uint32_t playerId)
-{
-	Player* player = getPlayerByID(playerId);
-	if (!player) {
-		return;
-	}
-
-	player->sendSaleItemList();
-	player->setScheduledSaleUpdate(false);
 }
 
 void Game::addPlayer(Player* player)
