@@ -26,6 +26,8 @@ function onUse(player, item, fromPosition, target, toPosition, isHotkey)
 	hireling:setPosition(spawnPosition)
 	item:remove(1)
 	hireling:spawn()
+
 	spawnPosition:sendMagicEffect(CONST_ME_TELEPORT)
+	hireling:save()
 	return true
 end
