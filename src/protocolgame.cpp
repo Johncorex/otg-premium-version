@@ -3956,11 +3956,8 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 			msg.addByte(creatureType);
 		}
 
-		if (player->getProtocolVersion() >= 1120 && creature->isHealthHidden()) {
-			msg.addByte(5);
-		} else {
-			msg.addByte(creatureType);
-		}
+		msg.addByte(creatureType);
+		
 		if (player->getProtocolVersion() >= 1120) {
 			if (creatureType == CREATURETYPE_SUMMONPLAYER) {
 				const Creature* master = creature->getMaster();
