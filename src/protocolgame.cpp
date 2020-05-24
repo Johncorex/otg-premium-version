@@ -414,10 +414,8 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 		}
 	}
 
-	//TODO: JLCVP - Refactor this terrible validation
-	if(recvbyte != 0xD3){
-		g_dispatcher.addTask(createTask(std::bind(&Modules::executeOnRecvbyte, g_modules, player, msg, recvbyte)));
-	}
+	g_dispatcher.addTask(createTask(std::bind(&Modules::executeOnRecvbyte, g_modules, player, msg, recvbyte)));
+
 	switch (recvbyte) {
 		case 0x0F: /* enter world */ break;
 		case 0x14: g_dispatcher.addTask(createTask(std::bind(&ProtocolGame::logout, getThis(), true, false))); break;
@@ -485,8 +483,7 @@ void ProtocolGame::parsePacket(NetworkMessage& msg)
 		case 0xCB: parseBrowseField(msg); break;
 		case 0xCC: parseSeekInContainer(msg); break;
 		case 0xD2: addGameTask(&Game::playerRequestOutfit, player->getID()); break;
-		//g_dispatcher.addTask(createTask(std::bind(&Modules::executeOnRecvbyte, g_modules, player, msg, recvbyte)));
-		case 0xD3: g_dispatcher.addTask(createTask(std::bind(&ProtocolGame::parseSetOutfit, this, msg))); break;
+		case 0xD3: parseSetOutfit(msg); break;
 		case 0xD4: parseToggleMount(msg); break;
 		case 0xD5: parseApplyImbuemente(msg); break;
 		case 0xD6: parseClearingImbuement(msg); break;
@@ -775,34 +772,27 @@ void ProtocolGame::parseAutoWalk(NetworkMessage& msg)
 
 void ProtocolGame::parseSetOutfit(NetworkMessage& msg)
 {
-	uint16_t startBufferPosition = msg.getBufferPosition();
-	Module* outfitModule = g_modules->getEventByRecvbyte(0xD3, false);
-	if(outfitModule) {
-		outfitModule->executeOnRecvbyte(player, msg);
+	uint8_t outfitType = 0;
+	if (version >= 1220) {//Maybe some versions before? but I don't have executable to check
+		outfitType = msg.getByte();
 	}
-	if(msg.getBufferPosition() == startBufferPosition) {
-		uint8_t outfitType = 0;
-		if (version >= 1220) {//Maybe some versions before? but I don't have executable to check
-			outfitType = msg.getByte();
-		}
 
-		Outfit_t newOutfit;
-		newOutfit.lookType = msg.get<uint16_t>();
-		newOutfit.lookHead = msg.getByte();
-		newOutfit.lookBody = msg.getByte();
-		newOutfit.lookLegs = msg.getByte();
-		newOutfit.lookFeet = msg.getByte();
-		newOutfit.lookAddons = msg.getByte();
-		if (outfitType == 0) {
-			newOutfit.lookMount = msg.get<uint16_t>();
-		} else if (outfitType == 1) {
-			//This value probably has something to do with try outfit variable inside outfit window dialog
-			//if try outfit is set to 2 it expects uint32_t value after mounted and disable mounts from outfit window dialog
-			newOutfit.lookMount = 0;
-			msg.get<uint32_t>();
-		}
-		addGameTask(&Game::playerChangeOutfit, player->getID(), newOutfit);
+	Outfit_t newOutfit;
+	newOutfit.lookType = msg.get<uint16_t>();
+	newOutfit.lookHead = msg.getByte();
+	newOutfit.lookBody = msg.getByte();
+	newOutfit.lookLegs = msg.getByte();
+	newOutfit.lookFeet = msg.getByte();
+	newOutfit.lookAddons = msg.getByte();
+	if (outfitType == 0) {
+		newOutfit.lookMount = msg.get<uint16_t>();
+	} else if (outfitType == 1) {
+		//This value probably has something to do with try outfit variable inside outfit window dialog
+		//if try outfit is set to 2 it expects uint32_t value after mounted and disable mounts from outfit window dialog
+		newOutfit.lookMount = 0;
+		msg.get<uint32_t>();
 	}
+	addGameTask(&Game::playerChangeOutfit, player->getID(), newOutfit);
 }
 
 void ProtocolGame::parseToggleMount(NetworkMessage& msg)
@@ -3147,7 +3137,6 @@ void ProtocolGame::sendCreatureHealth(const Creature* creature)
 
 	if (creature->isHealthHidden()) {
 		msg.addByte(0x00);
-		return;
 	} else {
 		msg.addByte(std::ceil((static_cast<double>(creature->getHealth()) / std::max<int32_t>(creature->getMaxHealth(), 1)) * 100));
 	}
@@ -3942,7 +3931,6 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 
 	const Player* otherPlayer = creature->getPlayer();
 
-	
 	if (known) {
 		msg.add<uint16_t>(0x62);
 		msg.add<uint32_t>(creature->getID());
@@ -3956,8 +3944,6 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 			msg.addByte(creatureType);
 		}
 
-		msg.addByte(creatureType);
-		
 		if (player->getProtocolVersion() >= 1120) {
 			if (creatureType == CREATURETYPE_SUMMONPLAYER) {
 				const Creature* master = creature->getMaster();
@@ -4033,12 +4019,7 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 		msg.addByte(creature->getPlayer()->getVocation()->getClientId());
 	}
 
-	uint8_t speechBubble = creature->getSpeechBubble();
-	if(version < 1205 && speechBubble > SPEECHBUBBLE_QUESTTRADER) {
-
-	} else {
-		msg.addByte(creature->getSpeechBubble());
-	}
+	msg.addByte(creature->getSpeechBubble());
 	msg.addByte(0xFF); // MARK_UNMARKED
 	if (version >= 1110) {
 		msg.addByte(0x00); // inspection type
