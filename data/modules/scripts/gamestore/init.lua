@@ -7,6 +7,8 @@ GameStore = {
 }
 
 --== Enums ==--
+STORE_SLOT_STORAGE = 63253
+
 GameStore.OfferTypes = {
   OFFER_TYPE_NONE = 0, -- (this will disable offer)
   OFFER_TYPE_ITEM = 1,
@@ -642,6 +644,9 @@ function sendShowStoreOffers(playerId, category)
 
             msg:addString(offer.icons[1])
             
+		if player:getClient().version >= 1212 then
+			msg:addByte(0)
+		end
             msg:addU16(0);
 			msg:addU16(0x01);
 			msg:addU16(0x0182);
@@ -721,13 +726,20 @@ function sendStoreTransactionHistory(playerId, page, entriesPerPage)
   msg:addByte(#entries)
 
   for k, entry in ipairs(entries) do
-    msg:addU32(entry.time)
-    msg:addByte(entry.mode)
-    msg:addU32(entry.amount)
-    if player:getClient().version >= 1200 then
-     msg:addByte(0x0) -- 0 = transferable tibia coin, 1 = normal tibia coin
-    end
-    msg:addString(entry.description)
+	if player:getClient().version >= 1215 then
+		msg:addU32(entry.time)
+		msg:addU32(entry.time)
+		msg:addByte(entry.mode)
+		msg:addU32(entry.amount)
+		msg:addByte(0) -- coin type
+		msg:addString(entry.description)
+		msg:addByte(0) -- has details
+	else
+		msg:addU32(entry.time)
+		msg:addByte(entry.mode)
+		msg:addU32(entry.amount)
+		msg:addString(entry.description)
+	end
   end
 
   msg:sendToPlayer(player)
@@ -1191,11 +1203,6 @@ end
 
 function GameStore.processPremiumPurchase(player, offerId)
   player:addPremiumDays(offerId-3000)
-  
-  -- Update Prey Data
-  for slot = CONST_PREY_SLOT_FIRST, CONST_PREY_SLOT_THIRD do
-    player:sendPreyData(slot)
-  end
 end
 
 function GameStore.processStackablePurchase(player, offerId, offerCount, offerName)
@@ -1373,13 +1380,7 @@ end
 function GameStore.processPreySlotPurchase(player)
 	if player:getStorageValue(STORE_SLOT_STORAGE) < 1 then
 		player:setStorageValue(STORE_SLOT_STORAGE, 1)
-		player:setPreyUnlocked(CONST_PREY_SLOT_THIRD, 2)
-		player:setPreyState(CONST_PREY_SLOT_THIRD, 1)
-		
-		-- Update Prey Data
-		for slot = CONST_PREY_SLOT_FIRST, CONST_PREY_SLOT_THIRD do
-			player:sendPreyData(slot)
-		end
+			player:changePreyState(2, 3)
 	end
 end
 
