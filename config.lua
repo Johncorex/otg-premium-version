@@ -116,8 +116,7 @@ serverSaveClose = false
 serverSaveShutdown = true
 
 -- Rates
--- NOTE: rateExp is used as a fallback only
--- To configure experience rate see file data/stages.lua
+-- NOTE: rateExp is not used if you have enabled stages in data/XML/stages.xml
 rateExp = 1
 rateSkill = 50
 rateLoot = 3
