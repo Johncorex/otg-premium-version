@@ -61,6 +61,7 @@ deathLosePercent = -1
 
 -- Houses
 -- NOTE: set housePriceEachSQM to -1 to disable the ingame buy house functionality
+-- Periods: daily/weekly/monthly/yearly/never
 housePriceEachSQM = 10000
 houseRentPeriod = "monthly"
 
@@ -115,7 +116,8 @@ serverSaveClose = false
 serverSaveShutdown = true
 
 -- Rates
--- NOTE: rateExp is not used if you have enabled stages in data/XML/stages.xml
+-- NOTE: rateExp is used as a fallback only
+-- To configure experience rate see file data/stages.lua
 rateExp = 1
 rateSkill = 50
 rateLoot = 3

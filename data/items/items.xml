@@ -35327,7 +35327,7 @@
 		<attribute key="showcount" value="0" />
 		<attribute key="weight" value="250" />
 	</item>
-	<item id="24710" name="wereboar tusks" plural="wereboar tusks">
+	<item id="24710" name="wereboar tusks">
 		<attribute key="quicklootcategory" value="creatureproduct" />
 		<attribute key="showcount" value="0" />
 		<attribute key="weight" value="190" />
@@ -44937,7 +44937,7 @@
 		<attribute key="quicklootcategory" value="valuable" />
 		<attribute key="weight" value="150" />
 	</item>
-	<item id="34699" article="a" name="giant amethyst">
+	<item id="34699" article="a" name="giant sapphire">
 		<attribute key="quicklootcategory" value="valuable" />
 		<attribute key="weight" value="150" />
 	</item>
@@ -48124,7 +48124,7 @@
 		<attribute key="wrapableTo" value="26054" />
 	</item>
 	<item id="36559" article="a" name="sulphur blossom lamp">
-		<attribute key="decayTo" value="336558" />
+		<attribute key="decayTo" value="33658" />
 		<attribute key="duration" value="60" />
 		<attribute key="wrapableTo" value="26054" />
 	</item>
