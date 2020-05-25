@@ -7,3 +7,5 @@ build/
 cmake-build-debug/
 .idea/
 tfs
+config.lua
+client_assertions.txt
