@@ -570,6 +570,13 @@ enum PremiumTrigger_t : uint8_t {
 	PREMIUM_TRIGGER_MIGHTY_SUMMON = 22,
 };
 
+enum InspectObjectTypes : uint8_t {
+	INSPECT_NORMALOBJECT = 0,
+	INSPECT_NPCTRADE = 1,
+	INSPECT_UNKNOWN = 2,
+	INSPECT_CYCLOPEDIA = 3
+};
+
 enum CyclopediaCharacterInfoType_t : uint8_t {
 	CYCLOPEDIA_CHARACTERINFO_BASEINFORMATION = 0,
 	CYCLOPEDIA_CHARACTERINFO_GENERALSTATS = 1,
@@ -730,7 +737,7 @@ struct CombatDamage
 
 using MarketOfferList = std::list<MarketOffer>;
 using HistoryMarketOfferList = std::list<HistoryMarketOffer>;
-using ShopInfoList = std::list<ShopInfo>;
+using ShopInfoList = std::vector<ShopInfo>;
 
 enum MonstersEvent_t : uint8_t {
 	MONSTERS_EVENT_NONE = 0,

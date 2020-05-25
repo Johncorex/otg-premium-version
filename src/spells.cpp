@@ -203,7 +203,7 @@ std::list<uint16_t> Spells::getSpellsByVocation(uint16_t vocationId)
 	std::list<uint16_t> spellsList;
 	for (const auto& it : instants) {
 		VocSpellMap map = it.second.getVocMap();
-		if (map.find(vocationId)->second) {
+		if (map.find(vocationId) != map.end()) {
 			spellsList.push_back(it.second.getId());
 		}
 	}
