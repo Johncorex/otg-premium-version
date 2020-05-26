@@ -767,6 +767,27 @@ CREATE TABLE IF NOT EXISTS `quickloot_containers` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `player_hirelings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `active` int(11) NOT NULL DEFAULT '1',
+  `sex` int(11) NOT NULL DEFAULT '0',
+  `posx` int(11) NOT NULL DEFAULT '0',
+  `posy` int(11) NOT NULL DEFAULT '0',
+  `posz` int(11) NOT NULL DEFAULT '0',
+  `lookbody` int(11) NOT NULL DEFAULT '0',
+  `lookfeet` int(11) NOT NULL DEFAULT '0',
+  `lookhead` int(11) NOT NULL DEFAULT '0',
+  `looklegs` int(11) NOT NULL DEFAULT '0',
+  `looktype` int(11) NOT NULL DEFAULT '136',
+  `lookaddons` int(11) NOT NULL DEFAULT '0',
+
+  CONSTRAINT `player_hirelings` PRIMARY KEY (`id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+
 --
 -- Table structure `store_history`
 --
