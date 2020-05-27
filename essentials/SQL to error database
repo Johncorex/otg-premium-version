@@ -1,0 +1,2 @@
+Executar na SQL da database:
+SET GLOBAL sql_mode = '';
