@@ -49079,7 +49079,7 @@
 		<attribute key="quicklootcategory" value="ring" />
 		<attribute key="absorbPercentDeath" value="7" />
 	</item>
-	<item id="37457" article="a" name="giant amethyst" >
+	<item id="37457" article="a" name="giant sapphire" >
 		<attribute key="quicklootcategory" value="valuable" />
 		<attribute key="weight" value="170" />
 		<attribute key="showcount" value="1" />
