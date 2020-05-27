@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `accounts`
+-- Table structure `accounts`
 --
 
 CREATE TABLE `accounts` (
@@ -72,7 +72,7 @@ INSERT INTO `accounts` (`id`, `name`, `password`, `secret`, `type`, `premdays`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `account_bans`
+-- Table structure `account_bans`
 --
 
 CREATE TABLE `account_bans` (
@@ -86,7 +86,7 @@ CREATE TABLE `account_bans` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `account_ban_history`
+-- Table structure `account_ban_history`
 --
 
 CREATE TABLE `account_ban_history` (
@@ -101,7 +101,7 @@ CREATE TABLE `account_ban_history` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `account_viplist`
+-- Table structure `account_viplist`
 --
 
 CREATE TABLE `account_viplist` (
@@ -115,7 +115,7 @@ CREATE TABLE `account_viplist` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `announcements`
+-- Table structure `announcements`
 --
 
 CREATE TABLE `announcements` (
@@ -129,7 +129,7 @@ CREATE TABLE `announcements` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `bestiary_killcount`
+-- Table structure `bestiary_killcount`
 --
 
 CREATE TABLE `bestiary_killcount` (
@@ -142,7 +142,7 @@ CREATE TABLE `bestiary_killcount` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `daily_reward_history`
+-- Table structure `daily_reward_history`
 --
 
 CREATE TABLE `daily_reward_history` (
@@ -157,7 +157,7 @@ CREATE TABLE `daily_reward_history` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `global_storage`
+-- Table structure `global_storage`
 --
 
 CREATE TABLE `global_storage` (
@@ -168,7 +168,7 @@ CREATE TABLE `global_storage` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `guilds`
+-- Table structure `guilds`
 --
 
 CREATE TABLE `guilds` (
@@ -199,7 +199,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `guildwar_kills`
+-- Table structure `guildwar_kills`
 --
 
 CREATE TABLE `guildwar_kills` (
@@ -215,7 +215,7 @@ CREATE TABLE `guildwar_kills` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `guild_invites`
+-- Table structure `guild_invites`
 --
 
 CREATE TABLE `guild_invites` (
@@ -227,7 +227,7 @@ CREATE TABLE `guild_invites` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `guild_membership`
+-- Table structure `guild_membership`
 --
 
 CREATE TABLE `guild_membership` (
@@ -240,7 +240,7 @@ CREATE TABLE `guild_membership` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `guild_ranks`
+-- Table structure `guild_ranks`
 --
 
 CREATE TABLE `guild_ranks` (
@@ -253,7 +253,7 @@ CREATE TABLE `guild_ranks` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `guild_wars`
+-- Table structure `guild_wars`
 --
 
 CREATE TABLE `guild_wars` (
@@ -270,7 +270,7 @@ CREATE TABLE `guild_wars` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `houses`
+-- Table structure `houses`
 --
 
 CREATE TABLE `houses` (
@@ -293,7 +293,7 @@ CREATE TABLE `houses` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `house_lists`
+-- Table structure `house_lists`
 --
 
 CREATE TABLE `house_lists` (
@@ -305,7 +305,7 @@ CREATE TABLE `house_lists` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `ip_bans`
+-- Table structure `ip_bans`
 --
 
 CREATE TABLE `ip_bans` (
@@ -319,7 +319,7 @@ CREATE TABLE `ip_bans` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `market_history`
+-- Table structure `market_history`
 --
 
 CREATE TABLE `market_history` (
@@ -337,7 +337,7 @@ CREATE TABLE `market_history` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `market_offers`
+-- Table structure `market_offers`
 --
 
 CREATE TABLE `market_offers` (
@@ -354,7 +354,7 @@ CREATE TABLE `market_offers` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `newsticker`
+-- Table structure `newsticker`
 --
 
 CREATE TABLE `newsticker` (
@@ -367,7 +367,7 @@ CREATE TABLE `newsticker` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pagseguro_transactions`
+-- Table structure `pagseguro_transactions`
 --
 
 CREATE TABLE `pagseguro_transactions` (
@@ -383,7 +383,7 @@ CREATE TABLE `pagseguro_transactions` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `players`
+-- Table structure `players`
 --
 
 CREATE TABLE `players` (
@@ -506,7 +506,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `players_online`
+-- Table structure `players_online`
 --
 
 CREATE TABLE `players_online` (
@@ -516,7 +516,7 @@ CREATE TABLE `players_online` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_charms`
+-- Table structure `player_charms`
 --
 
 CREATE TABLE `player_charms` (
@@ -529,7 +529,7 @@ CREATE TABLE `player_charms` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_deaths`
+-- Table structure `player_deaths`
 --
 
 CREATE TABLE `player_deaths` (
@@ -547,7 +547,7 @@ CREATE TABLE `player_deaths` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_depotitems`
+-- Table structure `player_depotitems`
 --
 
 CREATE TABLE `player_depotitems` (
@@ -562,7 +562,7 @@ CREATE TABLE `player_depotitems` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_former_names`
+-- Table structure `player_former_names`
 --
 
 CREATE TABLE `player_former_names` (
@@ -575,7 +575,7 @@ CREATE TABLE `player_former_names` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_hirelings`
+-- Table structure `player_hirelings`
 --
 
 CREATE TABLE `player_hirelings` (
@@ -597,7 +597,7 @@ CREATE TABLE `player_hirelings` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_inboxitems`
+-- Table structure `player_inboxitems`
 --
 
 CREATE TABLE `player_inboxitems` (
@@ -612,7 +612,7 @@ CREATE TABLE `player_inboxitems` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_items`
+-- Table structure `player_items`
 --
 
 CREATE TABLE `player_items` (
@@ -627,7 +627,7 @@ CREATE TABLE `player_items` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_kills`
+-- Table structure `player_kills`
 --
 
 CREATE TABLE `player_kills` (
@@ -640,7 +640,7 @@ CREATE TABLE `player_kills` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_misc`
+-- Table structure `player_misc`
 --
 
 CREATE TABLE `player_misc` (
@@ -651,7 +651,7 @@ CREATE TABLE `player_misc` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_namelocks`
+-- Table structure `player_namelocks`
 --
 
 CREATE TABLE `player_namelocks` (
@@ -664,7 +664,7 @@ CREATE TABLE `player_namelocks` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_preydata`
+-- Table structure `player_preydata`
 --
 
 CREATE TABLE `player_preydata` (
@@ -675,7 +675,7 @@ CREATE TABLE `player_preydata` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_rewards`
+-- Table structure `player_rewards`
 --
 
 CREATE TABLE `player_rewards` (
@@ -690,7 +690,7 @@ CREATE TABLE `player_rewards` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_spells`
+-- Table structure `player_spells`
 --
 
 CREATE TABLE `player_spells` (
@@ -701,7 +701,7 @@ CREATE TABLE `player_spells` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `player_storage`
+-- Table structure `player_storage`
 --
 
 CREATE TABLE `player_storage` (
@@ -713,7 +713,7 @@ CREATE TABLE `player_storage` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `quickloot_containers`
+-- Table structure `quickloot_containers`
 --
 
 CREATE TABLE `quickloot_containers` (
@@ -726,7 +726,7 @@ CREATE TABLE `quickloot_containers` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `server_config`
+-- Table structure `server_config`
 --
 
 CREATE TABLE `server_config` (
@@ -747,7 +747,7 @@ INSERT INTO `server_config` (`config`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `store_history`
+-- Table structure `store_history`
 --
 
 CREATE TABLE `store_history` (
@@ -764,7 +764,7 @@ CREATE TABLE `store_history` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tickets`
+-- Table structure `tickets`
 --
 
 CREATE TABLE `tickets` (
@@ -784,7 +784,7 @@ CREATE TABLE `tickets` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tickets_reply`
+-- Table structure `tickets_reply`
 --
 
 CREATE TABLE `tickets_reply` (
@@ -798,7 +798,7 @@ CREATE TABLE `tickets_reply` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tile_store`
+-- Table structure `tile_store`
 --
 
 CREATE TABLE `tile_store` (
@@ -809,7 +809,7 @@ CREATE TABLE `tile_store` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_forum`
+-- Table structure `z_forum`
 --
 
 CREATE TABLE `z_forum` (
@@ -835,7 +835,7 @@ CREATE TABLE `z_forum` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_ots_comunication`
+-- Table structure `z_ots_comunication`
 --
 
 CREATE TABLE `z_ots_comunication` (
@@ -856,7 +856,7 @@ CREATE TABLE `z_ots_comunication` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_ots_guildcomunication`
+-- Table structure `z_ots_guildcomunication`
 --
 
 CREATE TABLE `z_ots_guildcomunication` (
@@ -877,7 +877,7 @@ CREATE TABLE `z_ots_guildcomunication` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_polls`
+-- Table structure `z_polls`
 --
 
 CREATE TABLE `z_polls` (
@@ -892,7 +892,7 @@ CREATE TABLE `z_polls` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_polls_answers`
+-- Table structure `z_polls_answers`
 --
 
 CREATE TABLE `z_polls_answers` (
@@ -905,7 +905,7 @@ CREATE TABLE `z_polls_answers` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_shop_category`
+-- Table structure `z_shop_category`
 --
 
 CREATE TABLE `z_shop_category` (
@@ -929,7 +929,7 @@ INSERT INTO `z_shop_category` (`id`, `name`, `desc`, `button`, `hide`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_shop_donates`
+-- Table structure `z_shop_donates`
 --
 
 CREATE TABLE `z_shop_donates` (
@@ -946,7 +946,7 @@ CREATE TABLE `z_shop_donates` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_shop_donate_confirm`
+-- Table structure `z_shop_donate_confirm`
 --
 
 CREATE TABLE `z_shop_donate_confirm` (
@@ -960,7 +960,7 @@ CREATE TABLE `z_shop_donate_confirm` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_shop_history_item`
+-- Table structure `z_shop_history_item`
 --
 
 CREATE TABLE `z_shop_history_item` (
@@ -979,7 +979,7 @@ CREATE TABLE `z_shop_history_item` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_shop_offer`
+-- Table structure `z_shop_offer`
 --
 
 CREATE TABLE `z_shop_offer` (
@@ -1012,7 +1012,7 @@ INSERT INTO `z_shop_offer` (`id`, `category`, `coins`, `price`, `itemid`, `mount
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `z_shop_payment`
+-- Table structure `z_shop_payment`
 --
 
 CREATE TABLE `z_shop_payment` (
