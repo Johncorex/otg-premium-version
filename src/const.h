@@ -689,6 +689,13 @@ static constexpr int32_t CHANNEL_PRIVATE = 0xFFFF;
 
 static constexpr int32_t STORAGEVALUE_PROMOTION = 30018;
 static constexpr int32_t STORAGEVALUE_EMOTE = 30019;
+
+#define CHANNEL_CAST 0x09
+
+#define MAX_CAST_COUNT 30
+
+const std::string LIVE_CAST_CHAT_NAME = "Live Cast Chat";
+
 //Reserved player storage key ranges;
 //[10000000 - 20000000];
 static constexpr int32_t PSTRG_RESERVED_RANGE_START = 10000000;

@@ -40,6 +40,10 @@ networkAttackThreshold = 4
 maxItem = 2000
 maxContainer = 100
 
+--Cast
+enableLiveCasting = true
+liveCastPort = 7173
+
 -- Version Manual
 clientVersionMin = 1100
 clientVersionMax = 1231

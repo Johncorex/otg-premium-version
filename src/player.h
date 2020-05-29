@@ -38,6 +38,7 @@
 #include "groups.h"
 #include "town.h"
 #include "mounts.h"
+#include "protocolcaster.h"
 #include "reward.h"
 #include "rewardchest.h"
 #include "gamestore.h"
@@ -1516,7 +1517,23 @@ class Player final : public Creature, public Cylinder
 
 		uint16_t getFreeBackpackSlots() const;
 		StreakBonus_t getStreakDaysBonus()const;
+        
+		const std::map<uint8_t, OpenContainer>& getOpenContainers() const {
+			return openContainers;
+		}
 
+		bool startLiveCast(const std::string& password) {
+			return client != nullptr && static_cast<ProtocolCaster*>(client)->startLiveCast(password);
+		}
+
+		bool stopLiveCast() {
+			return client != nullptr && static_cast<ProtocolCaster*>(client)->stopLiveCast();
+		}
+
+		bool isLiveCaster() const {
+			return client != nullptr && static_cast<ProtocolCaster*>(client)->isLiveCaster();
+		}
+		
 	protected:
 		std::forward_list<Condition*> getMuteConditions() const;
 
@@ -1746,6 +1763,7 @@ class Player final : public Creature, public Cylinder
 		friend class Actions;
 		friend class IOLoginData;
 		friend class ProtocolGame;
+		friend class ProtocolCaster;
 };
 
 #endif

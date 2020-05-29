@@ -56,7 +56,7 @@ struct TextMessage
 	TextMessage(MessageClasses initType, std::string initText) : type(initType), text(std::move(initText)) {}
 };
 
-class ProtocolGame final : public Protocol
+class ProtocolGame : public Protocol
 {
 	public:
 		// static protocol information
@@ -70,23 +70,32 @@ class ProtocolGame final : public Protocol
 		explicit ProtocolGame(Connection_ptr initConnection) : Protocol(initConnection) {}
 
 		void login(const std::string& name, uint32_t accnumber, OperatingSystem_t operatingSystem);
-		void logout(bool displayEffect, bool forced);
+		virtual void logout(bool displayEffect, bool forced);
 
 		void AddItem(NetworkMessage& msg, const Item* item);
 		void AddItem(NetworkMessage& msg, uint16_t id, uint8_t count);
-
+        
+		virtual void setPlayer(Player* p);
+		
 		uint16_t getVersion() const {
 			return version;
 		}
 
-	private:
+	const std::unordered_set<uint32_t>& getKnownCreatures() const {
+			return knownCreatureSet;
+		}
+	protected:
 		ProtocolGame_ptr getThis() {
 			return std::static_pointer_cast<ProtocolGame>(shared_from_this());
 		}
 		void connect(uint32_t playerId, OperatingSystem_t operatingSystem);
-		void disconnectClient(const std::string& message) const;
+		virtual void disconnectClient(const std::string& message);
+		virtual void writeToOutputBuffer(const NetworkMessage& msg, bool broadcast = true);
 		void writeToOutputBuffer(const NetworkMessage& msg);
-
+        
+		void releaseProtocol();
+		void deleteProtocolTask();
+		
 		void release() final;
 
 		void checkCreatureAsKnown(uint32_t id, bool& known, uint32_t& removedKnown);
@@ -96,14 +105,14 @@ class ProtocolGame final : public Protocol
 		bool canSee(const Position& pos) const;
 
 		// we have all the parse methods
-		void parsePacket(NetworkMessage& msg) final;
-		void onRecvFirstMessage(NetworkMessage& msg) final;
+		virtual void parsePacket(NetworkMessage& msg);
+		void onRecvFirstMessage(NetworkMessage& msg);
 		void onConnect() final;
 
 		//Parse methods
 		void parseAutoWalk(NetworkMessage& msg);
 		void parseSetOutfit(NetworkMessage& msg);
-		void parseSay(NetworkMessage& msg);
+		virtual void parseSay(NetworkMessage& msg);
 		void parseLookAt(NetworkMessage& msg);
 		void parseLookInBattleList(NetworkMessage& msg);
 		void parseFightModes(NetworkMessage& msg);
@@ -381,6 +390,7 @@ class ProtocolGame final : public Protocol
 		void parseExtendedOpcode(NetworkMessage& msg);
 
 		friend class Player;
+		friend class ProtocolCaster;
 
 		// Helpers so we don't need to bind every time
 		template <typename Callable, typename... Args>

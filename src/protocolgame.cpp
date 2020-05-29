@@ -386,7 +386,7 @@ void ProtocolGame::disconnectClient(const std::string& message) const
 	disconnect();
 }
 
-void ProtocolGame::writeToOutputBuffer(const NetworkMessage& msg)
+void ProtocolGame::writeToOutputBuffer(const NetworkMessage& msg, bool broadcast /*= true*/)
 {
 	auto out = getOutputBuffer(msg.getLength());
 	out->append(msg);
@@ -3129,7 +3129,7 @@ void ProtocolGame::sendPing()
 	if (player) {
 		NetworkMessage msg;
 		msg.addByte(0x1D);
-		writeToOutputBuffer(msg);
+		writeToOutputBuffer(msg, false);
 	}
 }
 
@@ -3137,7 +3137,7 @@ void ProtocolGame::sendPingBack()
 {
 	NetworkMessage msg;
 	msg.addByte(0x1E);
-	writeToOutputBuffer(msg);
+	writeToOutputBuffer(msg, false);
 }
 
 void ProtocolGame::sendDistanceShoot(const Position& from, const Position& to, uint8_t type)

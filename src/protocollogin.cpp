@@ -32,6 +32,8 @@
 #include "ban.h"
 #include "game.h"
 
+#include "protocolcaster.h"
+
 extern ConfigManager g_config;
 extern Game g_game;
 
@@ -107,6 +109,101 @@ void ProtocolLogin::getCharacterList(const std::string& accountName, const std::
 	send(output);
 
 	disconnect();
+}
+
+void ProtocolLogin::getCastingStreamsList(const std::string& password, uint16_t version)
+{
+	const auto& casts = ProtocolCaster::getLiveCasts();
+	std::vector<std::pair<uint32_t, std::string>> castList;
+
+	bool havePassword = !password.empty();
+
+	for (const auto& cast : casts) {
+		if (havePassword) {
+			if (cast.second->isPasswordProtected() && (cast.second->getLiveCastPassword() == password)) {
+				castList.push_back(std::make_pair(cast.second->getSpectatorCount(), cast.first->getName()));
+			}
+		} else {
+			castList.push_back(std::make_pair(cast.second->getSpectatorCount(), cast.first->getName()));
+		}
+	}
+
+	if (castList.size() == 0) {
+		if (havePassword) {
+			disconnectClient("No cast avaliable with this password.", version);
+		} else {
+			disconnectClient("No cast avaliable.", version);
+		}
+
+		return;
+	}
+
+	std::sort(castList.begin(), castList.end(),
+		[](const std::pair<uint32_t, std::string>& lhs, const std::pair<uint32_t, std::string>& rhs) {
+		return lhs.first > rhs.first;
+	});
+
+	//dispatcher thread
+	OutputMessage_ptr output = OutputMessagePool::getInstance()->getOutputMessage(this, false);
+	if (output) {
+		//Add MOTD
+		output->addByte(0x14);
+
+		std::ostringstream ss;
+		ss << g_game.getMotdNum() << "\n" << g_config.getString(ConfigManager::MOTD);
+		output->addString(ss.str());
+
+		//Add session key
+		output->addByte(0x28);
+		output->addString("\n" + password);
+
+		//Add char list
+		output->addByte(0x64);
+
+		//add worlds
+
+		output->addByte(castList.size());
+
+		uint32_t world = 0;
+
+		for (const auto& it : castList) {
+			output->addByte(world); // world id
+
+			uint32_t count = it.first;
+
+			std::stringstream ss;
+
+			if (count == 0)
+				ss << "no viewer";
+			else if (count == 1)
+				ss << count << "viewer";
+			else
+				ss << count << " viewers";
+
+			output->addString(ss.str());
+			output->addString(g_config.getString(ConfigManager::IP));
+			output->add<uint16_t>(g_config.getNumber(ConfigManager::LIVE_CAST_PORT));
+			output->addByte(0);
+
+			world++;
+		}
+
+		world = 0;
+
+		output->addByte(castList.size());
+
+		for (const auto& it : castList) {
+			output->addByte(world); // world id
+
+			output->addString(it.second);
+
+			world++;
+		}
+
+		output->add<uint16_t>(0x0); //The client expects the number of premium days left.
+		OutputMessagePool::getInstance()->send(output);
+	}
+	getConnection()->close();
 }
 
 void ProtocolLogin::onRecvFirstMessage(NetworkMessage& msg)
@@ -188,12 +285,16 @@ void ProtocolLogin::onRecvFirstMessage(NetworkMessage& msg)
 	}
 
 	std::string accountName = msg.getString();
+	std::string password = msg.getString();
 	if (accountName.empty()) {
-		disconnectClient("Invalid account name.", version);
+		if (!g_config.getBoolean(ConfigManager::ENABLE_LIVE_CASTING)) {
+			dispatchDisconnectClient("Invalid account name.");
+		} else {
+			g_dispatcher.addTask(createTask(std::bind(&ProtocolLogin::getCastingStreamsList, this, password, version)));
+		}
 		return;
 	}
 
-	std::string password = msg.getString();
 	if (password.empty()) {
 		disconnectClient("Invalid password.", version);
 		return;

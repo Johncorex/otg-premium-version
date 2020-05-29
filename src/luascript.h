@@ -1055,7 +1055,11 @@ class LuaScriptInterface
 		static int luaPlayerSetBonusRerollCount(lua_State* L);
 
 		static int luaPlayerIsOffline(lua_State* L);
-
+        
+		static int luaPlayerStartLiveCast(lua_State* L);
+		static int luaPlayerStopLiveCast(lua_State* L);
+		static int luaPlayerIsLiveCaster(lua_State* L);
+		
 		// Monster
 		static int luaMonsterCreate(lua_State* L);
 
