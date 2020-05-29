@@ -4313,16 +4313,15 @@ void ProtocolGame::AddItem(NetworkMessage& msg, uint16_t id, uint8_t count)
 	}
 	else if (it.isSplash() || it.isFluidContainer()) {
 		msg.addByte(fluidMap[count & 7]);
-	}
+	} else if (version >= 1150 && it.isContainer()) {
+		msg.addByte(0x00);
+    }
 
 	if (it.isAnimation) {
 		msg.addByte(0xFE); // random phase (0xFF for async)
 	}
 
-	if (version >= 1150 && it.isContainer()) {
-		msg.addByte(0x00);
-
-	}
+	
 }
 
 void ProtocolGame::AddItem(NetworkMessage& msg, const Item* item)
@@ -4339,21 +4338,21 @@ void ProtocolGame::AddItem(NetworkMessage& msg, const Item* item)
 		msg.addByte(std::min<uint16_t>(0xFF, item->getItemCount()));
 	} else if (it.isSplash() || it.isFluidContainer()) {
 		msg.addByte(fluidMap[item->getFluidType() & 7]);
+	} else if (version >= 1150 && it.isContainer()) {
+		uint32_t quickLootFlags = item->getQuickLootFlags();
+		if (quickLootFlags > 0) {
+			msg.addByte(2);
+			msg.add<uint32_t>(quickLootFlags);
+		} 
+		else {
+			msg.addByte(0x00);
+		}
 	}
 
 	if (it.isAnimation) {
 		msg.addByte(0xFE); // random phase (0xFF for async)
 	}
-
-	if (version >= 1150 && it.isContainer()) {
-		uint32_t quickLootFlags = item->getQuickLootFlags();
-		if (quickLootFlags > 0) {
-			msg.addByte(2);
-			msg.add<uint32_t>(quickLootFlags);
-		} else {
-			msg.addByte(0x00);
-		}
-	}
+	
 }
 
 void ProtocolGame::AddWorldLight(NetworkMessage& msg, LightInfo lightInfo)
