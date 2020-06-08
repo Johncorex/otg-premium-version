@@ -1259,6 +1259,9 @@
 	<monster name="Dark Monk" file="Monks/dark_monk.xml"/>
 	<monster name="Monk" file="Monks/monk.xml"/>
 
+		<!-- Trainers -->
+    <monster name="Training Monk" file="Customs/Training Monk.xml" />
+
 	<!-- Mutated -->
 	<monster name="Mutated Bat" file="Mutated/mutated_bat.xml"/>
 	<monster name="Mutated Human" file="Mutated/mutated_human.xml"/>
