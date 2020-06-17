@@ -1202,7 +1202,8 @@ function GameStore.processAllBlessingsPurchase(player)
 end
 
 function GameStore.processPremiumPurchase(player, offerId)
-  player:addPremiumDays(offerId-3000)
+ 	db.query("UPDATE `accounts` SET `lastday` = ".. os.time() .." WHERE `id` = " .. player:getAccountId())
+	db.query("UPDATE `accounts` SET `premdays` = `premdays` + ".. offerId-3000 .." WHERE `id` = " .. player:getAccountId())
 end
 
 function GameStore.processStackablePurchase(player, offerId, offerCount, offerName)
