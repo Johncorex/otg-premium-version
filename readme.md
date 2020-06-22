@@ -36,3 +36,4 @@ Usamos o [issue tracker no GitHub](https://github.com/Johncorex/OTG-Premium-Vers
 ![enter image description here](https://i.postimg.cc/TPQzpFR9/tibiasocial-parceiros.png)
 ![enter image description here](https://i.postimg.cc/5NBbfPFP/logo2.png)
 ![enter image description here](https://i.postimg.cc/GmzRyHKG/logo2.png)
+![enter image description here](https://i.postimg.cc/sXgvhk5D/logo-ts-2.jpg)
