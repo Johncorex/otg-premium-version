@@ -1,0 +1,10 @@
+executar no terminal linux:
+sudo apt-get install gdb
+
+e no arquivo start.sh
+nomear o diretorio que está:
+/home/otg-premium-version
+para o diretorio do seu servidor.
+
+para startar o servidor com o Anti Rollback:
+screen ./start.sh
