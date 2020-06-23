@@ -2325,6 +2325,10 @@ void ProtocolGame::sendShop(Npc* npc, const ShopInfoList& itemList)
 		msg.addItemId(2148);
 	}
 
+	if (version >= 1240) {
+		msg.addString(std::string());//??
+	}
+
 	uint16_t itemsToSend = std::min<size_t>(itemList.size(), std::numeric_limits<uint16_t>::max());
 	msg.add<uint16_t>(itemsToSend);
 	uint16_t i = 0;
@@ -4039,6 +4043,10 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 	msg.addByte(lightInfo.color);
 
 	msg.add<uint16_t>(creature->getStepSpeed() / 2);
+
+	if (player->getProtocolVersion() >= 1240) {
+	playermsg.addByte(0);//icons
+	}
 
 	msg.addByte(player->getSkullClient(creature));
 	msg.addByte(player->getPartyShield(otherPlayer));
