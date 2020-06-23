@@ -4045,7 +4045,7 @@ void ProtocolGame::AddCreature(NetworkMessage& msg, const Creature* creature, bo
 	msg.add<uint16_t>(creature->getStepSpeed() / 2);
 
 	if (player->getProtocolVersion() >= 1240) {
-	playermsg.addByte(0);//icons
+	msg.addByte(0);//icons
 	}
 
 	msg.addByte(player->getSkullClient(creature));
