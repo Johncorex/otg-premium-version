@@ -280,6 +280,7 @@ class Tile : public Cylinder
 		}
 
 		Item* getUseItem(int32_t index) const;
+    	Item* getDoorItem() const;
 
 		Item* getGround() const {
 			return ground;

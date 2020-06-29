@@ -47,6 +47,7 @@ enum stackPosType_t {
 	STACKPOS_TOPDOWN_ITEM,
 	STACKPOS_USEITEM,
 	STACKPOS_USETARGET,
+  	STACKPOS_FIND_THING,
 };
 
 enum WorldType_t {
