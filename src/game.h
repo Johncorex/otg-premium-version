@@ -551,7 +551,6 @@ class Game
 		Raids raids;
 		GameStore gameStore;
 
-		std::forward_list<Item*> toDecayItems;
 		std::forward_list<Item*> toImbuedItems;
 
 	protected:
@@ -575,11 +574,12 @@ class Game
 		std::map<uint32_t, uint32_t> stagesSkill;
 		std::map<uint32_t, uint32_t> stagesMl;
 
-		std::list<Item*> decayItems[EVENT_DECAY_BUCKETS];
-		std::list<Creature*> checkCreatureLists[EVENT_CREATURECOUNT];
+		std::vector<Item*> decayItems[EVENT_DECAY_BUCKETS];
+		std::vector<Creature*> checkCreatureLists[EVENT_CREATURECOUNT];
 
 		std::list<Item*> imbuedItems[EVENT_IMBUEMENT_BUCKETS];
-
+        
+		std::vector<Item*> toDecayItems;
 		std::vector<Creature*> ToReleaseCreatures;
 		std::vector<Item*> ToReleaseItems;
 
