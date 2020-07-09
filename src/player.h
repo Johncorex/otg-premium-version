@@ -511,7 +511,7 @@ class Player final : public Creature, public Cylinder
 
 		bool removeItemOfType(uint16_t itemId, uint32_t amount, int32_t subType, bool ignoreEquipped = false) const;
 
-		uint32_t getCapacity() const {
+ 		uint32_t getBaseCapacity() const {
 			if (hasFlag(PlayerFlag_CannotPickupItem)) {
 				return 0;
 			} else if (hasFlag(PlayerFlag_HasInfiniteCapacity)) {
@@ -520,13 +520,22 @@ class Player final : public Creature, public Cylinder
 			return capacity;
 		}
 
+ 		uint32_t getCapacity() const {
+			if (hasFlag(PlayerFlag_CannotPickupItem)) {
+				return 0;
+			} else if (hasFlag(PlayerFlag_HasInfiniteCapacity)) {
+				return std::numeric_limits<uint32_t>::max();
+			}
+			return capacity + bonusCapacity;
+		}
+
 		uint32_t getFreeCapacity() const {
 			if (hasFlag(PlayerFlag_CannotPickupItem)) {
 				return 0;
 			} else if (hasFlag(PlayerFlag_HasInfiniteCapacity)) {
 				return std::numeric_limits<uint32_t>::max();
 			} else {
-				return std::max<int32_t>(0, capacity - inventoryWeight);
+				return std::max<int32_t>(0, getCapacity() - inventoryWeight);
 			}
 		}
 
@@ -1640,6 +1649,7 @@ class Player final : public Creature, public Cylinder
 
 		uint32_t inventoryWeight = 0;
 		uint32_t capacity = 40000;
+		uint32_t bonusCapacity = 0;
 		uint32_t damageImmunities = 0;
 		uint32_t conditionImmunities = 0;
 		uint32_t conditionSuppressions = 0;
