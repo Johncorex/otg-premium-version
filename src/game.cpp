@@ -5457,6 +5457,7 @@ bool Game::loadSkillStages()
 
 	for (auto stageNode : doc.child("skillstages").children()) {
 		if (strcasecmp(stageNode.name(), "skills") == 0) {
+		} else {
 			stagesSkillEnabled = stageNode.attribute("enabled").as_bool();
 			for (auto stage1 : stageNode.children()) {
 				uint32_t minLevel, maxLevel, multiplier;
@@ -5526,6 +5527,7 @@ bool Game::loadMagicLevelStages()
 
 	for (auto stageNode : doc.child("skillstages").children()) {
 		if (strcasecmp(stageNode.name(), "magiclevel") == 0) {
+		} else {
 			stagesMlEnabled = stageNode.attribute("enabled").as_bool();
 			for (auto stage1 : stageNode.children()) {
 				uint32_t minLevel, maxLevel, multiplier;
