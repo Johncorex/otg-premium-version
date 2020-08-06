@@ -4625,7 +4625,7 @@ int LuaScriptInterface::luaGameGetExperienceStage(lua_State* L)
 
 int LuaScriptInterface::luaGameGetSkillStage(lua_State* L)
 {
-	// Game.getExperienceStage(level)
+	// Game.getSkillStage(level)
 	uint32_t level = getNumber<uint32_t>(L, 1);
 	lua_pushnumber(L, g_game.getSkillStage(level));
 	return 1;
@@ -4633,7 +4633,7 @@ int LuaScriptInterface::luaGameGetSkillStage(lua_State* L)
 
 int LuaScriptInterface::luaGameGetMagicLevelStage(lua_State* L)
 {
-	// Game.getExperienceStage(level)
+	// Game.getMagicLevelStage(level)
 	uint32_t level = getNumber<uint32_t>(L, 1);
 	lua_pushnumber(L, g_game.getMagicLevelStage(level));
 	return 1;
