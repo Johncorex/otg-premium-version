@@ -1358,7 +1358,7 @@ void Monsters::loadLootContainer(const pugi::xml_node& node, LootBlock& lBlock)
 	}
 }
 
-MonsterType* Monsters::getMonsterType(const std::string& name)
+MonsterType* Monsters::getMonsterType(const std::string& name, bool loadFromFile /*= true */)
 {
 	std::string lowerCaseName = asLowerCaseString(name);
 
@@ -1368,18 +1368,14 @@ MonsterType* Monsters::getMonsterType(const std::string& name)
 		if (it2 == unloadedMonsters.end()) {
 			return nullptr;
 		}
+		
+		if (!loadFromFile) {
+			return nullptr;
+		}
 
 		return loadMonster(it2->second, name);
 	}
 	return &it->second;
-}
-
-void Monsters::addMonsterType(const std::string& name, MonsterType* mType)
-{
-	// Suppress [-Werror=unused-but-set-parameter]
-	// https://stackoverflow.com/questions/1486904/how-do-i-best-silence-a-warning-about-unused-variables
-	(void) mType;
-	mType = &monsters[asLowerCaseString(name)];
 }
 
 bool Monsters::loadCallback(LuaScriptInterface* luaScriptInterface, MonsterType* mType)
