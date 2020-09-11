@@ -24,7 +24,7 @@ Usamos o [issue tracker no GitHub](https://github.com/Johncorex/OTG-Premium-Vers
 
 -   our partners
 -   our crew (johncore, ericknunes, leu, douglas, guibruxo)
--   our testers (renan ulian, severo, james, cristian and roger)
+-   our testers (renan ulian, tiago dias, will raduan, cristian and roger)
 -   [our contributors](https://github.com/Johncorex/OTG-Premium-Version/graphs/contributors)
 -   [cjaker](https://github.com/Eternal-Scripts)
 -   [slavidodo](https://github.com/slavidodo)
