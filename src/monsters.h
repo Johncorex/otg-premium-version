@@ -258,7 +258,8 @@ class Monsters
 		}
 		bool reload();
 
-		MonsterType* getMonsterType(const std::string& name, bool loadFromFile = true);
+		MonsterType* getMonsterType(const std::string& name);
+		void addMonsterType(const std::string& name, MonsterType* mType);
 		bool deserializeSpell(MonsterSpell* spell, spellBlock_t& sb, const std::string& description = "");
 		
 		std::unique_ptr<LuaScriptInterface> scriptInterface;
