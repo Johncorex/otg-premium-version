@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<monster name="Infernal Demon" nameDescription="a infernal demon" race="fire" experience="32500" speed="200">
+	<health now="32000" max="32000" />
+	<look type="1313" corpse="39700" />
+	<targetchange interval="4000" chance="20" />
+	<flags>
+		<flag summonable="0" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="0" />
+		<flag convinceable="0" />
+		<flag pushable="0" />
+		<flag canpushitems="1" />
+		<flag canpushcreatures="1" />
+		<flag targetdistance="1" />
+		<flag staticattack="70" />
+		<flag runonhealth="0" />
+		<flag canwalkonenergy="1" />
+	    <flag canwalkonfire="1" />
+	    <flag canwalkonpoison="1" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-2150" />	
+		<attack name="fire" interval="2000" chance="20" range="7" radius="7" target="1" min="-470" max="-920">
+			<attribute key="shootEffect" value="fire" />
+			<attribute key="areaEffect" value="firearea" />
+		</attack>
+		<attack name="firefield" interval="2000" chance="10" range="7" radius="1" target="1">
+			<attribute key="shootEffect" value="fire" />
+		</attack>	
+		<attack name="energy" interval="2000" chance="10" range="1" min="-700" max="-1200">
+			<attribute key="shootEffect" value="energy" />
+		</attack>	
+	</attacks>
+	<defenses armor="120" defense="50">
+		<defense name="healing" interval="2000" chance="15" min="180" max="250">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>	
+	</defenses>
+	<elements>
+		<element physicalPercent="70" />
+		<element deathPercent="50" />
+		<element icePercent="-100" />
+		<element holyPercent="-100" />
+		<element firePercent="60" />
+	</elements>
+	<immunities>
+		<immunity earth="1" />
+		<immunity drown="1" />
+		<immunity lifedrain="1" />
+		<immunity paralyze="1" />
+		<immunity energy="1" />
+		<immunity invisible="1" />
+	</immunities>
+	<summons maxSummons="1">
+		<summon name="fire elemental" interval="2000" chance="10" />
+	</summons>
+	<voices interval="5000" chance="10">
+		<voice sentence="The smell of fear follows you" />
+		<voice sentence="Your soul will burn" />
+	</voices>
+	<loot>
+		<item name="platinum coin" countmax="20" chance="40000" />
+		<item name="crystal coin" countmax="3" chance="20000" />
+		<item name="ultimate health potion" countmax="3" chance="19540" />		
+		<item name="small diamond" countmax="4" chance="9690" />				
+		<item name="gold ingot" countmax="2" chance="2100" />
+		<item name="blue crystal shard" countmax="3" chance="2430" />	
+		<item name="green crystal fragment" countmax="3" chance="2430" />	
+		<item name="cyan crystal fragment" countmax="3" chance="2430" />	
+		<item name="red crystal fragment" countmax="3" chance="2430" />		
+		<item name="magma boots" chance="3700" />		
+		<item name="blue gem" chance="4500" />
+		<item name="giant sword" chance="3700" />
+		<item name="war axe" chance="4900" />		
+		<item id="39856" chance="1" />	<!-- Bag You Desire -->
+		<item name="Mercenary Sword" chance="2500" />		
+		<item name="onyx chip" chance="1900" />
+	</loot>
+</monster>

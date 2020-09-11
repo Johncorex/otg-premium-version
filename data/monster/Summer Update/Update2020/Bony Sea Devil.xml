@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<monster name="Bony Sea Devil" nameDescription="a bony sea devil" race="fire" experience="32500" speed="220">
+	<health now="8200" max="8200" />
+	<look type="1294" corpse="39611" />
+	<targetchange interval="4000" chance="20" />
+	<flags>
+		<flag summonable="0" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="0" />
+		<flag convinceable="0" />
+		<flag pushable="0" />
+		<flag canpushitems="1" />
+		<flag canpushcreatures="1" />
+		<flag targetdistance="1" />
+		<flag staticattack="70" />
+		<flag runonhealth="0" />
+		<flag canwalkonenergy="1" />
+	    <flag canwalkonfire="1" />
+	    <flag canwalkonpoison="1" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-2350" />
+		<attack name="manadrain" interval="2000" chance="10" range="7" min="400" max="-1200" />
+		<attack name="fire" interval="2000" chance="20" range="7" radius="7" target="1" min="-350" max="-1200">
+			<attribute key="shootEffect" value="fire" />
+			<attribute key="areaEffect" value="firearea" />
+		</attack>
+		<attack name="firefield" interval="2000" chance="10" range="7" radius="1" target="1">
+			<attribute key="shootEffect" value="fire" />
+		</attack>
+		<attack name="lifedrain" interval="2000" chance="10" length="8" spread="0" min="-550" max="-1270">
+			<attribute key="areaEffect" value="purpleenergy" />
+		</attack>
+		<attack name="energy" interval="2000" chance="10" range="1" min="-450" max="-1280">
+			<attribute key="shootEffect" value="energy" />
+		</attack>
+		<attack name="speed" interval="2000" chance="15" radius="1" target="1" speedchange="-700" duration="30000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</attack>
+	</attacks>
+	<defenses armor="100" defense="50">
+		<defense name="healing" interval="2000" chance="15" min="180" max="450">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>
+		<defense name="speed" interval="2000" chance="15" speedchange="320" duration="5000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</defense>
+	</defenses>
+	<elements>
+		<element deathPercent="95" />
+		<element earthPercent="60" />
+		<element icePercent="40" />
+		<element holyPercent="-100" />
+		<element firePercent="-100" />
+	</elements>
+	<immunities>
+		<immunity physical="1" />
+		<immunity drown="1" />
+		<immunity lifedrain="1" />
+		<immunity paralyze="1" />
+		<immunity invisible="1" />
+		<immunity energy="1" />
+	</immunities>
+	<voices interval="5000" chance="40">
+		<voice sentence="Rattle,Clank" />
+	</voices>
+	<loot>
+		<item name="gold coin" countmax="100" chance="60000" />
+		<item name="small emerald" countmax="10" chance="9690" />
+		<item name="small amethyst" countmax="10" chance="7250" />		
+		<item name="small ruby" countmax="10" chance="7430" />		
+		<item name="small topaz" countmax="10" chance="7470" />		
+		<item name="red gem" chance="5000" />	
+		<item name="talon" chance="5000" />
+		<item name="platinum coin" countmax="8" chance="90540" />
+		<item name="might ring" chance="2500" />
+		<item name="stealth ring" chance="2170" />
+		<item name="great mana potion" countmax="3" chance="22220" />
+		<item name="ultimate health potion" countmax="3" chance="19540" />
+		<item name="great spirit potion" countmax="3" chance="18510" />
+	</loot>
+</monster>

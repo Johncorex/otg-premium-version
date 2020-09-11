@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<monster name="White Lion" nameDescription="a white Lion" race="fire" experience="2300" speed="160">
+	<health now="2700" max="2700" />
+	<look type="1290" corpse="24232" />
+	<targetchange interval="4000" chance="20" />
+	<flags>
+		<flag summonable="0" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="0" />
+		<flag convinceable="0" />
+		<flag pushable="0" />
+		<flag canpushitems="1" />
+		<flag canpushcreatures="1" />
+		<flag targetdistance="1" />
+		<flag staticattack="70" />
+		<flag runonhealth="0" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-350" />
+		<attack name="manadrain" interval="2000" chance="10" range="7" min="0" max="-120" />
+		<attack name="fire" interval="2000" chance="20" range="7" radius="7" target="1" min="-150" max="-200">
+			<attribute key="shootEffect" value="fire" />
+			<attribute key="areaEffect" value="firearea" />
+		</attack>
+		<attack name="firefield" interval="2000" chance="10" range="7" radius="1" target="1">
+			<attribute key="shootEffect" value="fire" />
+		</attack>
+		<attack name="lifedrain" interval="2000" chance="10" length="8" spread="0" min="-150" max="-200">
+			<attribute key="areaEffect" value="purpleenergy" />
+		</attack>
+		<attack name="energy" interval="2000" chance="10" range="1" min="-150" max="-200">
+			<attribute key="shootEffect" value="energy" />
+		</attack>
+		<attack name="speed" interval="2000" chance="15" radius="1" target="1" speedchange="-700" duration="30000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</attack>
+	</attacks>
+	<defenses armor="30" defense="30">
+		<defense name="healing" interval="2000" chance="15" min="180" max="250">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>
+		<defense name="speed" interval="2000" chance="15" speedchange="320" duration="5000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</defense>
+	</defenses>
+	<immunities>	
+		<immunity drown="1" />
+		<immunity lifedrain="1" />
+		<immunity paralyze="1" />
+		<immunity invisible="1" />
+	</immunities>		
+	<loot>		
+		<item name="platinum coin" countmax="12" chance="60000" />
+		<item name="lion's mane"  chance="3430" />	
+		<item name="twin hooks"  chance="1830" />	
+		<item name="cyan crystal fragment"  chance="1100" />
+		<item name="yellow gem"  chance="900" />
+		<item name="great spirit potion" countmax="2" chance="1400" />	
+		<item name="terra boots" chance="1200" />
+		<item name="green crystal shard" chance="1000" />
+		<item name="green crystal fragment" chance="920" />	
+		<item name="axe" chance="4000" />	
+		<item name="leather boots" chance="4000" />		
+		<item name="war hammer" chance="3200" />
+		<item name="silver dagger" chance="4000" />		
+	</loot>
+</monster>
