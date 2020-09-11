@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<monster name="Yirkas Blue Scales" nameDescription="a yirkas blue scales" race="blood" experience="5100" speed="190">
+	<health now="16000" max="16000"/>
+	<look type="1196" corpse="36244"/>
+	<targetchange interval="4000" chance="10"/>
+	<flags>
+		<flag summonable="0"/>
+		<flag attackable="1"/>
+		<flag hostile="1"/>
+		<flag illusionable="0"/>
+		<flag convinceable="0"/>
+		<flag pushable="0"/>
+		<flag canpushitems="1"/>
+		<flag canpushcreatures="1"/>
+		<flag targetdistance="1"/>
+		<flag staticattack="90"/>
+		<flag runonhealth="10"/>
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-530" poison="80"/>
+		<attack name="earth" interval="2000" chance="15" range="3" radius="1" target="1" min="-300" max="-990">
+			<attribute key="shootEffect" value="earth"/>
+			<attribute key="areaEffect" value="explosion"/>
+		</attack>
+	</attacks>
+	<defenses armor="78" defense="78">
+	    <defense name="speed" interval="2000" chance="5" speedchange="350" duration="5000">
+		    <attribute key="areaEffect" value="redshimmer" />
+		</defense>
+	</defenses>	
+	<elements>
+	    <element energyPercent="-20"/>
+		<element earthPercent="80"/>
+	</elements>
+	<immunities>
+	    <immunity paralyze="1"/>
+		<immunity invisible="1"/>
+	</immunities>
+	<loot>
+		<item name="platinum coin" countmax="9" chance="100000"/>
+		<item name="ultimate health potions" countmax="3" chance="68000"/>
+		<item name="blue goanna scales" chance="4500"/>
+		<item name="green gem" chance="3900"/>
+		<item name="ring of green plasma" chance="2300"/>
+		<item name="demonrage sword" chance="1000"/>
+		<item name="spellbook of mind control" chance="2700"/>
+		<item name="war axe" chance="4000"/>
+		<item name="ornate crossbow" chance="1800"/>
+		<item name="yirkas' egg" chance="3800"/>
+		<item name="demon shield" chance="1100"/>
+		<item name="lizard heart" chance="2100"/>
+		<item name="spellweaver's robe" chance="790"/>
+		<item name="red silk flower" chance="455"/>
+	</loot>
+</monster>

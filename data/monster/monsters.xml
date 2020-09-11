@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <monsters>
+    
+	 <!-- Summer Update 2020 - monsters -->
+	<monster name="Bony Sea Devil" file="Summer Update/Update2020/Bony Sea Devil.xml" />
+	<monster name="Brachiodemon" file="Summer Update/Update2020/Brachiodemon.xml" />
+	<monster name="Branchy Crawler" file="Summer Update/Update2020/Branchy Crawler.xml" />
+	<monster name="Capricious Phantom" file="Summer Update/Update2020/Capricious Phantom.xml" />
+	<monster name="Cloak Of Terror" file="Summer Update/Update2020/Cloak of Terror.xml" />
+	<monster name="Courage Leech" file="Summer Update/Update2020/Courage Leech.xml" />
+	<monster name="Distorted Phantom" file="Summer Update/Update2020/Distorted Phantom.xml" />
+	<monster name="Infernal Demon" file="Summer Update/Update2020/Infernal Demon.xml" />
+	<monster name="Many Faces" file="Summer Update/Update2020/Many Faces.xml" />
+	<monster name="White Lion" file="Summer Update/Update2020/White Lion.xml" />
+	<monster name="Werelioness" file="Summer Update/Update2020/Werelioness.xml" />
+	
+    <!-- Summer Update 2020 - bosses -->
+	<monster name="Goshnar's Cruelty" file="Summer Update/Update2020/bosses/Goshnar's Cruelty.xml" />
+	<monster name="Goshnar's Greed" file="Summer Update/Update2020/bosses/Goshnar's Greed.xml" />
+	<monster name="Goshnar's Hatred" file="Summer Update/Update2020/bosses/Goshnar's Hatred.xml" />
+	<monster name="Goshnars Malice" file="Summer Update/Update2020/bosses/Goshnars Malice.xml" />
+	<monster name="Goshnar's Megalomania" file="Summer Update/Update2020/bosses/Goshnar's Megalomania.xml" />
+	<monster name="Srezz Yellow Eyes" file="Summer Update/Update2020/bosses/Srezz Yellow Ryes.xml" />
+	<monster name="Yirkas Blue Scales" file="Summer Update/Update2020/bosses/Yirkas Blue Scales.xml" />
+
 	<!-- Others -->
 	<monster name="Black Cobra" file="Others/black cobra.xml"/>
 	<monster name="Cart Packed with Gold" file="Others/cart packed with gold.xml"/>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<monster name="Goshnar's Cruelty" nameDescription="a goshnar's cruelty" race="fire" experience="6000" speed="280">
+	<health now="8200" max="8200" />
+	<look type="1303" corpse="5995" />
+	<targetchange interval="4000" chance="20" />
+	<flags>
+		<flag summonable="0" />
+		<flag attackable="1" />
+		<flag hostile="1" />
+		<flag illusionable="0" />
+		<flag convinceable="0" />
+		<flag pushable="0" />
+		<flag canpushitems="1" />
+		<flag canpushcreatures="1" />
+		<flag targetdistance="1" />
+		<flag staticattack="70" />
+		<flag runonhealth="0" />
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="0" max="-350" />
+		<attack name="manadrain" interval="2000" chance="10" range="7" min="0" max="-120" />
+		<attack name="fire" interval="2000" chance="20" range="7" radius="7" target="1" min="-150" max="-200">
+			<attribute key="shootEffect" value="fire" />
+			<attribute key="areaEffect" value="firearea" />
+		</attack>
+		<attack name="firefield" interval="2000" chance="10" range="7" radius="1" target="1">
+			<attribute key="shootEffect" value="fire" />
+		</attack>
+		<attack name="lifedrain" interval="2000" chance="10" length="8" spread="0" min="-150" max="-200">
+			<attribute key="areaEffect" value="purpleenergy" />
+		</attack>
+		<attack name="energy" interval="2000" chance="10" range="1" min="-150" max="-200">
+			<attribute key="shootEffect" value="energy" />
+		</attack>
+		<attack name="speed" interval="2000" chance="15" radius="1" target="1" speedchange="-700" duration="30000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</attack>
+	</attacks>
+	<defenses armor="30" defense="30">
+		<defense name="healing" interval="2000" chance="15" min="180" max="250">
+			<attribute key="areaEffect" value="blueshimmer" />
+		</defense>
+		<defense name="speed" interval="2000" chance="15" speedchange="320" duration="5000">
+			<attribute key="areaEffect" value="redshimmer" />
+		</defense>
+	</defenses>
+	<elements>
+		<element physicalPercent="10" />
+		<element deathPercent="10" />
+		<element energyPercent="10" />
+		<element earthPercent="10" />
+		<element icePercent="-10" />
+		<element holyPercent="-10" />
+	</elements>
+	<immunities>
+		<immunity fire="1" />
+		<immunity drown="1" />
+		<immunity lifedrain="1" />
+		<immunity paralyze="1" />
+		<immunity invisible="1" />
+	</immunities>
+	<summons maxSummons="1">
+		<summon name="fire elemental" interval="2000" chance="10" />
+	</summons>
+	<voices interval="5000" chance="10">
+		<voice sentence="Your soul will be mine!" />
+		<voice sentence="MUHAHAHAHA!" />
+		<voice sentence="CHAMEK ATH UTHUL ARAK!" />
+		<voice sentence="I SMELL FEEEEAAAAAR!" />
+		<voice sentence="Your resistance is futile!" />
+	</voices>
+	<loot>
+		<item name="purple tome" chance="1180" />
+		<item name="gold coin" countmax="100" chance="60000" />
+		<item name="gold coin" countmax="100" chance="60000" />
+		<item name="small emerald" countmax="10" chance="9690" />
+		<item name="small amethyst" countmax="10" chance="7250" />		
+		<item name="small ruby" countmax="10" chance="7430" />		
+		<item name="small topaz" countmax="10" chance="7470" />		
+		<item name="red gem" chance="5000" />
+		<item name="demonic essence" chance="14630" />		
+		<item name="talon" chance="5000" />
+		<item name="platinum coin" countmax="8" chance="90540" />
+		<item name="might ring" chance="2500" />
+		<item name="stealth ring" chance="2170" />
+		<item name="platinum amulet" chance="1500" />
+		<item name="orb" chance="2854" />
+		<item name="gold ring" chance="2000" />
+		<item name="ring of healing" chance="2300" />
+		<item name="double axe" chance="4750" />
+		<item name="giant sword" chance="5000" />
+		<item name="ice rapier" chance="2000" />
+		<item name="golden sickle" chance="5000" />
+		<item name="fire axe" chance="6000" />
+		<item name="devil helmet" chance="2000" />
+		<item name="golden legs" chance="1200" />
+		<item name="magic plate armor" chance="650" />
+		<item name="mastermind shield" chance="600" />
+		<item name="demon shield" chance="800" />
+		<item name="fire mushroom" countmax="6" chance="19660" />
+		<item name="demon horn" chance="14920" />
+		<item name="assassin star" countmax="10" chance="12550" />
+		<item name="demonrage sword" chance="2000" />
+		<item id="7393" chance="1000" /><!-- demon trophy -->
+		<item name="great mana potion" countmax="3" chance="22220" />
+		<item name="ultimate health potion" countmax="3" chance="19540" />
+		<item name="great spirit potion" countmax="3" chance="18510" />
+	</loot>
+</monster>
