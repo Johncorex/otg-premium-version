@@ -34,8 +34,9 @@ Usamos o [issue tracker no GitHub](https://github.com/Johncorex/OTG-Premium-Vers
 
 
 ### Partners  (Parceiros)
-[link](https://tibiaking.com/forums/topic/89340-otg-10x-1240-global-full-issavi-full-winter-update-2019-summer-update-2019-updates-diarios/)![enter image description here](https://i.postimg.cc/zGYZMTtn/tklogo-png-012102186b776698e4d34ff498c6b19c.png)
+[Link Forum Parceiro
+](https://tibiaking.com/forums/topic/89340-otg-10x-1240-global-full-issavi-full-winter-update-2019-summer-update-2019-updates-diarios/)![enter image description here](https://i.postimg.cc/zGYZMTtn/tklogo-png-012102186b776698e4d34ff498c6b19c.png)
 
 ![enter image description here](https://i.postimg.cc/5NBbfPFP/logo2.png)
-[link](https://webserv.com.br/)
+[Link Webserv Parceiro](https://webserv.com.br/)
 ![enter image description here](https://i.postimg.cc/sXgvhk5D/logo-ts-2.jpg)
