@@ -67,12 +67,6 @@ Player::~Player()
 		}
 	}
 
-	for (const auto& it : depotChests) {
-		if (!it.second->getRealParent()) {
-			it.second->decrementReferenceCounter();
-		}
-	}
-
 	for (const auto& it : depotLockerMap) {
 		it.second->removeInbox(inbox);
 		it.second->decrementReferenceCounter();
@@ -870,7 +864,6 @@ DepotLocker* Player::getDepotLocker(uint32_t depotId)
 	}
 
 	DepotLocker* depotLocker = new DepotLocker(ITEM_LOCKER1);
-	depotLocker->incrementReferenceCounter();
 	depotLocker->setDepotId(depotId);
 	depotLocker->internalAddThing(Item::CreateItem(ITEM_MARKET));
 	depotLocker->internalAddThing(inbox);
