@@ -36,7 +36,7 @@ serverName = "OTG-Premium-Version"
 statusTimeout = 5 * 1000
 replaceKickOnLogin = true
 maxPacketsPerSecond = 35
-networkAttackThreshold = 4
+networkAttackThreshold = 35
 maxItem = 2000
 maxContainer = 100
 
