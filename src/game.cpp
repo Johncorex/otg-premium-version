@@ -2200,7 +2200,7 @@ ReturnValue Game::internalQuickLootItem(Player* player, Item* item, ObjectCatego
   }
 
 	bool fallbackConsumed = false;
-	uint16_t baseId = 0;
+	//uint16_t baseId = 0;
 
 	Container* lootContainer = player->getLootContainer(category);
 	if (!lootContainer) {
