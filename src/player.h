@@ -575,6 +575,9 @@ class Player final : public Creature, public Cylinder
 		DepotLocker* getDepotLocker(uint32_t depotId);
 		void onReceiveMail() const;
 		bool isNearDepotBox() const;
+		
+		Container* setLootContainer(ObjectCategory_t category, Container* container, bool loading = false);
+		Container* getLootContainer(ObjectCategory_t category) const;
 
 		bool canSee(const Position& pos) const final;
 		bool canSeeCreature(const Creature* creature) const final;
@@ -924,6 +927,11 @@ class Player final : public Creature, public Cylinder
 		}
 
 		//inventory
+		void sendLockerItems(std::map<uint16_t, uint16_t> itemMap, uint16_t count) {
+			if (client) {
+				client->sendLockerItems(itemMap, count);
+			}
+		}
 		void sendCoinBalance() {
 			if (client) {
 				client->sendCoinBalance();
@@ -977,6 +985,18 @@ class Player final : public Creature, public Cylinder
 		void sendStoreTrasactionHistory(HistoryStoreOfferList& list, uint32_t page, uint8_t entriesPerPage) {
 			if(client) {
 				client->sendStoreTrasactionHistory(list, page, entriesPerPage);
+			}
+		}
+		
+		// Quickloot
+		void sendLootContainers() {
+			if (client) {
+				client->sendLootContainers();
+			}
+		}
+		void sendLootStats(Item* item) {
+			if (client) {
+				client->sendLootStats(item);
 			}
 		}
 
@@ -1498,6 +1518,15 @@ class Player final : public Creature, public Cylinder
 		void updateMarketExhausted() {
 			lastMarketInteraction = OTSYS_TIME();
 		}
+		
+		bool isQuickLootListedItem(const Item* item) const {
+      if (!item) {
+        return false;
+      }
+
+			auto it = std::find(quickLootListClientIds.begin(), quickLootListClientIds.end(), item->getClientID());
+			return it != quickLootListClientIds.end();
+		}
 
    		bool updateKillTracker(Container* corpse, const std::string& playerName, const Outfit_t creatureOutfit) const
  		{
@@ -1538,6 +1567,8 @@ class Player final : public Creature, public Cylinder
 
 		void checkTradeState(const Item* item);
 		bool hasCapacity(const Item* item, uint32_t count) const;
+		
+		void checkLootContainers(const Item* item);
 
 		void gainExperience(uint64_t exp, Creature* source);
 		void addExperience(Creature* source, uint64_t exp, bool sendText = false);
@@ -1593,7 +1624,10 @@ class Player final : public Creature, public Cylinder
 		std::map<uint8_t, int64_t> moduleDelayMap;
 
 		std::map<uint32_t, Reward*> rewardMap;
-
+        
+		std::map<ObjectCategory_t, Container*> quickLootContainers;
+		std::vector<uint16_t> quickLootListClientIds;
+		
 		std::vector<OutfitEntry> outfits;
 		GuildWarVector guildWarVector;
 
@@ -1630,6 +1664,7 @@ class Player final : public Creature, public Cylinder
 		int64_t lastPing;
 		int64_t lastPong;
 		int64_t nextAction = 0;
+		int64_t lastQuickLootNotification = 0;
 		uint64_t instantRewardTokens = 0;
 		int64_t bonusRerollCount = 0;
 
@@ -1707,7 +1742,9 @@ class Player final : public Creature, public Cylinder
 		tradestate_t tradeState = TRADE_NONE;
 		fightMode_t fightMode = FIGHTMODE_ATTACK;
 		AccountType_t accountType = ACCOUNT_TYPE_NORMAL;
-
+        account::AccountType::ACCOUNT_TYPE_NORMAL;
+		QuickLootFilter_t quickLootFilter;
+		
 		bool chaseMode = false;
 		bool secureMode = true;
 		bool inMarket = false;
@@ -1717,6 +1754,8 @@ class Player final : public Creature, public Cylinder
 		bool isConnecting = false;
 		bool addAttackSkillPoint = false;
 		bool inventoryAbilities[CONST_SLOT_LAST + 1] = {};
+		bool quickLootFallbackToMainContainer = false;
+		bool logged = false;
 		bool scheduledSaleUpdate = false;
 
 		static uint32_t playerAutoID;

@@ -75,11 +75,16 @@ Player::~Player()
 	for (const auto& it : rewardMap) {
 		it.second->decrementReferenceCounter();
 	}
+	
+	for (const auto& it : quickLootContainers) {
+		it.second->decrementReferenceCounter();
+	}
 
 	inbox->decrementReferenceCounter();
 
 	setWriteItem(nullptr);
 	setEditHouse(nullptr);
+	logged = false;
 }
 
 bool Player::setVocation(uint16_t vocId)
@@ -797,6 +802,94 @@ void Player::onReceiveMail() const
 	}
 }
 
+Container* Player::setLootContainer(ObjectCategory_t category, Container* container, bool loading /* = false*/)
+{
+	Container* previousContainer = nullptr;
+	auto it = quickLootContainers.find(category);
+	if (it != quickLootContainers.end() && !loading) {
+		previousContainer = (*it).second;
+		uint32_t flags = previousContainer->getIntAttr(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER);
+		flags &= ~(1 << category);
+		if (flags == 0) {
+			previousContainer->removeAttribute(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER);
+		} else {
+			previousContainer->setIntAttr(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER, flags);
+		}
+
+		previousContainer->decrementReferenceCounter();
+		quickLootContainers.erase(it);
+	}
+
+	if (container) {
+		previousContainer = container;
+		quickLootContainers[category] = container;
+
+		container->incrementReferenceCounter();
+		if (!loading) {
+			uint32_t flags = container->getIntAttr(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER);
+			container->setIntAttr(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER, flags | static_cast<uint32_t>(1 << category));
+		}
+	}
+
+	return previousContainer;
+}
+
+Container* Player::getLootContainer(ObjectCategory_t category) const
+{
+	if (category != OBJECTCATEGORY_DEFAULT && !isPremium()) {
+		category = OBJECTCATEGORY_DEFAULT;
+	}
+
+	auto it = quickLootContainers.find(category);
+	if (it != quickLootContainers.end()) {
+		return (*it).second;
+	}
+
+	if (category != OBJECTCATEGORY_DEFAULT) {
+		// firstly, fallback to default
+		return getLootContainer(OBJECTCATEGORY_DEFAULT);
+	}
+
+	return nullptr;
+}
+
+void Player::checkLootContainers(const Item* item)
+{
+  if (!item) {
+    return;
+  }
+
+	const Container* container = item->getContainer();
+	if (!container) {
+		return;
+	}
+
+	bool shouldSend = false;
+
+	auto it = quickLootContainers.begin();
+	while (it != quickLootContainers.end()) {
+		Container* lootContainer = (*it).second;
+
+		bool remove = false;
+		if (item->getHoldingPlayer() != this && (item == lootContainer || container->isHoldingItem(lootContainer))) {
+			remove = true;
+		}
+
+		if (remove) {
+			shouldSend = true;
+			it = quickLootContainers.erase(it);
+			lootContainer->decrementReferenceCounter();
+			lootContainer->removeAttribute(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER);
+		} else {
+			++it;
+		}
+	}
+
+	if (shouldSend) {
+		sendLootContainers();
+	}
+}
+
 bool Player::isNearDepotBox() const
 {
 	const Position& pos = getPosition();
@@ -1137,6 +1230,8 @@ void Player::onRemoveTileItem(const Tile* fromTile, const Position& pos, const I
 			}
 		}
 	}
+	
+  checkLootContainers(item);	
 }
 
 void Player::onCreatureAppear(Creature* creature, bool isLogin)
@@ -1427,6 +1522,8 @@ void Player::onRemoveContainerItem(const Container* container, const Item* item)
 			}
 		}
 	}
+	
+  checkLootContainers(item);	
 }
 
 void Player::onCloseContainer(const Container* container)
@@ -1481,6 +1578,7 @@ void Player::onRemoveInventoryItem(Item* item)
 			}
 		}
 	}
+  checkLootContainers(item);	
 }
 
 void Player::checkTradeState(const Item* item)
@@ -3217,6 +3315,7 @@ void Player::postRemoveNotification(Thing* thing, const Cylinder* newParent, int
 
 	if (const Item* item = thing->getItem()) {
 		if (const Container* container = item->getContainer()) {
+	checkLootContainers(container);		
 			if (container->isRemoved() || !Position::areInRange<1, 1, 0>(getPosition(), container->getPosition())) {
 				autoCloseContainers(container);
 			} else if (container->getTopParent() == this) {

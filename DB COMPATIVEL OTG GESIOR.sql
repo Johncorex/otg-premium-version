@@ -465,6 +465,7 @@ CREATE TABLE `players` (
   `xpboost_value` tinyint(4) DEFAULT NULL,
   `marriage_status` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `marriage_spouse` int(11) NOT NULL DEFAULT '-1',
+  `quickloot_fallback` tinyint(1) DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `description` varchar(255) NOT NULL DEFAULT '',
   `comment` text NOT NULL,

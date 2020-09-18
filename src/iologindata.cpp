@@ -230,7 +230,7 @@ bool IOLoginData::loadPlayerById(Player* player, uint32_t id)
 {
 	Database& db = Database::getInstance();
 	std::ostringstream query;
-	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings1`, `blessings2`, `blessings3`, `blessings4`, `blessings5`, `blessings6`, `blessings7`, `blessings8`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_critical_hit_chance`, `skill_critical_hit_chance_tries`, `skill_critical_hit_damage`, `skill_critical_hit_damage_tries`, `skill_life_leech_chance`, `skill_life_leech_chance_tries`, `skill_life_leech_amount`, `skill_life_leech_amount_tries`, `skill_mana_leech_chance`, `skill_mana_leech_chance_tries`, `skill_mana_leech_amount`,  `skill_mana_leech_amount_tries`, `xpboost_value`, `xpboost_stamina`, `bonusrerollcount`, `instantrewardtokens` FROM `players` WHERE `id` = " << id;
+	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings1`, `blessings2`, `blessings3`, `blessings4`, `blessings5`, `blessings6`, `blessings7`, `blessings8`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_critical_hit_chance`, `skill_critical_hit_chance_tries`, `skill_critical_hit_damage`, `skill_critical_hit_damage_tries`, `skill_life_leech_chance`, `skill_life_leech_chance_tries`, `skill_life_leech_amount`, `skill_life_leech_amount_tries`, `skill_mana_leech_chance`, `skill_mana_leech_chance_tries`, `skill_mana_leech_amount`,  `skill_mana_leech_amount_tries`, `xpboost_value`, `xpboost_stamina`, `bonusrerollcount`, `quickloot_fallback`, `instantrewardtokens` FROM `players` WHERE `id` = " << id;
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
@@ -238,7 +238,7 @@ bool IOLoginData::loadPlayerByName(Player* player, const std::string& name)
 {
 	Database& db = Database::getInstance();
 	std::ostringstream query;
-	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings1`, `blessings2`, `blessings3`, `blessings4`, `blessings5`, `blessings6`, `blessings7`, `blessings8`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_critical_hit_chance`, `skill_critical_hit_chance_tries`, `skill_critical_hit_damage`, `skill_critical_hit_damage_tries`, `skill_life_leech_chance`, `skill_life_leech_chance_tries`, `skill_life_leech_amount`, `skill_life_leech_amount_tries`, `skill_mana_leech_chance`, `skill_mana_leech_chance_tries`, `skill_mana_leech_amount`, `skill_mana_leech_amount_tries`, `xpboost_stamina`, `xpboost_value`, `instantrewardtokens` FROM `players` WHERE `name` = " << db.escapeString(name);
+	query << "SELECT `id`, `name`, `account_id`, `group_id`, `sex`, `vocation`, `experience`, `level`, `maglevel`, `health`, `healthmax`, `blessings1`, `blessings2`, `blessings3`, `blessings4`, `blessings5`, `blessings6`, `blessings7`, `blessings8`, `mana`, `manamax`, `manaspent`, `soul`, `lookbody`, `lookfeet`, `lookhead`, `looklegs`, `looktype`, `lookaddons`, `posx`, `posy`, `posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skulltime`, `skull`, `town_id`, `balance`, `offlinetraining_time`, `offlinetraining_skill`, `stamina`, `skill_fist`, `skill_fist_tries`, `skill_club`, `skill_club_tries`, `skill_sword`, `skill_sword_tries`, `skill_axe`, `skill_axe_tries`, `skill_dist`, `skill_dist_tries`, `skill_shielding`, `skill_shielding_tries`, `skill_fishing`, `skill_fishing_tries`, `skill_critical_hit_chance`, `skill_critical_hit_chance_tries`, `skill_critical_hit_damage`, `skill_critical_hit_damage_tries`, `skill_life_leech_chance`, `skill_life_leech_chance_tries`, `skill_life_leech_amount`, `skill_life_leech_amount_tries`, `skill_mana_leech_chance`, `skill_mana_leech_chance_tries`, `skill_mana_leech_amount`, `skill_mana_leech_amount_tries`, `xpboost_stamina`, `xpboost_value`, `quickloot_fallback`, `instantrewardtokens` FROM `players` WHERE `name` = " << db.escapeString(name);
 	return loadPlayer(player, db.storeQuery(query.str()));
 }
 
@@ -277,6 +277,8 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 	player->setGroup(group);
 
 	player->setBankBalance(result->getNumber<uint64_t>("balance"));
+	
+	player->quickLootFallbackToMainContainer = result->getNumber<bool>("quickloot_fallback");
 
 	player->setSex(static_cast<PlayerSex_t>(result->getNumber<uint16_t>("sex")));
 	player->level = std::max<uint32_t>(1, result->getNumber<uint32_t>("level"));
@@ -305,10 +307,10 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 		player->addBlessing(i, result->getNumber<uint16_t>(ss.str()));
 	}
 
-	unsigned long conditionsSize;
-	const char* conditions = result->getStream("conditions", conditionsSize);
+	unsigned long attrSize;
+    const char* conditions = result->getStream("conditions", conditionsSize);	  const char* attr = result->getStream("conditions", attrSize);
 	PropStream propStream;
-	propStream.init(conditions, conditionsSize);
+	propStream.init(attr, attrSize);
 
 	Condition* condition = Condition::createCondition(propStream);
 	while (condition) {
@@ -487,14 +489,6 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 			Item* item = pair.first;
 			int32_t pid = pair.second;
 
-			Container* itemContainer = item->getContainer();
-			if (itemContainer) {
-				uint8_t cid = item->getIntAttr(ITEM_ATTRIBUTE_OPENCONTAINER);
-				if (cid > 0) {
-					openContainersList.emplace_back(std::make_pair(cid, itemContainer));
-				}
-			}
-
 			if (pid >= 1 && pid <= 11) {
 				player->internalAddThing(pid, item);
 			} else {
@@ -508,8 +502,24 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 					container->internalAddThing(item);
 				}
 			}
-		}
-	}
+			
+			Container* itemContainer = item->getContainer();
+      if (itemContainer) {
+        uint8_t cid = item->getIntAttr(ITEM_ATTRIBUTE_OPENCONTAINER);
+        if (cid > 0) {
+          openContainersList.emplace_back(std::make_pair(cid, itemContainer));
+        }
+        if (item->hasAttribute(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER)) {
+          uint32_t flags = item->getIntAttr(ITEM_ATTRIBUTE_QUICKLOOTCONTAINER);
+          for (uint8_t category = OBJECTCATEGORY_FIRST; category <= OBJECTCATEGORY_LAST; category++) {
+            if (hasBitSet(1 << category, flags)) {
+              player->setLootContainer((ObjectCategory_t)category, itemContainer, true);
+            }
+          }
+        }
+      }
+    }
+  }
 
 	std::sort(openContainersList.begin(), openContainersList.end(), [](const std::pair<uint8_t, Container*> &left, const std::pair<uint8_t, Container*> &right) {
 		return left.first < right.first;
@@ -791,6 +801,8 @@ bool IOLoginData::savePreyData(const Player* player)
 
 bool IOLoginData::saveItems(const Player* player, const ItemBlockList& itemList, DBInsert& query_insert, PropWriteStream& propWriteStream)
 {
+	Database& db = Database::getInstance();
+	
 	std::ostringstream ss;
 
 	using ContainerBlock = std::pair<Container*, int32_t>;
@@ -798,9 +810,7 @@ bool IOLoginData::saveItems(const Player* player, const ItemBlockList& itemList,
 
 	int32_t runningId = 100;
 
-	Database& db = Database::getInstance();
 	const auto& openContainers = player->getOpenContainers();
-
 	for (const auto& it : itemList) {
 		int32_t pid = it.first;
 		Item* item = it.second;
@@ -905,18 +915,6 @@ bool IOLoginData::savePlayer(Player* player)
 		return db.executeQuery(query.str());
 	}
 
-	//serialize conditions
-	PropWriteStream propWriteStream;
-	for (Condition* condition : player->conditions) {
-		if (condition->isPersistent()) {
-			condition->serialize(propWriteStream);
-			propWriteStream.write<uint8_t>(CONDITIONATTR_END);
-		}
-	}
-
-	size_t conditionsSize;
-	const char* conditions = propWriteStream.getStream(conditionsSize);
-
 	//First, an UPDATE query to write the player itself
 	query.str(std::string());
 	query << "UPDATE `players` SET ";
@@ -955,7 +953,19 @@ bool IOLoginData::savePlayer(Player* player)
 		query << "`lastip` = " << player->lastIP << ',';
 	}
 
-	query << "`conditions` = " << db.escapeBlob(conditions, conditionsSize) << ',';
+	//serialize conditions
+  PropWriteStream propWriteStream;
+  for (Condition* condition : player->conditions) {
+    if (condition->isPersistent()) {
+      condition->serialize(propWriteStream);
+      propWriteStream.write<uint8_t>(CONDITIONATTR_END);
+    }
+  }
+
+  size_t attributesSize;
+  const char* attributes = propWriteStream.getStream(attributesSize);
+
+  query << "`conditions` = " << db.escapeBlob(attributes, attributesSize) << ',';
 
 	if (g_game.getWorldType() != WORLD_TYPE_PVP_ENFORCED) {
 		int64_t skullTime = 0;
@@ -1010,6 +1020,7 @@ bool IOLoginData::savePlayer(Player* player)
 	query << "`xpboost_value` = " << player->getStoreXpBoost() << ',';
 	query << "`xpboost_stamina` = " << player->getExpBoostStamina() << ',';
 	query << "`bonusrerollcount` = " << player->getBonusRerollCount() << ',';
+	query << "`quickloot_fallback` = " << (player->quickLootFallbackToMainContainer ? 1 : 0) << ',';
 	query << "`instantrewardtokens` = " << player->getInstantRewardTokens() << ',';
 
 	if (!player->isOffline()) {
@@ -1074,6 +1085,7 @@ bool IOLoginData::savePlayer(Player* player)
 	//item saving
 	query << "DELETE FROM `player_items` WHERE `player_id` = " << player->getGUID();
 	if (!db.executeQuery(query.str())) {
+		std::cout << player->getName() << " 10" << std::endl;
 		return false;
 	}
 
@@ -1088,6 +1100,7 @@ bool IOLoginData::savePlayer(Player* player)
 	}
 
 	if (!saveItems(player, itemList, itemsQuery, propWriteStream)) {
+		std::cout << player->getName() << " 11" << std::endl;
 		return false;
 	}
 

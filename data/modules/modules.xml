@@ -21,11 +21,6 @@
 	<module type="recvbyte" byte="217" script="dailyreward/dailyrewardmodule.lua" /> <!-- history -->
 	<module type="recvbyte" byte="218" script="dailyreward/dailyrewardmodule.lua" /> <!-- confirm getReward -->
 
-	<!-- QuickLoot -->
-	<module type="recvbyte" byte="143" script="quickloot/quickloot.lua"/>
-	<module type="recvbyte" byte="144" script="quickloot/quickloot.lua"/>
-	<module type="recvbyte" byte="145" script="quickloot/quickloot.lua"/>
-
 	<!-- Supply Stash -->
 	<module type="recvbyte" byte="40" script="supplystash/supplystash.lua" />
 
