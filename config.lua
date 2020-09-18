@@ -42,8 +42,8 @@ maxContainer = 100
 
 -- Version Manual
 clientVersionMin = 1100
-clientVersionMax = 1240
-clientVersionStr = "Only support outdated 10.00 and version 12.40"
+clientVersionMax = 1250
+clientVersionStr = "Only support outdated 10.00 and version 12.50"
 
 -- Depot Limit
 freeDepotLimit = 2000
