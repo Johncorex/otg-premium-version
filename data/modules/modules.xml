@@ -10,9 +10,6 @@
 	<module type="recvbyte" byte="253" script="gamestore/gamestore.lua"/>
 	<module type="recvbyte" byte="254" script="gamestore/gamestore.lua"/>
 
-	<!-- EquipObject -->
-	<module type="recvbyte" byte="119" delay="1000" script="equipobject/equipobject.lua"/>
-
 	<!-- Blessings -->
 	<module type="recvbyte" byte="207" script="blessings/blessings.lua" />
 
