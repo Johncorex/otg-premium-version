@@ -118,9 +118,9 @@ serverSaveShutdown = true
 -- Rates
 -- NOTE: rateExp is not used if you have enabled stages in data/XML/stages.xml
 rateExp = 1
-rateSkill = 35
-rateLoot = 3
-rateMagic = 25
+rateSkill = 100
+rateLoot = 5
+rateMagic = 60
 rateSpawn = 1
 
 -- Monster rates

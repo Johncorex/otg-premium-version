@@ -789,10 +789,10 @@ function Player:onGainSkillTries(skill, tries)
 	end
 	
 	if skill == SKILL_MAGLEVEL then
-		return tries * Game.getMagicLevelStage(self:getBaseMagicLevel(skill))
+		return tries * configManager.getNumber(configKeys.RATE_MAGIC)
 	end
 
-	return tries * Game.getSkillStage(self:getSkillLevel(skill))
+	return tries * configManager.getNumber(configKeys.RATE_SKILL)
 end
 
 function Player:onRemoveCount(item)
