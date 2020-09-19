@@ -1,17 +1,23 @@
 
 # OTG Premium Server - [![Windows](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/Johncorex/otg-premium-version)  ![Linux](https://github.com/Johncorex/OTG-Premium-Version/workflows/CI/badge.svg)
+  [![Discord Channel](https://img.shields.io/discord/528117503952551936.svg?label=discord)](https://discord.gg/xbKZHDg)
 
-  ![enter image description here](https://i.postimg.cc/DyHyzWCZ/arte-otg-menor.jpg)
+![enter image description here](https://i.postimg.cc/DyHyzWCZ/arte-otg-menor.jpg)
 ### Getting Started:
 * [Compiling](https://github.com/otland/forgottenserver/wiki/Compiling)
 * [Scripting Reference](https://github.com/otland/forgottenserver/wiki/Script-Interface)
 
-### Whatsapp:
+### Help / Contact
 **ENG**
-If you need help, please visit the [**Whatsapp Support**](https://chat.whatsapp.com/ELM9aLYegRC0dMid7Xa5hH). Our issue tracker is not a support whatsapp, and using it as one will result in your issue being closed.
+If you need help, please visit the [**Whatsapp Support**](https://chat.whatsapp.com/ELM9aLYegRC0dMid7Xa5hH).
+we also have our official **[Discord](https://discord.gg/xbKZHDg)**.
+ Our issue tracker is not a support whatsapp, and using it as one will result in your issue being closed.
 
 **PORT**
-Se precisar de ajuda, visite o nosso grupo [**Whatsapp Support**](https://chat.whatsapp.com/ELM9aLYegRC0dMid7Xa5hH). Nosso rastreador de problemas não é um whatsapp de suporte, e usá-lo como um resultará no encerramento do seu problema.
+Se precisar de ajuda, visite o nosso grupo [**Whatsapp Support**](https://chat.whatsapp.com/ELM9aLYegRC0dMid7Xa5hH).
+também temos o nosso **[Discord](https://discord.gg/xbKZHDg)**.
+ Nosso issue tracker não é um whatsapp de suporte, e usá-lo corretamente resultará no encerramento do seu problema.
+
 
 ### Issues:
 **ENG**
