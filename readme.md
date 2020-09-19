@@ -23,7 +23,7 @@ Usamos o [issue tracker no GitHub](https://github.com/Johncorex/OTG-Premium-Vers
 ### Special Thanks
 
 -   our partners
--   our crew (johncore, ericknunes, leu, douglas, guibruxo)
+-   our crew (johncore, ericknunes, leu, marson schneider, douglas, guibruxo)
 -   our testers (renan ulian, tiago dias, jaison, will raduan, cristian and roger)
 -   [our contributors](https://github.com/Johncorex/OTG-Premium-Version/graphs/contributors)
 -   [cjaker](https://github.com/Eternal-Scripts)
