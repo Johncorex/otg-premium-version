@@ -2515,23 +2515,11 @@ void Game::playerWrapableItem(uint32_t playerId, const Position& pos, uint8_t st
 		return;
 	}
 
-	const ItemType& iiType = Item::items[item->getID()];
-	uint16_t newWrapId = Item::items[item->getID()].wrapableTo;
-
-	if ((item->getHoldingPlayer() && item->getID() == newWrapId) || (tile->hasFlag(TILESTATE_IMMOVABLEBLOCKSOLID) && !item->hasProperty(CONST_PROP_IMMOVABLEBLOCKSOLID))) {
-		player->sendCancelMessage("You can only wrap/unwrap in the floor.");
-		return;
-	}
-
-	std::string itemName = item->getName();
-
-	// It is not possible to unwrap containers with one or more items inside.
 	const Container* container = item->getContainer();
 	if (container && container->getItemHoldingCount() > 0) {
 		player->sendCancelMessage(RETURNVALUE_NOTPOSSIBLE);
 		return;
 	}
-	
 	
 	if ((item->getHoldingPlayer() && item->getID() == 26054) || (tile->hasFlag(TILESTATE_IMMOVABLEBLOCKSOLID) && !item->hasProperty(CONST_PROP_IMMOVABLEBLOCKSOLID))) {
 		player->sendCancelMessage("You can only wrap/unwrap in the floor.");
@@ -2546,8 +2534,6 @@ void Game::playerWrapableItem(uint32_t playerId, const Position& pos, uint8_t st
 		unWrapId = (uint16_t)tmp;
 	}
 	
-	
-
 	if (item->isWrapable() && item->getID() != TRANSFORM_BOX_ID) {
 			uint16_t hiddenCharges = 0;
 			if (isCaskItem(item->getID())) {
