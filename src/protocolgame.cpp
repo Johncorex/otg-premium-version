@@ -2537,8 +2537,9 @@ void ProtocolGame::sendCoinBalance()
 	msg.addByte(0xDF);
 	msg.addByte(0x01);
 	
-	msg.add<uint32_t>(player->coinBalance); //total coins
-	msg.add<uint32_t>(player->coinBalance); //transferable coins
+	msg.add<uint32_t>(player->coinBalance); // Normal Coins
+	msg.add<uint32_t>(player->coinBalance); // Transferable Coins
+	msg.add<uint32_t>(player->coinBalance); // Reserved Auction Coins
 	
 	if (version >= 1215) {
 		msg.add<uint32_t>(0);
@@ -3029,13 +3030,7 @@ void ProtocolGame::sendCreatureSay(const Creature* creature, SpeakClasses type, 
 	msg.add<uint32_t>(++statementId);
 	
 	msg.addString(creature->getName());
-	
-	if (version >= 1250) {
-        if (statementId != 0) {
-		    msg.addByte(0x00);//(Traded)
-		}
-	}
-	
+	msg.addByte(0x00); // Show (Traded)
 	
 	//Add level only for players
 	if (const Player* speaker = creature->getPlayer()) {
@@ -3064,28 +3059,22 @@ void ProtocolGame::sendToChannel(const Creature* creature, SpeakClasses type, co
 	msg.add<uint32_t>(++statementId);
 	if (!creature) {
 		msg.add<uint32_t>(0x00);
-		if (version >= 1250) {
-			if (statementId != 0) {
-				msg.addByte(0x00);//(Traded)
-			}
-		}
+		if (statementId != 0) {
+        	msg.addByte(0x00); // Show (Traded)
+    	}
 		
 		} else if (type == TALKTYPE_CHANNEL_R2) {
 		msg.add<uint32_t>(0x00);
-		if (version >= 1250) {
-			if (statementId != 0) {
-				msg.addByte(0x00);//(Traded)
-			}
-		}
+		if (statementId != 0) {
+        	msg.addByte(0x00); // Show (Traded)
+    	}
 		
 		type = TALKTYPE_CHANNEL_R1;
 		} else {
 		msg.addString(creature->getName());
-		if (version >= 1250) {
-			if (statementId != 0) {
-				msg.addByte(0x00);//(Traded)
-			}
-		}
+		if (statementId != 0) {
+      		msg.addByte(0x00); // Show (Traded)
+    	}
 		
 		//Add level only for players
 		if (const Player* speaker = creature->getPlayer()) {
@@ -3109,20 +3098,16 @@ void ProtocolGame::sendPrivateMessage(const Player* speaker, SpeakClasses type, 
 	msg.add<uint32_t>(++statementId);
 	if (speaker) {
 		msg.addString(speaker->getName());
-		if (version >= 1250) {
-            if (statementId != 0) {
-		        msg.addByte(0x00);//(Traded)
-			}
-		}
+		if (statementId != 0) {
+      		msg.addByte(0x00); // Show (Traded)
+    	}
 		
 		msg.add<uint16_t>(speaker->getLevel());
 		} else {
 		msg.add<uint32_t>(0x00);
-		if (version >= 1250) {
-			if (statementId != 0) {
-				msg.addByte(0x00);//(Traded)
-			}
-		}
+		if (statementId != 0) {
+      		msg.addByte(0x00); // Show (Traded)
+    	}
 		
 	}
 	msg.addByte(type);
@@ -3637,6 +3622,8 @@ msg.addString(writer);
 msg.add<uint16_t>(0x00);
 }
 
+msg.addByte(0x00); // Show (Traded)
+
 time_t writtenDate = item->getDate();
 if (writtenDate != 0) {
 msg.addString(formatDateShort(writtenDate));
@@ -3656,6 +3643,7 @@ AddItem(msg, itemId, 1);
 msg.add<uint16_t>(text.size());
 msg.addString(text);
 msg.add<uint16_t>(0x00);
+msg.addByte(0x00); // Show (Traded)
 msg.add<uint16_t>(0x00);
 writeToOutputBuffer(msg);
 }
