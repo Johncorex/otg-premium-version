@@ -9,12 +9,12 @@
 
 ### Help / Contact
 **ENG**
-If you need help, please visit the [**Whatsapp Support**](https://chat.whatsapp.com/ELM9aLYegRC0dMid7Xa5hH).
+If you need help, please visit the [**Whatsapp Support**](https://chat.whatsapp.com/EWV3dVvS6nt1em7q23FGu7).
 we also have our official **[Discord](https://discord.gg/xbKZHDg)**.
  Our issue tracker is not a support whatsapp, and using it as one will result in your issue being closed.
 
 **PORT**
-Se precisar de ajuda, visite o nosso grupo [**Whatsapp Support**](https://chat.whatsapp.com/ELM9aLYegRC0dMid7Xa5hH).
+Se precisar de ajuda, visite o nosso grupo [**Whatsapp Support**](https://chat.whatsapp.com/EWV3dVvS6nt1em7q23FGu7).
 também temos o nosso **[Discord](https://discord.gg/xbKZHDg)**.
  Nosso issue tracker não é um whatsapp de suporte, e usá-lo corretamente resultará no encerramento do seu problema.
 
