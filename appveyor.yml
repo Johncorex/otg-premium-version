@@ -39,7 +39,7 @@ build:
   #verbosity: detailed
 
 after_build:
-  - 7z a -tzip OTG-Premium-Version.zip -r .\vc14\*.exe -ir!.\vc14\*.dll
+  - 7z a -tzip OTG.zip -r .\vc14\*.exe -ir!.\vc14\*.dll
 
 cache:
   - c:\tools\vcpkg\installed\
@@ -47,4 +47,4 @@ cache:
 artifacts:
   - path: vc14\**\theforgottenserver*.exe
   - path: vc14\**\*.dll
-  - path: OTG-Premium-Version.zip
+  - path: OTG.zip
