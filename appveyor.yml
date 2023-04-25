@@ -3,10 +3,9 @@ image: Visual Studio 2019
 shallow_clone: true
 
 platform:
-  - x64
+  - Win32
 
 configuration:
-  - Debug
   - Release
 
 matrix:
@@ -20,18 +19,18 @@ only_commits:
     - cmake/
 
 install:
-  - cmd : vcpkg install boost-iostreams:x64-windows
-  - cmd : vcpkg install boost-asio:x64-windows
-  - cmd : vcpkg install boost-system:x64-windows
-  - cmd : vcpkg install boost-filesystem:x64-windows
-  - cmd : vcpkg install boost-variant:x64-windows
-  - cmd : vcpkg install boost-lockfree:x64-windows
-  - cmd : vcpkg install cryptopp:x64-windows
-  - cmd : vcpkg install luajit:x64-windows
-  - cmd : vcpkg install libmariadb:x64-windows
-  - cmd : vcpkg install pugixml:x64-windows
-  - cmd : vcpkg install mpir:x64-windows
-  - cmd : vcpkg install spdlog:x64-windows
+  - cmd : vcpkg install boost-iostreams:x86-windows
+  - cmd : vcpkg install boost-asio:x86-windows
+  - cmd : vcpkg install boost-system:x86-windows
+  - cmd : vcpkg install boost-filesystem:x86-windows
+  - cmd : vcpkg install boost-variant:x86-windows
+  - cmd : vcpkg install boost-lockfree:x86-windows
+  - cmd : vcpkg install cryptopp:x86-windows
+  - cmd : vcpkg install luajit:x86-windows
+  - cmd : vcpkg install libmariadb:x86-windows
+  - cmd : vcpkg install pugixml:x86-windows
+  - cmd : vcpkg install mpir:x86-windows
+  - cmd : vcpkg install spdlog:x86-windows
 
 build:
   parallel: true
