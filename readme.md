@@ -3,6 +3,11 @@
   [![Discord Channel](https://img.shields.io/discord/528117503952551936.svg?label=discord)](https://discord.gg/xbKZHDg)
 
 ![enter image description here](https://i.postimg.cc/DyHyzWCZ/arte-otg-menor.jpg)
+
+### Informações:
+Somos um servidor Global Map, no momento suportando apenas cliente 10x, OTCv8 e OTC Mobile.
+Nosso objetivo é manter o cliente 10x mas continuar atualizando o OTG-Global para sprites, itens, addons e montarias mais atuais do Tibia.
+
 ### Getting Started:
 * [Compiling](https://github.com/otland/forgottenserver/wiki/Compiling)
 * [Scripting Reference](https://github.com/otland/forgottenserver/wiki/Script-Interface)
