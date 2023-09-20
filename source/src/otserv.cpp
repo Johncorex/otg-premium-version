@@ -299,7 +299,7 @@ void mainLoader(int argc, char* argv[], ServiceManager* services)
 	IOMarket::checkExpiredOffers();
 	IOMarket::getInstance().updateStatistics();
 
-	std::cout << ">>[OTG-BR] Loaded all modules, server starting up..." << std::endl;
+	std::cout << ">> [OTG-BR] Loaded all modules, server starting up..." << std::endl;
 
 #ifndef _WIN32
 	if (getuid() == 0 || geteuid() == 0) {
