@@ -13,10 +13,10 @@ matrix:
 
 only_commits:
   files:
-    - src/
-    - vc14/
+    - /source/src/
+    - /source/vc14/
     - .appveyor.yml
-    - cmake/
+    - /source/cmake/
 
 install:
   - cmd : vcpkg install boost-iostreams:x86-windows
@@ -38,12 +38,12 @@ build:
   #verbosity: detailed
 
 after_build:
-  - 7z a -tzip OTG.zip -r .\vc14\*.exe -ir!.\vc14\*.dll
+  - 7z a -tzip OTG.zip -r .\source\vc14\*.exe -ir!.\source\vc14\*.dll
 
 cache:
   - c:\tools\vcpkg\installed\
 
 artifacts:
-  - path: vc14\**\theforgottenserver*.exe
-  - path: vc14\**\*.dll
-  - path: OTG.zip
+  - path: \source\vc14\**\theforgottenserver*.exe
+  - path: \source\vc14\**\*.dll
+  - path: \source\OTG.zip

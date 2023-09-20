@@ -132,7 +132,7 @@ void mainLoader(int argc, char* argv[], ServiceManager* services)
 	std::cout << std::endl;
 
 	std::cout << "Special Credits for: " << STATUS_SERVER_CREDITS << "." << std::endl;
-	std::cout << "Link of repository: https://github.com/Johncorex/OTG-Premium-Version" << std::endl;
+	std::cout << "Link of repository: https://github.com/Johncorex" << std::endl;
 	std::cout << std::endl;
 
 	// TODO: dirty for now; Use stdarg;
@@ -299,7 +299,7 @@ void mainLoader(int argc, char* argv[], ServiceManager* services)
 	IOMarket::checkExpiredOffers();
 	IOMarket::getInstance().updateStatistics();
 
-	std::cout << ">> Loaded all modules, server starting up..." << std::endl;
+	std::cout << ">>[OTG-BR] Loaded all modules, server starting up..." << std::endl;
 
 #ifndef _WIN32
 	if (getuid() == 0 || geteuid() == 0) {

@@ -22,8 +22,8 @@
 #ifndef OT_SRC_DEFINITIONS_H_
 #define OT_SRC_DEFINITIONS_H_
 
-static constexpr auto STATUS_SERVER_NAME = "OTG-Premium-Version";
-static constexpr auto STATUS_SERVER_VERSION = "1.3";
+static constexpr auto STATUS_SERVER_NAME = "OTG-BR";
+static constexpr auto STATUS_SERVER_VERSION = "1.5";
 static constexpr auto STATUS_SERVER_CREDITS = "Johncore, Erick Nunes, Leonardo Pereira, Marson Schneider, Mark Samman, OTXServer (Mattyx Gomez), OTG Contributors and The Forgotten Server Developers";
 
 static constexpr auto CLIENT_VERSION_MIN = 1100;
