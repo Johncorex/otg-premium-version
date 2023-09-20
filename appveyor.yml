@@ -46,4 +46,4 @@ cache:
 artifacts:
   - path: \source\vc14\**\theforgottenserver*.exe
   - path: \source\vc14\**\*.dll
-  - path: \source\OTG.zip
+  - path: OTG.zip
