@@ -3032,6 +3032,9 @@ void ProtocolGame::sendCreatureSay(const Creature* creature, SpeakClasses type, 
 	msg.addString(creature->getName());
 	msg.addByte(0x00); // Show (Traded)
 	
+
+	msg.addString(creature->getName());
+
 	//Add level only for players
 	if (const Player* speaker = creature->getPlayer()) {
 		msg.add<uint16_t>(speaker->getLevel());
@@ -3059,6 +3062,7 @@ void ProtocolGame::sendToChannel(const Creature* creature, SpeakClasses type, co
 	msg.add<uint32_t>(++statementId);
 	if (!creature) {
 		msg.add<uint32_t>(0x00);
+
 		if (statementId != 0) {
         	msg.addByte(0x00); // Show (Traded)
     	}
@@ -3069,13 +3073,19 @@ void ProtocolGame::sendToChannel(const Creature* creature, SpeakClasses type, co
         	msg.addByte(0x00); // Show (Traded)
     	}
 		
+
+	} else if (type == TALKTYPE_CHANNEL_R2) {
+		msg.add<uint32_t>(0x00);
+
 		type = TALKTYPE_CHANNEL_R1;
 		} else {
 		msg.addString(creature->getName());
+
 		if (statementId != 0) {
       		msg.addByte(0x00); // Show (Traded)
     	}
 		
+
 		//Add level only for players
 		if (const Player* speaker = creature->getPlayer()) {
 			msg.add<uint16_t>(speaker->getLevel());
@@ -3098,13 +3108,16 @@ void ProtocolGame::sendPrivateMessage(const Player* speaker, SpeakClasses type, 
 	msg.add<uint32_t>(++statementId);
 	if (speaker) {
 		msg.addString(speaker->getName());
+
 		if (statementId != 0) {
       		msg.addByte(0x00); // Show (Traded)
     	}
 		
+
 		msg.add<uint16_t>(speaker->getLevel());
 		} else {
 		msg.add<uint32_t>(0x00);
+
 		if (statementId != 0) {
       		msg.addByte(0x00); // Show (Traded)
     	}
