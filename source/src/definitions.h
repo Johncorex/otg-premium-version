@@ -27,8 +27,8 @@ static constexpr auto STATUS_SERVER_VERSION = "1.5";
 static constexpr auto STATUS_SERVER_CREDITS = "Johncore, Erick Nunes, Leonardo Pereira, Marson Schneider, Mark Samman, OTXServer (Mattyx Gomez), OTG Contributors and The Forgotten Server Developers";
 
 static constexpr auto CLIENT_VERSION_MIN = 1100;
-static constexpr auto CLIENT_VERSION_MAX = 1261;
-static constexpr auto CLIENT_VERSION_STR = "12.61";
+static constexpr auto CLIENT_VERSION_MAX = 1240;
+static constexpr auto CLIENT_VERSION_STR = "12.40";
 
 static constexpr auto AUTHENTICATOR_DIGITS = 6U;
 static constexpr auto AUTHENTICATOR_PERIOD = 30U;
