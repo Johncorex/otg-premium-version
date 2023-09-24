@@ -29,10 +29,10 @@ loginProtocolPort = 7171
 gameProtocolPort = 7172
 statusProtocolPort = 7171
 maxPlayers = 0
-motd = "Bem vindo ao OTG-Premium-Version!"
+motd = "Bem vindo ao OTG-BR!"
 onePlayerOnlinePerAccount = true
 allowClones = false
-serverName = "Global-OTG"
+serverName = "Global"
 statusTimeout = 5 * 1000
 replaceKickOnLogin = true
 maxPacketsPerSecond = 35
@@ -42,8 +42,8 @@ maxContainer = 100
 
 -- Version Manual
 clientVersionMin = 1100
-clientVersionMax = 1261
-clientVersionStr = "Only support outdated 10.00 and version 12.61"
+clientVersionMax = 1240
+clientVersionStr = "Only support outdated 10.00 and version 12.40"
 
 -- Depot Limit
 freeDepotLimit = 2000
@@ -146,7 +146,7 @@ defaultPriority = "high"
 startupDatabaseOptimization = true
 
 -- Status server information
-ownerName = "OTG-Premium-Version"
+ownerName = "OTG-BR"
 ownerEmail = ""
-url = "https://github.com/Johncorex/OTG-Premium-Version"
+url = "https://github.com/Johncorex/"
 location = "South America"
