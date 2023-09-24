@@ -379,9 +379,6 @@ class ProtocolGame final : public Protocol
 
 		//otclient
 		void parseExtendedOpcode(NetworkMessage& msg);
-		
-		//reloadCreature
-		void reloadCreature(const Creature* creature);
 
 		friend class Player;
 
