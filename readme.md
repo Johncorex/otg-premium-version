@@ -2,7 +2,6 @@
 # OTG Premium Server - [![Windows](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/Johncorex/otg-premium-version)  ![Linux](https://github.com/Johncorex/OTG-Premium-Version/workflows/CI/badge.svg)
   [![Discord Channel](https://img.shields.io/discord/528117503952551936.svg?label=discord)](https://discord.gg/xbKZHDg)
 
-![enter image description here](https://i.postimg.cc/DyHyzWCZ/arte-otg-menor.jpg)
 
 ### Informações:
 Somos um servidor Global Map, no momento suportando apenas cliente 10x, OTCv8 e OTC Mobile.
