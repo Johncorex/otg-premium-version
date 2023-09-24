@@ -4858,8 +4858,7 @@ int LuaScriptInterface::luaGameCreateMonster(lua_State* L)
 	const Position& position = getPosition(L, 2);
 	bool extended = getBoolean(L, 3, false);
 	bool force = getBoolean(L, 4, false);
-	Creature* master = getCreature(L, 5);
-	if (g_game.placeCreature(monster, position, extended, force, master)) {
+	if (g_game.placeCreature(monster, position, extended, force)) {
 		pushUserdata<Monster>(L, monster);
 		setMetatable(L, -1, "Monster");
 	} else {
