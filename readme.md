@@ -1,5 +1,5 @@
 
-# OTG Premium Server - [![Windows](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/Johncorex/otg-premium-version)  ![Linux](https://github.com/Johncorex/OTG-Premium-Version/workflows/CI/badge.svg)
+# OTG-BR - [![Windows](https://ci.appveyor.com/api/projects/status/y69059itp38j0u65?svg=true)](https://ci.appveyor.com/project/Johncorex/otg-premium-version)  ![Linux](https://github.com/Johncorex/OTG-Premium-Version/workflows/CI/badge.svg)
 
 
 ### Informações:
