@@ -66,7 +66,9 @@ function clearForgotten(fromPosition, toPosition, exitPosition, storage)
 			end
 		end
 	end
-	Game.setStorageValue(storage, 0)
+	if storage then
+		Game.setStorageValue(storage, 0)
+	end
 end
 
 function getMoneyCount(string)
